@@ -1,0 +1,8 @@
+dist/
+build/
+coverage/
+tmp/
+node_modules/
+.DS_STORE
+.rollup.cache
+tsconfig.tsbuildinfo
