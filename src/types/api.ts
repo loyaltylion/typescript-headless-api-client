@@ -707,6 +707,10 @@ export interface components {
              *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
              *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
             available_rules: (components["schemas"]["CustomerAvailableRuleBirthday"] | components["schemas"]["CustomerAvailableRuleCollectionPurchase"] | components["schemas"]["CustomerAvailableRuleNewsletterSignup"] | components["schemas"]["CustomerAvailableRulePageview"] | components["schemas"]["CustomerAvailableRuleProductPurchase"] | components["schemas"]["CustomerAvailableRulePurchase"] | components["schemas"]["CustomerAvailableRuleJoinProgram"] | components["schemas"]["CustomerAvailableRuleReview"] | components["schemas"]["CustomerAvailableRuleCustom"] | components["schemas"]["CustomerAvailableRuleFacebookLike"] | components["schemas"]["CustomerAvailableRuleTwitterFollow"] | components["schemas"]["CustomerAvailableRuleInstagramFollow"] | components["schemas"]["CustomerAvailableRuleInstagramMention"] | components["schemas"]["CustomerAvailableRuleInstagramPostHashtag"] | components["schemas"]["CustomerAvailableRuleTiktokFollow"] | components["schemas"]["CustomerAvailableRuleTiktokPostHashtag"] | components["schemas"]["CustomerAvailableRuleReferral"] | components["schemas"]["CustomerAvailableRuleClickthrough"])[];
+            /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
+             *
+             *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
+            history: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionRedeemedPointsForReward"] | components["schemas"]["CustomerHistoryActionReceivedReward"] | components["schemas"]["CustomerHistoryActionPointsAdded"] | components["schemas"]["CustomerHistoryActionPointsRemoved"] | components["schemas"]["CustomerHistoryActionPointsExpired"] | components["schemas"]["CustomerHistoryActionEnteredTier"])[];
             /** @description A list of active cart redemptions. When a `product_cart` reward is redeemed by the customer, a new active cart redemption is created. This will persist until it expires or the completes the order */
             active_cart_redemptions: {
                 /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
@@ -1027,6 +1031,44 @@ export interface components {
          *               "claim_limit": {
          *                 "state": "no_limit"
          *               }
+         *             }
+         *           }
+         *         ],
+         *         "history": [
+         *           {
+         *             "kind": "redeemed_points_for_reward",
+         *             "label": "$5 discount",
+         *             "date": "2025-06-03T15:00:00Z",
+         *             "points": -500,
+         *             "points_text": "-500 points",
+         *             "reward": {
+         *               "id": 1,
+         *               "kind": "cart_discount_voucher"
+         *             },
+         *             "claimed_reward_id": 1,
+         *             "state": "approved"
+         *           },
+         *           {
+         *             "kind": "entered_tier",
+         *             "label": "Entered Silver tier",
+         *             "date": "2025-06-02T15:00:00Z",
+         *             "tier": {
+         *               "id": 1,
+         *               "name": "Silver"
+         *             }
+         *           },
+         *           {
+         *             "kind": "earned_points_from_rule",
+         *             "label": "Joined program",
+         *             "date": "2025-06-01T15:00:00Z",
+         *             "points": 500,
+         *             "points_text": "500 points",
+         *             "points_will_approve_at": null,
+         *             "points_will_expire_at": "2026-06-01T00:00:00Z",
+         *             "state": "approved",
+         *             "rule": {
+         *               "id": 1,
+         *               "kind": "join_program"
          *             }
          *           }
          *         ],
@@ -5465,6 +5507,238 @@ export interface components {
                 completion_limit: components["schemas"]["RuleContextCompletionLimitNoLimit"] | components["schemas"]["RuleContextCompletionLimitLimitNotReached"] | components["schemas"]["RuleContextCompletionLimitLimitReachedForever"] | components["schemas"]["RuleContextCompletionLimitLimitReachedUntilReset"];
             };
         };
+        CustomerHistoryActionEarnedPointsFromRule: {
+            /**
+             * @description Represents points that the customer earned as the result of completing a rule. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "earned_points_from_rule";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the associated rule
+             * @example Join our program
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points earned from the rule. This will always be 0 or higher */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points earned
+             * @example 500 points
+             */
+            points_text: string;
+            rule: {
+                /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
+            };
+            /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
+            points_will_approve_at: string | null;
+            /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
+            points_will_expire_at: string | null;
+            /**
+             * @description The state of the points earned from this rule.
+             *
+             *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - pending points were declined and cannot be used
+             *
+             *     - `approved` - points that can be redeemed
+             *
+             *     - `void` - approved points that have been voided and cannot be used
+             *
+             *     - `expired` - points that have expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        CustomerHistoryActionRedeemedPointsForReward: {
+            /**
+             * @description Represents a reward that the customer redeemed using points (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "redeemed_points_for_reward";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the redeemed reward
+             * @example $5 voucher
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points redeemed. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points redeemed
+             * @example -500 points
+             */
+            points_text: string;
+            reward: {
+                /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+            };
+            /** @description The ID of the associated claimed reward for the customer */
+            claimed_reward_id: number;
+            /**
+             * @description The state of the redeemed reward.
+             *
+             *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - the reward was declined and cannot be used
+             *
+             *     - `approved` - the reward can be used
+             *
+             *     - `void` - the reward was voided and cannot be used
+             *
+             *     - `expired` - the reward has expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        CustomerHistoryActionReceivedReward: {
+            /**
+             * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "received_reward";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the received reward
+             * @example $5 voucher
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            reward: {
+                /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+            };
+            /** @description The ID of the associated claimed reward for the customer */
+            claimed_reward_id: number;
+            /**
+             * @description The state of the reward received from the rule.
+             *
+             *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - the reward was declined and cannot be used
+             *
+             *     - `approved` - the reward can be used
+             *
+             *     - `void` - the reward was voided and cannot be used
+             *
+             *     - `expired` - the reward has expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        CustomerHistoryActionPointsAdded: {
+            /**
+             * @description Represents points that were added to the customer, typically by a store administrator or an automated import (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_added";
+            /**
+             * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
+             * @example Points imported
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points added. This will always be 0 or higher */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points added
+             * @example 1,000 points
+             */
+            points_text: string;
+            /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
+            points_will_expire_at: string | null;
+            /**
+             * @description The state of the points that were added.
+             *
+             *     - `approved` - the points can be used
+             *
+             *     - `void` - the points were voided and cannot be used
+             *
+             *     - `expired` - the points have expired and cannot be used
+             * @enum {string}
+             */
+            state: "approved" | "void" | "expired";
+        };
+        CustomerHistoryActionPointsRemoved: {
+            /**
+             * @description Represents points that were removed from the customer, typically by a store administrator or an automated import. By default, removed points have the `applied` state. If the removal is voided (reverted), they will have the `void` state which adds the points back to the customer (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_removed";
+            /**
+             * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
+             * @example Duplicate points removed
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points removed. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points removed
+             * @example -1,000 points
+             */
+            points_text: string;
+            /**
+             * @description The state of the points removal.
+             *
+             *     - `applied` - the points have been removed
+             *
+             *     - `void` - the removal has been voided and the points were added back
+             * @enum {string}
+             */
+            state: "applied" | "void";
+        };
+        CustomerHistoryActionPointsExpired: {
+            /**
+             * @description Represents a set of points that have expired and been removed from the customer. Points can expire due to inactivity, or a set amount of time after they are earned. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_expired";
+            /**
+             * @description Short text describing the history action. This will typically be a localized message indicating the expiry
+             * @example Points expired due to inactivity
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points that expired. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points expired
+             * @example -500 points
+             */
+            points_text: string;
+        };
+        CustomerHistoryActionEnteredTier: {
+            /**
+             * @description Represents the customer entering a new tier (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "entered_tier";
+            /**
+             * @description Short text describing the history action. This will typically be a localized message referencing the tier
+             * @example Entered Gold tier
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            tier: {
+                /** @description The ID of the tier */
+                id: number;
+                /** @description The name of the tier */
+                name: string;
+            };
+        };
         RecommendedCartActionShopifyCartLine: {
             /**
              * @description discriminator enum property added by openapi-typescript
@@ -5511,7 +5785,8 @@ export interface components {
              */
             kind: "reward";
             reward: {
-                kind: unknown | unknown | "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+                /** @enum {string} */
+                kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
                 title: string;
             };
         };
@@ -6021,6 +6296,21 @@ export interface operations {
                     };
                 };
             };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
             /** @description 422 */
             422: {
                 headers: {
@@ -6106,6 +6396,21 @@ export interface operations {
                             details?: {
                                 [key: string]: string;
                             };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
                         };
                     };
                 };
@@ -6199,6 +6504,21 @@ export interface operations {
                     };
                 };
             };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
             /** @description 422 */
             422: {
                 headers: {
@@ -6284,6 +6604,21 @@ export interface operations {
                             details?: {
                                 [key: string]: string;
                             };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
                         };
                     };
                 };
@@ -6377,6 +6712,21 @@ export interface operations {
                     };
                 };
             };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
             /** @description 422 */
             422: {
                 headers: {
@@ -6462,6 +6812,21 @@ export interface operations {
                             details?: {
                                 [key: string]: string;
                             };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
                         };
                     };
                 };
@@ -6555,6 +6920,21 @@ export interface operations {
                     };
                 };
             };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
             /** @description 422 */
             422: {
                 headers: {
@@ -6640,6 +7020,21 @@ export interface operations {
                             details?: {
                                 [key: string]: string;
                             };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
                         };
                     };
                 };
@@ -6733,6 +7128,21 @@ export interface operations {
                     };
                 };
             };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
             /** @description 422 */
             422: {
                 headers: {
@@ -6818,6 +7228,21 @@ export interface operations {
                             details?: {
                                 [key: string]: string;
                             };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
                         };
                     };
                 };
