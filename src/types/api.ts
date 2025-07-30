@@ -2380,239 +2380,7 @@ export interface components {
             /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
              *
              *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
-            history: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer redeemed using points
-                 * @constant
-                 */
-                kind: "redeemed_points_for_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the redeemed reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points redeemed. This will always be 0 or lower */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points redeemed
-                 * @example -500 points
-                 */
-                points_text: string;
-                reward: {
-                    /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /**
-                 * @description The state of the redeemed reward.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents points that were added to the customer, typically by a store administrator or an automated import
-                 * @constant
-                 */
-                kind: "points_added";
-                /**
-                 * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
-                 * @example Points imported
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points added. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points added
-                 * @example 1,000 points
-                 */
-                points_text: string;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points that were added.
-                 *
-                 *     - `approved` - the points can be used
-                 *
-                 *     - `void` - the points were voided and cannot be used
-                 *
-                 *     - `expired` - the points have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents points that were removed from the customer, typically by a store administrator or an automated import. By default, removed points have the `applied` state. If the removal is voided (reverted), they will have the `void` state which adds the points back to the customer
-                 * @constant
-                 */
-                kind: "points_removed";
-                /**
-                 * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
-                 * @example Duplicate points removed
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points removed. This will always be 0 or lower */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points removed
-                 * @example -1,000 points
-                 */
-                points_text: string;
-                /**
-                 * @description The state of the points removal.
-                 *
-                 *     - `applied` - the points have been removed
-                 *
-                 *     - `void` - the removal has been voided and the points were added back
-                 * @enum {string}
-                 */
-                state: "applied" | "void";
-            } | {
-                /**
-                 * @description Represents a set of points that have expired and been removed from the customer. Points can expire due to inactivity, or a set amount of time after they are earned.
-                 * @constant
-                 */
-                kind: "points_expired";
-                /**
-                 * @description Short text describing the history action. This will typically be a localized message indicating the expiry
-                 * @example Points expired due to inactivity
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points that expired. This will always be 0 or lower */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points expired
-                 * @example -500 points
-                 */
-                points_text: string;
-            } | {
-                /**
-                 * @description Represents the customer entering a new tier
-                 * @constant
-                 */
-                kind: "entered_tier";
-                /**
-                 * @description Short text describing the history action. This will typically be a localized message referencing the tier
-                 * @example Entered Gold tier
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                tier: {
-                    /** @description The ID of the tier */
-                    id: number;
-                    /** @description The name of the tier */
-                    name: string;
-                };
-            })[];
+            history: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionRedeemedPointsForReward"] | components["schemas"]["CustomerHistoryActionReceivedReward"] | components["schemas"]["CustomerHistoryActionPointsAdded"] | components["schemas"]["CustomerHistoryActionPointsRemoved"] | components["schemas"]["CustomerHistoryActionPointsExpired"] | components["schemas"]["CustomerHistoryActionEnteredTier"])[];
             /** @description A list of active cart redemptions. When a `product_cart` reward is redeemed by the customer, a new active cart redemption is created. This will persist until it expires or the completes the order */
             active_cart_redemptions: {
                 /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
@@ -4619,6 +4387,252 @@ export interface components {
                 completion_limit: components["schemas"]["RuleContextCompletionLimitNoLimit"] | components["schemas"]["RuleContextCompletionLimitLimitNotReached"] | components["schemas"]["RuleContextCompletionLimitLimitReachedForever"] | components["schemas"]["RuleContextCompletionLimitLimitReachedUntilReset"];
             };
         };
+        /** Earned points from rule */
+        CustomerHistoryActionEarnedPointsFromRule: {
+            /**
+             * @description Represents points that the customer earned as the result of completing a rule. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "earned_points_from_rule";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the associated rule
+             * @example Join our program
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points earned from the rule. This will always be 0 or higher */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points earned
+             * @example 500 points
+             */
+            points_text: string;
+            rule: {
+                /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
+            };
+            /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
+            points_will_approve_at: string | null;
+            /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
+            points_will_expire_at: string | null;
+            /**
+             * @description The state of the points earned from this rule.
+             *
+             *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - pending points were declined and cannot be used
+             *
+             *     - `approved` - points that can be redeemed
+             *
+             *     - `void` - approved points that have been voided and cannot be used
+             *
+             *     - `expired` - points that have expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        /** Redeemed points for reward */
+        CustomerHistoryActionRedeemedPointsForReward: {
+            /**
+             * @description Represents a reward that the customer redeemed using points (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "redeemed_points_for_reward";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the redeemed reward
+             * @example $5 voucher
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points redeemed. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points redeemed
+             * @example -500 points
+             */
+            points_text: string;
+            reward: {
+                /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+            };
+            /** @description The ID of the associated claimed reward for the customer */
+            claimed_reward_id: number;
+            /**
+             * @description The state of the redeemed reward.
+             *
+             *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - the reward was declined and cannot be used
+             *
+             *     - `approved` - the reward can be used
+             *
+             *     - `void` - the reward was voided and cannot be used
+             *
+             *     - `expired` - the reward has expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        /** Received reward */
+        CustomerHistoryActionReceivedReward: {
+            /**
+             * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "received_reward";
+            /**
+             * @description Short text describing the history action. This will typically be the name of the received reward
+             * @example $5 voucher
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            reward: {
+                /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+            };
+            /** @description The ID of the associated claimed reward for the customer */
+            claimed_reward_id: number;
+            /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
+            rule: {
+                /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
+                id: number;
+                /** @enum {string} */
+                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
+            } | null;
+            /**
+             * @description The state of the reward received from the rule.
+             *
+             *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
+             *
+             *     - `declined` - the reward was declined and cannot be used
+             *
+             *     - `approved` - the reward can be used
+             *
+             *     - `void` - the reward was voided and cannot be used
+             *
+             *     - `expired` - the reward has expired and cannot be used
+             * @enum {string}
+             */
+            state: "pending" | "declined" | "approved" | "void" | "expired";
+        };
+        /** Points added */
+        CustomerHistoryActionPointsAdded: {
+            /**
+             * @description Represents points that were added to the customer, typically by a store administrator or an automated import (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_added";
+            /**
+             * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
+             * @example Points imported
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points added. This will always be 0 or higher */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points added
+             * @example 1,000 points
+             */
+            points_text: string;
+            /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
+            points_will_expire_at: string | null;
+            /**
+             * @description The state of the points that were added.
+             *
+             *     - `approved` - the points can be used
+             *
+             *     - `void` - the points were voided and cannot be used
+             *
+             *     - `expired` - the points have expired and cannot be used
+             * @enum {string}
+             */
+            state: "approved" | "void" | "expired";
+        };
+        /** Points removed */
+        CustomerHistoryActionPointsRemoved: {
+            /**
+             * @description Represents points that were removed from the customer, typically by a store administrator or an automated import. By default, removed points have the `applied` state. If the removal is voided (reverted), they will have the `void` state which adds the points back to the customer (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_removed";
+            /**
+             * @description Short text describing the history action. This will typically be the administrator note associated with the adjustment
+             * @example Duplicate points removed
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points removed. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points removed
+             * @example -1,000 points
+             */
+            points_text: string;
+            /**
+             * @description The state of the points removal.
+             *
+             *     - `applied` - the points have been removed
+             *
+             *     - `void` - the removal has been voided and the points were added back
+             * @enum {string}
+             */
+            state: "applied" | "void";
+        };
+        /** Points expired */
+        CustomerHistoryActionPointsExpired: {
+            /**
+             * @description Represents a set of points that have expired and been removed from the customer. Points can expire due to inactivity, or a set amount of time after they are earned. (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "points_expired";
+            /**
+             * @description Short text describing the history action. This will typically be a localized message indicating the expiry
+             * @example Points expired due to inactivity
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            /** @description The number of points that expired. This will always be 0 or lower */
+            points: number;
+            /**
+             * @description Short, localized text indicating the number of points expired
+             * @example -500 points
+             */
+            points_text: string;
+        };
+        /** Entered tier */
+        CustomerHistoryActionEnteredTier: {
+            /**
+             * @description Represents the customer entering a new tier (enum property replaced by openapi-typescript)
+             * @enum {string}
+             */
+            kind: "entered_tier";
+            /**
+             * @description Short text describing the history action. This will typically be a localized message referencing the tier
+             * @example Entered Gold tier
+             */
+            label: string;
+            /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
+            date: string;
+            tier: {
+                /** @description The ID of the tier */
+                id: number;
+                /** @description The name of the tier */
+                name: string;
+            };
+        };
         CustomerGuest: {
             /** @description The ID of the customer in LoyaltyLion */
             id: number;
@@ -5507,95 +5521,7 @@ export interface components {
             /** @description The customer object, updated as of the email marketing subscription, i.e. their `email_marketing_consent` will reflect the change. If any rules were triggered as a result of the email marketing subscription, these changes will be reflected too, e.g. new history items, additional points, or new rewards */
             customer: components["schemas"]["CustomerEnrolled"];
             /** @description A list of actions that were triggered as a result of the email marketing subscription. For example, if there was an applicable "subscribe to newsletter" rule when the customer subscribed, this will include the action that was triggered by the rule */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
         };
         /**
          * Subscription failed
@@ -6695,95 +6621,7 @@ export interface components {
          *     } */
         RulesCompleteClickthroughResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
@@ -7147,95 +6985,7 @@ export interface components {
          *     } */
         RulesCompleteFacebookLikeResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
@@ -7554,95 +7304,7 @@ export interface components {
          *     } */
         RulesCompleteTwitterFollowResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
@@ -7961,95 +7623,7 @@ export interface components {
          *     } */
         RulesCompleteInstagramFollowResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
@@ -8368,95 +7942,7 @@ export interface components {
          *     } */
         RulesCompleteTiktokFollowResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
@@ -8775,95 +8261,7 @@ export interface components {
          *     } */
         RulesCompleteCustomResponseBody: {
             /** @description A list of actions that resulted from the rule's completion, such as points or rewards being awarded */
-            actions: ({
-                /**
-                 * @description Represents points that the customer earned as the result of completing a rule.
-                 * @constant
-                 */
-                kind: "earned_points_from_rule";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the associated rule
-                 * @example Join our program
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                /** @description The number of points earned from the rule. This will always be 0 or higher */
-                points: number;
-                /**
-                 * @description Short, localized text indicating the number of points earned
-                 * @example 500 points
-                 */
-                points_text: string;
-                rule: {
-                    /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                };
-                /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
-                points_will_approve_at: string | null;
-                /** @description If 'Earned date' or 'Calendar' point expiration is enabled, this will be an `ISO 8601` timestamp representing the date at which these points will expire */
-                points_will_expire_at: string | null;
-                /**
-                 * @description The state of the points earned from this rule.
-                 *
-                 *     - `pending` - the points cannot be redeemed yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - pending points were declined and cannot be used
-                 *
-                 *     - `approved` - points that can be redeemed
-                 *
-                 *     - `void` - approved points that have been voided and cannot be used
-                 *
-                 *     - `expired` - points that have expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            } | {
-                /**
-                 * @description Represents a reward that the customer received without redeeming their points, such as from completing a rule or entering a new tier
-                 * @constant
-                 */
-                kind: "received_reward";
-                /**
-                 * @description Short text describing the history action. This will typically be the name of the received reward
-                 * @example $5 voucher
-                 */
-                label: string;
-                /** @description `ISO 8601` timestamp representing when this history action occurred. Note that actions may change over time, such as points being approved or voided, but this timestamp will always represent when the action originally happened */
-                date: string;
-                reward: {
-                    /** @description The ID of the received reward. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
-                };
-                /** @description The ID of the associated claimed reward for the customer */
-                claimed_reward_id: number;
-                /** @description If this reward was received as a result of completing a rule, this will include the ID and kind of the related rule. It will be `null` if the reward some other way, such as from entering a new tier */
-                rule: {
-                    /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
-                    id: number;
-                    /** @enum {string} */
-                    kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
-                } | null;
-                /**
-                 * @description The state of the reward received from the rule.
-                 *
-                 *     - `pending` - the reward cannot be used yet, and will be declined or approved at a later date
-                 *
-                 *     - `declined` - the reward was declined and cannot be used
-                 *
-                 *     - `approved` - the reward can be used
-                 *
-                 *     - `void` - the reward was voided and cannot be used
-                 *
-                 *     - `expired` - the reward has expired and cannot be used
-                 * @enum {string}
-                 */
-                state: "pending" | "declined" | "approved" | "void" | "expired";
-            })[];
+            actions: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionReceivedReward"])[];
             /** @description The customer object, updated as of the rule action, i.e. their history, points, and rewards will include any new actions as a result of completing the rule. This customer will always have `state` set to `enrolled`, as only enrolled customers can complete rules */
             customer: components["schemas"]["CustomerEnrolled"];
         };
