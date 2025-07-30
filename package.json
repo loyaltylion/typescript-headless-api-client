@@ -1,6 +1,6 @@
 {
   "name": "@loyaltylion/headless-api-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lightweight JS client to interact with the LoyaltyLion Headless API",
   "author": "LoyaltyLion",
   "license": "MIT",
