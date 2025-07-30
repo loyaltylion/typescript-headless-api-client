@@ -113,6 +113,46 @@ export function createHeadlessApiClient({
           },
         );
       },
+      setBirthday: async (props: {
+        /**
+         * Customer merchant ID
+         */
+        id: string;
+        birthday: schemas.CustomersSetBirthdayRequestBody["birthday"];
+      }) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/customers/{merchant_id}/birthday",
+          {
+            params: {
+              path: {
+                site_id: siteId,
+                merchant_id: encodeURIComponent(props.id),
+              },
+            },
+            body: {
+              birthday: props.birthday,
+            },
+          },
+        );
+      },
+      subscribeToEmailMarketing: async (props: {
+        /**
+         * Customer merchant ID to subscribe to email marketing
+         */
+        id: string;
+      }) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/customers/{merchant_id}/email_marketing/subscribe",
+          {
+            params: {
+              path: {
+                site_id: siteId,
+                merchant_id: encodeURIComponent(props.id),
+              },
+            },
+          },
+        );
+      },
     },
 
     rewards: {
@@ -231,6 +271,85 @@ export function createHeadlessApiClient({
               path: {
                 site_id: siteId,
               },
+            },
+            body,
+          },
+        );
+      },
+    },
+
+    rules: {
+      completeClickthrough: async (
+        body: schemas.RulesCompleteClickthroughRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/clickthrough/complete",
+          {
+            params: {
+              path: { site_id: siteId },
+            },
+            body,
+          },
+        );
+      },
+      completeFacebookLike: async (
+        body: schemas.RulesCompleteFacebookLikeRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/facebook_like/complete",
+          {
+            params: {
+              path: { site_id: siteId },
+            },
+            body,
+          },
+        );
+      },
+      completeInstagramFollow: async (
+        body: schemas.RulesCompleteInstagramFollowRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/instagram_follow/complete",
+          {
+            params: {
+              path: { site_id: siteId },
+            },
+            body,
+          },
+        );
+      },
+      completeTiktokFollow: async (
+        body: schemas.RulesCompleteTiktokFollowRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/tiktok_follow/complete",
+          {
+            params: {
+              path: { site_id: siteId },
+            },
+            body,
+          },
+        );
+      },
+      completeTwitterFollow: async (
+        body: schemas.RulesCompleteTwitterFollowRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/twitter_follow/complete",
+          {
+            params: {
+              path: { site_id: siteId },
+            },
+            body,
+          },
+        );
+      },
+      completeCustom: async (body: schemas.RulesCompleteCustomRequestBody) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rules/custom/complete",
+          {
+            params: {
+              path: { site_id: siteId },
             },
             body,
           },
