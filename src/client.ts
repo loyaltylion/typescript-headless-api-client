@@ -276,6 +276,21 @@ export function createHeadlessApiClient({
           },
         );
       },
+      refundProductCart: async (
+        body: schemas.RewardsRefundProductCartRequestBody,
+      ) => {
+        return await client.POST(
+          "/headless/2025-06/{site_id}/rewards/product_cart/refund",
+          {
+            params: {
+              path: {
+                site_id: siteId,
+              },
+            },
+            body,
+          },
+        );
+      },
     },
 
     rules: {

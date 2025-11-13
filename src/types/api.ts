@@ -223,7 +223,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/headless/2025-06/{site_id}/rewards/product_cart/cancel": {
+    "/headless/2025-06/{site_id}/rewards/product_cart/refund": {
         parameters: {
             query?: never;
             header?: never;
@@ -232,7 +232,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["rewards.cancelProductCart"];
+        post: operations["rewards.refundProductCart"];
         delete?: never;
         options?: never;
         head?: never;
@@ -347,11 +347,8 @@ export interface components {
              * @example usd
              */
             currency: string;
-            /**
-             * @description `ISO 639-1` code indicating the language used for any text in this response
-             * @enum {string}
-             */
-            language: "en" | "de" | "es" | "fr" | "it" | "nl" | "sv";
+            /** @description `ISO 639-1` code indicating the language used for any text in this response */
+            language: string;
             program: {
                 /**
                  * @description The name of the program
@@ -453,8 +450,8 @@ export interface components {
                         html: string;
                     } | null;
                 }[];
-                /** @description Tier membership mode. Will be one of `rolling` (memberships expire after a duration) , `lifetime` (memberships don't expire), or `calendar` (memberships expire on a fixed date) */
-                membership: components["schemas"]["TierMembershipRolling"] | components["schemas"]["TierMembershipCalendar"] | components["schemas"]["TierMembershipLifetime"];
+                /** @description Tier membership mode. Will be one of `rolling` (memberships expire after a duration) , `lifetime` (memberships don't expire), `calendar` (memberships expire according to a fixed calendar schedule), or `enrollment_anniversary` (memberships expire according to the customer's enrollment anniversary) */
+                membership: components["schemas"]["TierMembershipRolling"] | components["schemas"]["TierMembershipCalendar"] | components["schemas"]["TierMembershipLifetime"] | components["schemas"]["TierMembershipEnrollmentAnniversary"];
             } | null;
             /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
             referee_incentive?: components["schemas"]["RefereeIncentiveCartDiscount"] | components["schemas"]["RefereeIncentiveFreeShipping"];
@@ -578,16 +575,34 @@ export interface components {
              * @enum {string}
              */
             mode: "calendar";
-            /**
-             * @description The month and day memberships in this tier will expire
-             * @example {
-             *       "month": 12,
-             *       "day": 31
-             *     }
-             */
-            expires_at: {
-                month: number;
-                day: number;
+            evaluation_period: {
+                /**
+                 * @description The month and day the evaluation period for this tier begins
+                 * @example {
+                 *       "month": 1,
+                 *       "day": 1
+                 *     }
+                 */
+                starts_on: {
+                    month: number;
+                    day: number;
+                };
+                /**
+                 * @description The number of months in the evaluation period
+                 * @example {
+                 *       "months": 12
+                 *     }
+                 */
+                duration: {
+                    months: number;
+                };
+            };
+            duration: {
+                /**
+                 * @description The number of evaluation windows the membership lasts for, e.g. for a Jan 1 - Dec 31 window, a value of 1 means the membership lasts for the rest of the current year and to the end of the following year. A value of 0 means the membership only lasts until the end of the current year.
+                 * @example 1
+                 */
+                windows: number;
             };
         };
         /** Lifetime */
@@ -597,6 +612,21 @@ export interface components {
              * @enum {string}
              */
             mode: "lifetime";
+        };
+        /** Enrollment Anniversary */
+        TierMembershipEnrollmentAnniversary: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            mode: "enrollment_anniversary";
+            duration: {
+                /**
+                 * @description The number of evaluation windows the membership lasts for, e.g. for a Jan 1 - Dec 31 window, a value of 1 means the membership lasts for the rest of the current year and to the end of the following year. A value of 0 means the membership only lasts until the end of the current year.
+                 * @example 1
+                 */
+                windows: number;
+            };
         };
         RefereeIncentiveCartDiscount: {
             /**
@@ -1449,6 +1479,8 @@ export interface components {
                  * @example 1
                  */
                 recurring_cycle_limit: number | null;
+                /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
+                supports_active_subscriptions?: boolean;
                 /**
                  * @description The minimum spend, if any, for the voucher to apply to the cart
                  * @example {
@@ -1777,12 +1809,15 @@ export interface components {
                 /** @description The product that can be added to the cart. If the product has more than one variant, the shopper should be able to choose which one to redeem */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variants: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                         sort_key: number;
                     }[];
                 };
@@ -1907,12 +1942,15 @@ export interface components {
                 /** @description The product that can be added to an active subscription. If the product has more than one variant, the shopper should be able to choose which one to redeem */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variants: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                         sort_key: number;
                     }[];
                 };
@@ -2133,6 +2171,8 @@ export interface components {
                      * @example 1
                      */
                     recurring_cycle_limit: number | null;
+                    /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
+                    supports_active_subscriptions?: boolean;
                     /**
                      * @description The minimum spend, if any, for the voucher to apply to the cart
                      * @example {
@@ -2277,12 +2317,15 @@ export interface components {
                     /** @description The product and variant that will be included in the next subscription */
                     product: {
                         id: string;
+                        handle: string | null;
                         title: string | null;
                         url: string | null;
                         image_url: string | null;
                         variant: {
                             id: string;
                             title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
                         };
                     };
                     /** @description The quantity of the product that will be included in the next subscription */
@@ -2299,12 +2342,15 @@ export interface components {
                     /** @description The product and variant that should be added to the cart */
                     product: {
                         id: string;
+                        handle: string | null;
                         title: string | null;
                         url: string | null;
                         image_url: string | null;
                         variant: {
                             id: string;
                             title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
                         };
                     };
                     /** @description The quantity of the product that should be added to the cart */
@@ -2324,12 +2370,15 @@ export interface components {
                         /** @description The product and variant that this cart redemption is for */
                         product: {
                             id: string;
+                            handle: string | null;
                             title: string | null;
                             url: string | null;
                             image_url: string | null;
                             variant: {
                                 id: string;
                                 title: string | null;
+                                /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                                inventory_count: number | null;
                             };
                         };
                         /** @description The quantity of the line item in this cart redemption */
@@ -2392,12 +2441,15 @@ export interface components {
                 /** @description The product and variant that this cart redemption is for */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variant: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                     };
                 };
                 /** @description The quantity of the line item in this cart redemption */
@@ -2695,7 +2747,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -2755,6 +2807,17 @@ export interface components {
              * @enum {string}
              */
             state: "max_redemptions_for_cart_reached";
+        };
+        /**
+         * Out of stock
+         * @description For rewards that have managed inventory, or are linked to an external inventory, this indicates that the reward is out of stock. For rewards with multiple options (e.g. product variants), this means that all options are out of stock
+         */
+        RewardContextCanRedeemOutOfStock: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            state: "out_of_stock";
         };
         /**
          * Unknown
@@ -2856,6 +2919,8 @@ export interface components {
                  * @example 1
                  */
                 recurring_cycle_limit: number | null;
+                /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
+                supports_active_subscriptions?: boolean;
                 /**
                  * @description The minimum spend, if any, for the voucher to apply to the cart
                  * @example {
@@ -2897,7 +2962,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -2990,7 +3055,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3053,7 +3118,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3126,7 +3191,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3208,7 +3273,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3239,12 +3304,15 @@ export interface components {
                 /** @description The product that can be added to the cart. If the product has more than one variant, the shopper should be able to choose which one to redeem */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variants: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                         sort_key: number;
                     }[];
                 };
@@ -3290,7 +3358,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3360,7 +3428,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3391,12 +3459,15 @@ export interface components {
                 /** @description The product that can be added to an active subscription. If the product has more than one variant, the shopper should be able to choose which one to redeem */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variants: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                         sort_key: number;
                     }[];
                 };
@@ -3433,7 +3504,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -3498,7 +3569,7 @@ export interface components {
             /** @description Information about this customer's interaction with this reward, such as the number of times they have claimed it, or any limit that is in effect, and if they are currently able to redeem it */
             context: {
                 /** @description An object that indicates if this reward can be redeemed by this customer. The `state` property indicates if it can be redeemed. If `state == "redeemable"`, the reward can be redeemed by the customer */
-                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemUnknown"];
+                can_redeem: components["schemas"]["RewardContextCanRedeemRedeemable"] | components["schemas"]["RewardContextCanRedeemInsufficientPoints"] | components["schemas"]["RewardContextCanRedeemClaimLimitReached"] | components["schemas"]["RewardContextCanRedeemCartRequirementsNotMet"] | components["schemas"]["RewardContextCanRedeemMaxRedemptionsForCartReached"] | components["schemas"]["RewardContextCanRedeemOutOfStock"] | components["schemas"]["RewardContextCanRedeemUnknown"];
                 /** @description `ISO 8601` timestamp representing when this reward was last claimed by the customer, or `null` if the reward has never been claimed by the customer */
                 last_claimed_at: string | null;
                 /** @description The number of times this reward has been claimed by the customer */
@@ -4728,6 +4799,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -4838,6 +4910,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -4876,6 +4949,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -5113,6 +5187,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -5195,11 +5270,8 @@ export interface components {
              * @example usd
              */
             currency: string;
-            /**
-             * @description `ISO 639-1` code indicating the language used for any text in this response
-             * @enum {string}
-             */
-            language: "en" | "de" | "es" | "fr" | "it" | "nl" | "sv";
+            /** @description `ISO 639-1` code indicating the language used for any text in this response */
+            language: string;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -5393,11 +5465,8 @@ export interface components {
              * @example usd
              */
             currency: string;
-            /**
-             * @description `ISO 639-1` code indicating the language used for any text in this response
-             * @enum {string}
-             */
-            language: "en" | "de" | "es" | "fr" | "it" | "nl" | "sv";
+            /** @description `ISO 639-1` code indicating the language used for any text in this response */
+            language: string;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -5602,6 +5671,8 @@ export interface components {
                      * @example 1
                      */
                     recurring_cycle_limit: number | null;
+                    /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
+                    supports_active_subscriptions?: boolean;
                     /**
                      * @description The minimum spend, if any, for the voucher to apply to the cart
                      * @example {
@@ -6065,12 +6136,15 @@ export interface components {
                     /** @description The product and variant that will be included in the next subscription */
                     product: {
                         id: string;
+                        handle: string | null;
                         title: string | null;
                         url: string | null;
                         image_url: string | null;
                         variant: {
                             id: string;
                             title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
                         };
                     };
                     /** @description The quantity of the product that will be included in the next subscription */
@@ -6108,10 +6182,20 @@ export interface components {
             variant_id: string;
             shipping_address?: components["schemas"]["ShippingAddressRecharge"];
         };
+        /** Order */
+        RewardUsageOrder: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "order";
+            /** @description The ID of the order in your platform or ecommerce store. The new claimed reward will be marked as being used with this order */
+            merchant_id: string;
+        };
         RewardsRedeemCustomResponseBody: {
             /** @description Optional fulfillment explanation as a short, plaintext string. If present, this will explain to the customer how and when the reward will be fulfilled */
             fulfillment_explanation: string | null;
-            /** @description The new claimed reward */
+            /** @description The new claimed reward. If you may need to refund this custom reward later, you should save the `claimed_reward.id` and use it with the [Refund Reward API](/api-reference/v2/resources/customers/rewards/refund-reward) */
             claimed_reward: {
                 /** @description The ID of the claimed reward resource in LoyaltyLion */
                 id: number;
@@ -6157,8 +6241,12 @@ export interface components {
              *
              *     This must be a customer whose state is `enrolled` */
             customer_merchant_id: string;
-            /** @description By default, the reward fulfillment webhook (if configured) will be sent in the background, after the redemption completes. If this field is set to `true`, we will instead call the configured webhook during the redemption and wait for a response. If the webhook times out or returns a non-success response, the redemption will fail. If you set this field to `true`, and the reward has not been configured with a webhook, the redemption will always fail */
-            wait_for_webhook_success?: boolean;
+            /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
+             *
+             *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it */
+            fulfill_immediately?: boolean;
+            /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion */
+            usage?: components["schemas"]["RewardUsageOrder"];
         };
         RewardsRedeemProductCartResponseBody: {
             active_cart_redemption: {
@@ -6171,12 +6259,15 @@ export interface components {
                 /** @description The product and variant that this cart redemption is for */
                 product: {
                     id: string;
+                    handle: string | null;
                     title: string | null;
                     url: string | null;
                     image_url: string | null;
                     variant: {
                         id: string;
                         title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
                     };
                 };
                 /** @description The quantity of the line item in this cart redemption */
@@ -6229,12 +6320,15 @@ export interface components {
                     /** @description The product and variant that should be added to the cart */
                     product: {
                         id: string;
+                        handle: string | null;
                         title: string | null;
                         url: string | null;
                         image_url: string | null;
                         variant: {
                             id: string;
                             title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
                         };
                     };
                     /** @description The quantity of the product that should be added to the cart */
@@ -6254,12 +6348,15 @@ export interface components {
                         /** @description The product and variant that this cart redemption is for */
                         product: {
                             id: string;
+                            handle: string | null;
                             title: string | null;
                             url: string | null;
                             image_url: string | null;
                             variant: {
                                 id: string;
                                 title: string | null;
+                                /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                                inventory_count: number | null;
                             };
                         };
                         /** @description The quantity of the line item in this cart redemption */
@@ -6306,12 +6403,157 @@ export interface components {
             /** @description The ID of the current cart. The resulting cart redemption will be linked to this cart */
             cart_id: string;
         };
-        RewardsCancelProductCartResponseBody: {
-            /** @description The customer object, updated as of the reward cancellation */
+        RewardsRefundProductCartResponseBody: {
+            /** @description The updated claimed reward that was refunded */
+            claimed_reward: {
+                /** @description The ID of the claimed reward resource in LoyaltyLion */
+                id: number;
+                /** @description `ISO 8601` timestamp indicating when this reward was claimed */
+                claimed_at: string;
+                /** @description The ID of the reward that was claimed. If a reward with this ID does not exist in the current [Site Configuration](/headless-api/2025-06/configuration/get-configuration), it means the reward has been deleted. The associated redeemable, if any, will usually still be active even after the reward has been deleted */
+                reward_id: number;
+                /**
+                 * @description Short, localized title for this claimed reward. For example, '$5 voucher', or 'Free Water Bottle'. This is usually the same title as the associated reward
+                 * @example $5 voucher
+                 */
+                title: string;
+                /**
+                 * @description The state of this claimed reward. Only `active` rewards will have a usable `redeemable`
+                 * @enum {string}
+                 */
+                state: "approved" | "declined" | "expired" | "pending" | "void";
+                /** @description Details about how the customer received this reward. One of `points_redemption` (the customer used their points to redeem the reward), `rule_completion` (the reward was awarded as the result of completing a rule), or `tier_entry` (the reward was awarded when the customer entered a tier) */
+                source: components["schemas"]["ClaimedRewardSourcePointsRedemption"] | components["schemas"]["ClaimedRewardSourceRuleCompletion"] | components["schemas"]["ClaimedRewardSourceTierEntry"];
+                /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
+                auto_refund_at: string | null;
+                redeemable: {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "product_cart";
+                    /** @description The product and variant that should be added to the cart */
+                    product: {
+                        id: string;
+                        handle: string | null;
+                        title: string | null;
+                        url: string | null;
+                        image_url: string | null;
+                        variant: {
+                            id: string;
+                            title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
+                        };
+                    };
+                    /** @description The quantity of the product that should be added to the cart */
+                    quantity: number;
+                    /** @description `ISO 8601` timestamp representing when the product was used in an order, or `null` if not yet used */
+                    used_at: string | null;
+                    /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
+                    cart_line_identifier: string;
+                    /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
+                    active_cart_redemption: {
+                        /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
+                        id: string;
+                        /** @description The ID of the claimed reward that this cart redemption is associated with */
+                        claimed_reward_id: number;
+                        /** @description `ISO 8601` timestamp representing when this cart redemption will expire if it has not been checked out, at which point any associated points will be returned to the customer */
+                        expires_at: string;
+                        /** @description The product and variant that this cart redemption is for */
+                        product: {
+                            id: string;
+                            handle: string | null;
+                            title: string | null;
+                            url: string | null;
+                            image_url: string | null;
+                            variant: {
+                                id: string;
+                                title: string | null;
+                                /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                                inventory_count: number | null;
+                            };
+                        };
+                        /** @description The quantity of the line item in this cart redemption */
+                        quantity: number;
+                        /** @description The ID of the cart for which this cart redemption was initially redeemed */
+                        cart_id: string;
+                        cart_line: components["schemas"]["ActiveCartRedemptionCartLineShopify"];
+                        /** @description If this request included a serialized `cart` object whose `id` matches the `cart_id` of this redemption, this object includes information about this redemption's state in the current cart. It will be `null` if the request did not include a serialized cart or its `id` does not match */
+                        current_cart_state: {
+                            /** @description Indicates if the redemption is currently in the cart */
+                            in_cart: boolean;
+                            /** @description Indicates if all this redemption's requirements are currently met by the cart, such as a required minimum cart total or number of line items */
+                            cart_requirements_met: boolean;
+                            cart_requirements_detail: {
+                                minimum_cart_total: components["schemas"]["CartRequirementsDetailMinimumCartTotalNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementNotMet"];
+                                minimum_line_item_quantity: components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementNotMet"];
+                            };
+                        } | null;
+                    } | null;
+                };
+            };
+            /** @description The customer object, updated as of the reward refund, i.e. any refunded points will be returned to their points balance. This customer will always have `state` set to `enrolled`, as only enrolled customers can redeem rewards */
             customer: components["schemas"]["CustomerEnrolled"];
         };
-        RewardsCancelProductCartRequestBody: {
-            /** @description The LoyaltyLion ID of the claimed reward to cancel */
+        /** Customer not enrolled */
+        RefundRewardErrorCustomerNotEnrolled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_not_enrolled";
+            message?: string;
+        };
+        /** Customer blocked */
+        RefundRewardErrorCustomerBlocked: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_blocked";
+            message?: string;
+        };
+        /** Reward not enabled for customer */
+        RefundRewardErrorRewardNotEnabledForCustomer: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "reward_not_enabled_for_customer";
+            message?: string;
+        };
+        /** Reward invalid kind */
+        RefundRewardErrorRewardInvalidKind: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "reward_kind_mismatch";
+            message?: string;
+        };
+        /** Reward already refunded */
+        RefundRewardErrorRewardAlreadyRefunded: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "reward_already_refunded";
+            message?: string;
+        };
+        /** Reward already used */
+        RefundRewardErrorRewardAlreadyUsed: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "reward_already_used";
+            message?: string;
+        };
+        RewardsRefundProductCartRequestBody: {
+            /** @description The LoyaltyLion ID of the claimed reward to cancel and refund */
             claimed_reward_id: number;
         };
         /** @example {
@@ -6388,6 +6630,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -6498,6 +6741,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -6536,6 +6780,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -6752,6 +6997,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -6862,6 +7108,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -6900,6 +7147,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -7071,6 +7319,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -7181,6 +7430,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -7219,6 +7469,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -7390,6 +7641,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -7500,6 +7752,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -7538,6 +7791,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -7709,6 +7963,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -7819,6 +8074,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -7857,6 +8113,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -8028,6 +8285,7 @@ export interface components {
          *               "kind": "cart_discount_voucher",
          *               "applies_to_order_type": "all",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "code": "LL-XAIA8471",
          *               "discount_type": "fixed",
          *               "discount": {
@@ -8138,6 +8396,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 10,
          *                 "formatted": "$10"
@@ -8176,6 +8435,7 @@ export interface components {
          *               },
          *               "applies_to_order_type": "one_time",
          *               "recurring_cycle_limit": 1,
+         *               "supports_active_subscriptions": false,
          *               "minimum_spend": {
          *                 "amount": 50,
          *                 "formatted": "$50"
@@ -9733,7 +9993,7 @@ export interface operations {
             };
         };
     };
-    "rewards.cancelProductCart": {
+    "rewards.refundProductCart": {
         parameters: {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
@@ -9749,7 +10009,7 @@ export interface operations {
         /** @description Body */
         requestBody?: {
             content: {
-                "application/json": components["schemas"]["RewardsCancelProductCartRequestBody"];
+                "application/json": components["schemas"]["RewardsRefundProductCartRequestBody"];
             };
         };
         responses: {
@@ -9759,7 +10019,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RewardsCancelProductCartResponseBody"];
+                    "application/json": components["schemas"]["RewardsRefundProductCartResponseBody"];
                 };
             };
             400: components["responses"]["ClientErrorBadRequest"];
@@ -9817,7 +10077,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["RedeemRewardErrorInsufficientPoints"] | components["schemas"]["RedeemRewardErrorCustomerNotEnrolled"] | components["schemas"]["RedeemRewardErrorCustomerBlocked"] | components["schemas"]["RedeemRewardErrorRewardNotEnabledForCustomer"] | components["schemas"]["RedeemRewardErrorRewardOutOfStock"] | components["schemas"]["RedeemRewardErrorRewardInvalidKind"] | components["schemas"]["RedeemRewardErrorRewardLimitReached"];
+                        error: components["schemas"]["RefundRewardErrorCustomerNotEnrolled"] | components["schemas"]["RefundRewardErrorCustomerBlocked"] | components["schemas"]["RefundRewardErrorRewardNotEnabledForCustomer"] | components["schemas"]["RefundRewardErrorRewardInvalidKind"] | components["schemas"]["RefundRewardErrorRewardAlreadyRefunded"] | components["schemas"]["RefundRewardErrorRewardAlreadyUsed"];
                     };
                 };
             };
