@@ -6516,15 +6516,6 @@ export interface components {
             code: "customer_blocked";
             message?: string;
         };
-        /** Reward not enabled for customer */
-        RefundRewardErrorRewardNotEnabledForCustomer: {
-            /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
-             */
-            code: "reward_not_enabled_for_customer";
-            message?: string;
-        };
         /** Reward invalid kind */
         RefundRewardErrorRewardInvalidKind: {
             /**
@@ -10077,7 +10068,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["RefundRewardErrorCustomerNotEnrolled"] | components["schemas"]["RefundRewardErrorCustomerBlocked"] | components["schemas"]["RefundRewardErrorRewardNotEnabledForCustomer"] | components["schemas"]["RefundRewardErrorRewardInvalidKind"] | components["schemas"]["RefundRewardErrorRewardAlreadyRefunded"] | components["schemas"]["RefundRewardErrorRewardAlreadyUsed"];
+                        error: components["schemas"]["RefundRewardErrorCustomerNotEnrolled"] | components["schemas"]["RefundRewardErrorCustomerBlocked"] | components["schemas"]["RefundRewardErrorRewardInvalidKind"] | components["schemas"]["RefundRewardErrorRewardAlreadyRefunded"] | components["schemas"]["RefundRewardErrorRewardAlreadyUsed"];
                     };
                 };
             };

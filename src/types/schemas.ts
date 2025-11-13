@@ -2934,14 +2934,6 @@ export interface RefundRewardErrorRewardInvalidKind {
     code: "reward_kind_mismatch";
     message?: string;
 }
-export interface RefundRewardErrorRewardNotEnabledForCustomer {
-    /**
-     * @description discriminator enum property added by openapi-typescript
-     * @enum {string}
-     */
-    code: "reward_not_enabled_for_customer";
-    message?: string;
-}
 export interface RewardActiveSubscriptionDiscountVoucher {
     id: number;
     /** @description A limit for this reward, which is applied per customer. Rewards with a limit set may only be claimed a set number of times in a given interval. The limit may be `null` if the reward has no limit and can therefore be claimed any number of times by the same customer */
