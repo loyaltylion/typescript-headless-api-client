@@ -5568,7 +5568,7 @@ export interface components {
                  */
                 day: number;
                 /**
-                 * @description The customer's birthday year, between 1900 and the current year
+                 * @description The customer's birthday year, between 1900 and the current year. If the program has been configured to only save birthday month and day, the year will be discarded, so you can pass any value
                  * @example 1993
                  */
                 year: number;
@@ -8555,6 +8555,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -8653,6 +8655,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -8745,6 +8749,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -8838,6 +8844,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -8948,6 +8956,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9053,6 +9063,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9157,6 +9169,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9261,6 +9275,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9365,6 +9381,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9469,6 +9487,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9573,6 +9593,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9677,6 +9699,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9781,6 +9805,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9885,6 +9911,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -9989,6 +10017,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10093,6 +10123,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10197,6 +10229,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10301,6 +10335,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10405,6 +10441,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10509,6 +10547,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
@@ -10613,6 +10653,8 @@ export interface operations {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
             };
             header?: never;
             path: {
