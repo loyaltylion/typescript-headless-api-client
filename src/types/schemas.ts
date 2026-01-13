@@ -2626,7 +2626,7 @@ export interface CustomersSetBirthdayRequestBody {
          */
         day: number;
         /**
-         * @description The customer's birthday year, between 1900 and the current year
+         * @description The customer's birthday year, between 1900 and the current year. If the program has been configured to only save birthday month and day, the year will be discarded, so you can pass any value
          * @example 1993
          */
         year: number;

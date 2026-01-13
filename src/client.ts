@@ -19,6 +19,13 @@ export interface HeadlessApiClientOptions {
    */
   channel: schemas.SupportedChannel;
   /**
+   * Language to use for text in the response. If not provided, the site's
+   * default language will be used
+   *
+   * If specified, this must match a configured language code for the site
+   */
+  language?: string;
+  /**
    * Custom fetch implementation to use instead of the default fetch
    * implementation
    *
@@ -44,6 +51,7 @@ export function createHeadlessApiClient({
   siteId,
   apiKey,
   channel,
+  language,
   baseUrl = "https://api.loyaltylion.com",
   ...props
 }: HeadlessApiClientOptions) {
@@ -53,6 +61,7 @@ export function createHeadlessApiClient({
       Authorization: `Bearer ${apiKey}`,
       "X-LoyaltyLion-Channel": channel,
       "User-Agent": `loyaltylion/headless-api-client@${version}`,
+      ...(language ? { "X-LoyaltyLion-Language": language } : {}),
     },
     ...(props.customFetch ? { fetch: props.customFetch } : {}),
   });
