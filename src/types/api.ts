@@ -348,7 +348,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             program: {
                 /**
                  * @description The name of the program
@@ -2524,6 +2524,8 @@ export interface components {
                 /** @description The predicted number of points contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
                 at_expiration: number | null;
             };
+            /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
+            forecasted_tier_id: number | null;
         };
         /** Spend */
         TierProgressSpend: {
@@ -2549,6 +2551,8 @@ export interface components {
                 /** @description The predicted amount of spend contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
                 at_expiration: components["schemas"]["CurrencyAmount"] | null;
             };
+            /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
+            forecasted_tier_id: number | null;
         };
         /**
          * Points redemption
@@ -4775,7 +4779,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -5271,7 +5276,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -5466,7 +5471,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -6597,7 +6602,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -6906,6 +6912,15 @@ export interface components {
             code: "rule_limit_reached";
             message?: string;
         };
+        /** Rule requirements not met */
+        CompleteRuleErrorRuleRequirementsNotMet: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "rule_requirements_not_met";
+            message?: string;
+        };
         RulesCompleteClickthroughRequestBody: {
             /** @description The LoyaltyLion ID of the rule to complete */
             rule_id: number;
@@ -6964,7 +6979,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7286,7 +7302,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7608,7 +7625,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7930,7 +7948,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -8252,7 +8271,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -8556,7 +8576,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8656,7 +8676,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8750,7 +8770,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8845,7 +8865,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8957,7 +8977,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9064,7 +9084,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9170,7 +9190,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9276,7 +9296,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9382,7 +9402,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9488,7 +9508,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9594,7 +9614,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9700,7 +9720,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9806,7 +9826,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9912,7 +9932,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10018,7 +10038,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10124,7 +10144,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10204,7 +10224,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
@@ -10230,7 +10250,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10310,7 +10330,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
@@ -10336,7 +10356,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10416,7 +10436,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
@@ -10442,7 +10462,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10522,7 +10542,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
@@ -10548,7 +10568,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10628,7 +10648,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
@@ -10654,7 +10674,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10734,7 +10754,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"];
+                        error: components["schemas"]["CompleteRuleErrorCustomerNotEnrolled"] | components["schemas"]["CompleteRuleErrorCustomerBlocked"] | components["schemas"]["CompleteRuleErrorRuleNotEnabledForCustomer"] | components["schemas"]["CompleteRuleErrorRuleInvalidKind"] | components["schemas"]["CompleteRuleErrorRuleLimitReached"] | components["schemas"]["CompleteRuleErrorRuleRequirementsNotMet"];
                     };
                 };
             };
