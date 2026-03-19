@@ -348,7 +348,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             program: {
                 /**
                  * @description The name of the program
@@ -456,7 +456,7 @@ export interface components {
             /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
             referee_incentive?: components["schemas"]["RefereeIncentiveCartDiscount"] | components["schemas"]["RefereeIncentiveFreeShipping"];
             /** @description Ordered list of rules that belong to this site. Each rule will have  one or more variants that indicate its configuration and if it is enabled per tier. Rules have a `kind` property, and some kinds of rules will have `properties` that are specific to that rule kind */
-            rules: (components["schemas"]["RuleBirthday"] | components["schemas"]["RuleCollectionPurchase"] | components["schemas"]["RuleNewsletterSignup"] | components["schemas"]["RulePageview"] | components["schemas"]["RuleProductPurchase"] | components["schemas"]["RulePurchase"] | components["schemas"]["RuleJoinProgram"] | components["schemas"]["RuleReview"] | components["schemas"]["RuleCustom"] | components["schemas"]["RuleFacebookLike"] | components["schemas"]["RuleTwitterFollow"] | components["schemas"]["RuleInstagramFollow"] | components["schemas"]["RuleInstagramMention"] | components["schemas"]["RuleInstagramPostHashtag"] | components["schemas"]["RuleTiktokFollow"] | components["schemas"]["RuleTiktokPostHashtag"] | components["schemas"]["RuleReferral"] | components["schemas"]["RuleClickthrough"])[];
+            rules: (components["schemas"]["RuleBirthday"] | components["schemas"]["RuleCollectionPurchase"] | components["schemas"]["RuleNewsletterSignup"] | components["schemas"]["RulePageview"] | components["schemas"]["RuleProductPurchase"] | components["schemas"]["RulePurchase"] | components["schemas"]["RuleJoinProgram"] | components["schemas"]["RuleReview"] | components["schemas"]["RuleCustom"] | components["schemas"]["RuleFacebookLike"] | components["schemas"]["RuleTwitterFollow"] | components["schemas"]["RuleInstagramFollow"] | components["schemas"]["RuleInstagramMention"] | components["schemas"]["RuleInstagramPostHashtag"] | components["schemas"]["RuleTiktokFollow"] | components["schemas"]["RuleTiktokPostHashtag"] | components["schemas"]["RuleReferral"] | components["schemas"]["RuleClickthrough"] | components["schemas"]["RuleRetailPurchase"])[];
             /** @description Ordered list of rewards that belong to this site. Each reward will have  one or more variants that indicate its configuration and if it is enabled per tier. Rewards have a `kind` property, and some kinds of rewards will have `properties` that are specific to that reward kind */
             rewards: (components["schemas"]["RewardGiftCard"] | components["schemas"]["RewardCartDiscountVoucher"] | components["schemas"]["RewardCartVariableDiscountVoucher"] | components["schemas"]["RewardFreeShippingVoucher"] | components["schemas"]["RewardProductDiscountVoucher"] | components["schemas"]["RewardCollectionDiscountVoucher"] | components["schemas"]["RewardProductCart"] | components["schemas"]["RewardActiveSubscriptionDiscountVoucher"] | components["schemas"]["RewardActiveSubscriptionProduct"] | components["schemas"]["RewardCustom"])[];
         };
@@ -1367,6 +1367,41 @@ export interface components {
             properties: {
                 destination_url: string;
             };
+            /** @description A list of variants for this rule. Some aspects of a rule, such as its outcome and whether it's enabled, can vary based on tier */
+            variants: {
+                /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+                tier_id: number | null;
+                /**
+                 * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+                 * @example Make a purchase
+                 */
+                title: string;
+                /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+                enabled: boolean;
+                /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+                result: components["schemas"]["RuleResultPoints"] | components["schemas"]["RuleResultReward"];
+                /**
+                 * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+                 * @example 5 points per $1
+                 */
+                result_short_text: string;
+            }[];
+        };
+        /** Retail purchase */
+        RuleRetailPurchase: {
+            id: number;
+            /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+            limit: {
+                /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+                count: number;
+                /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+                interval: ("day" | "week" | "month" | "year") | null;
+            } | null;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "retail_purchase";
             /** @description A list of variants for this rule. Some aspects of a rule, such as its outcome and whether it's enabled, can vary based on tier */
             variants: {
                 /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
@@ -2425,7 +2460,7 @@ export interface components {
              *
              *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
              *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
-            available_rules: (components["schemas"]["CustomerAvailableRuleBirthday"] | components["schemas"]["CustomerAvailableRuleCollectionPurchase"] | components["schemas"]["CustomerAvailableRuleNewsletterSignup"] | components["schemas"]["CustomerAvailableRulePageview"] | components["schemas"]["CustomerAvailableRuleProductPurchase"] | components["schemas"]["CustomerAvailableRulePurchase"] | components["schemas"]["CustomerAvailableRuleJoinProgram"] | components["schemas"]["CustomerAvailableRuleReview"] | components["schemas"]["CustomerAvailableRuleCustom"] | components["schemas"]["CustomerAvailableRuleFacebookLike"] | components["schemas"]["CustomerAvailableRuleTwitterFollow"] | components["schemas"]["CustomerAvailableRuleInstagramFollow"] | components["schemas"]["CustomerAvailableRuleInstagramMention"] | components["schemas"]["CustomerAvailableRuleInstagramPostHashtag"] | components["schemas"]["CustomerAvailableRuleTiktokFollow"] | components["schemas"]["CustomerAvailableRuleTiktokPostHashtag"] | components["schemas"]["CustomerAvailableRuleReferral"] | components["schemas"]["CustomerAvailableRuleClickthrough"])[];
+            available_rules: (components["schemas"]["CustomerAvailableRuleBirthday"] | components["schemas"]["CustomerAvailableRuleCollectionPurchase"] | components["schemas"]["CustomerAvailableRuleNewsletterSignup"] | components["schemas"]["CustomerAvailableRulePageview"] | components["schemas"]["CustomerAvailableRuleProductPurchase"] | components["schemas"]["CustomerAvailableRulePurchase"] | components["schemas"]["CustomerAvailableRuleJoinProgram"] | components["schemas"]["CustomerAvailableRuleReview"] | components["schemas"]["CustomerAvailableRuleCustom"] | components["schemas"]["CustomerAvailableRuleFacebookLike"] | components["schemas"]["CustomerAvailableRuleTwitterFollow"] | components["schemas"]["CustomerAvailableRuleInstagramFollow"] | components["schemas"]["CustomerAvailableRuleInstagramMention"] | components["schemas"]["CustomerAvailableRuleInstagramPostHashtag"] | components["schemas"]["CustomerAvailableRuleTiktokFollow"] | components["schemas"]["CustomerAvailableRuleTiktokPostHashtag"] | components["schemas"]["CustomerAvailableRuleReferral"] | components["schemas"]["CustomerAvailableRuleClickthrough"] | components["schemas"]["CustomerAvailableRuleRetailPurchase"])[];
             /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
              *
              *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
@@ -2524,6 +2559,8 @@ export interface components {
                 /** @description The predicted number of points contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
                 at_expiration: number | null;
             };
+            /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
+            forecasted_tier_id: number | null;
         };
         /** Spend */
         TierProgressSpend: {
@@ -2549,6 +2586,8 @@ export interface components {
                 /** @description The predicted amount of spend contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
                 at_expiration: components["schemas"]["CurrencyAmount"] | null;
             };
+            /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
+            forecasted_tier_id: number | null;
         };
         /**
          * Points redemption
@@ -4458,6 +4497,50 @@ export interface components {
                 completion_limit: components["schemas"]["RuleContextCompletionLimitNoLimit"] | components["schemas"]["RuleContextCompletionLimitLimitNotReached"] | components["schemas"]["RuleContextCompletionLimitLimitReachedForever"] | components["schemas"]["RuleContextCompletionLimitLimitReachedUntilReset"];
             };
         };
+        /** Retail purchase */
+        CustomerAvailableRuleRetailPurchase: {
+            id: number;
+            /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+            limit: {
+                /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+                count: number;
+                /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+                interval: ("day" | "week" | "month" | "year") | null;
+            } | null;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "retail_purchase";
+            /** @description The rule variant that is applicable to this customer and their tier */
+            variant: {
+                /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+                tier_id: number | null;
+                /**
+                 * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+                 * @example Make a purchase
+                 */
+                title: string;
+                /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+                enabled: boolean;
+                /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+                result: components["schemas"]["RuleResultPoints"] | components["schemas"]["RuleResultReward"];
+                /**
+                 * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+                 * @example 5 points per $1
+                 */
+                result_short_text: string;
+            };
+            /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
+            context: {
+                /** @description `ISO 8601` timestamp representing when this rule was last completed by the customer, or `null` if the rule has never been completed by the customer */
+                last_completed_at: string | null;
+                /** @description The number of times this rule has been completed by the customer in total */
+                completion_count: number;
+                /** @description An object indicating the state of this rule's completion limit specific to this customer. When rules are limited, they can only be completed by a customer a set number of times in a given interval (or forever). The `state` property indicates what limit, if any, is currently in effect */
+                completion_limit: components["schemas"]["RuleContextCompletionLimitNoLimit"] | components["schemas"]["RuleContextCompletionLimitLimitNotReached"] | components["schemas"]["RuleContextCompletionLimitLimitReachedForever"] | components["schemas"]["RuleContextCompletionLimitLimitReachedUntilReset"];
+            };
+        };
         /** Earned points from rule */
         CustomerHistoryActionEarnedPointsFromRule: {
             /**
@@ -4483,7 +4566,7 @@ export interface components {
                 /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
                 id: number;
                 /** @enum {string} */
-                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
+                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
             };
             /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
             points_will_approve_at: string | null;
@@ -4577,7 +4660,7 @@ export interface components {
                 /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
                 id: number;
                 /** @enum {string} */
-                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough";
+                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
             } | null;
             /**
              * @description The state of the reward received from the rule.
@@ -4775,7 +4858,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -5271,7 +5355,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -5466,7 +5550,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: string;
+            language: unknown;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -6597,7 +6681,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -6964,7 +7049,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7286,7 +7372,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7608,7 +7695,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -7930,7 +8018,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -8252,7 +8341,8 @@ export interface components {
          *             "spend_needed_for_upgrade": {
          *               "amount": 800,
          *               "formatted": "$800"
-         *             }
+         *             },
+         *             "forecasted_tier_id": 1
          *           }
          *         },
          *         "birthday": {
@@ -8556,7 +8646,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8656,7 +8746,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8750,7 +8840,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8845,7 +8935,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -8957,7 +9047,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9064,7 +9154,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9170,7 +9260,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9276,7 +9366,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9382,7 +9472,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9488,7 +9578,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9594,7 +9684,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9700,7 +9790,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9806,7 +9896,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -9912,7 +10002,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10018,7 +10108,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10124,7 +10214,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10230,7 +10320,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10336,7 +10426,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10442,7 +10532,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10548,7 +10638,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
@@ -10654,7 +10744,7 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: string;
+                language?: unknown;
             };
             header?: never;
             path: {
