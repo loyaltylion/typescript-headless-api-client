@@ -4663,6 +4663,8 @@ export interface components {
                 id: number;
                 /** @enum {string} */
                 kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+                /** @description Localized display title for the rule (the merchant-configured title for the shopper-facing locale, falling back to the default title for the rule kind). Useful for surfacing the rule context alongside the reward — e.g. "Refer a friend — $5 voucher". */
+                title: string;
             } | null;
             /**
              * @description The state of the reward received from the rule.
@@ -8665,6 +8667,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -8765,6 +8769,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -8859,6 +8865,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -8954,6 +8962,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9066,6 +9076,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9173,6 +9185,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9279,6 +9293,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9385,6 +9401,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9491,6 +9509,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9597,6 +9617,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9703,6 +9725,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9809,6 +9833,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9915,6 +9941,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10021,6 +10049,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10127,6 +10157,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10233,6 +10265,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10339,6 +10373,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10445,6 +10481,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10551,6 +10589,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10657,6 +10697,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10763,6 +10805,8 @@ export interface operations {
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
                 language?: unknown;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
