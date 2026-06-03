@@ -2074,7 +2074,7 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @description How this custom reward is fulfilled, or `null` for an opaque voucher custom reward fulfilled from a merchant-uploaded code pool */
+                /** @description How this custom reward is fulfilled. `null` when the reward is fulfilled using merchant-uploaded voucher codes. */
                 fulfillment_method: ("manual" | "webhook") | null;
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
@@ -2480,7 +2480,7 @@ export interface components {
                     fulfilment_explanation: string | null;
                     /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
                     fulfilled_at: string | null;
-                    /** @description The discount voucher code for an opaque voucher custom reward, fulfilled from a merchant-uploaded code pool. Omitted for custom rewards that the merchant fulfills manually or via webhook */
+                    /** @description The voucher code issued to the customer. */
                     code?: string;
                 };
                 /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
@@ -3610,7 +3610,7 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @description How this custom reward is fulfilled, or `null` for an opaque voucher custom reward fulfilled from a merchant-uploaded code pool */
+                /** @description How this custom reward is fulfilled. `null` when the reward is fulfilled using merchant-uploaded voucher codes. */
                 fulfillment_method: ("manual" | "webhook") | null;
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
@@ -6399,7 +6399,7 @@ export interface components {
                     fulfilment_explanation: string | null;
                     /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
                     fulfilled_at: string | null;
-                    /** @description The discount voucher code for an opaque voucher custom reward, fulfilled from a merchant-uploaded code pool. Omitted for custom rewards that the merchant fulfills manually or via webhook */
+                    /** @description The voucher code issued to the customer. */
                     code?: string;
                 };
             };
