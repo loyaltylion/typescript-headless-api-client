@@ -1409,6 +1409,49 @@ export interface CustomerAvailableRuleJoinProgram {
         completion_limit: RuleContextCompletionLimitNoLimit | RuleContextCompletionLimitLimitNotReached | RuleContextCompletionLimitLimitReachedForever | RuleContextCompletionLimitLimitReachedUntilReset;
     };
 }
+export interface CustomerAvailableRuleLoyaltyPassInstall {
+    id: number;
+    /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+    limit: {
+        /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+        count: number;
+        /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+        interval: ("day" | "week" | "month" | "year") | null;
+    } | null;
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "loyalty_pass_install";
+    /** @description The rule variant that is applicable to this customer and their tier */
+    variant: {
+        /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+        tier_id: number | null;
+        /**
+         * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+         * @example Make a purchase
+         */
+        title: string;
+        /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+        enabled: boolean;
+        /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+        result: RuleResultPoints | RuleResultReward;
+        /**
+         * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+         * @example 5 points per $1
+         */
+        result_short_text: string;
+    };
+    /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
+    context: {
+        /** @description `ISO 8601` timestamp representing when this rule was last completed by the customer, or `null` if the rule has never been completed by the customer */
+        last_completed_at: string | null;
+        /** @description The number of times this rule has been completed by the customer in total */
+        completion_count: number;
+        /** @description An object indicating the state of this rule's completion limit specific to this customer. When rules are limited, they can only be completed by a customer a set number of times in a given interval (or forever). The `state` property indicates what limit, if any, is currently in effect */
+        completion_limit: RuleContextCompletionLimitNoLimit | RuleContextCompletionLimitLimitNotReached | RuleContextCompletionLimitLimitReachedForever | RuleContextCompletionLimitLimitReachedUntilReset;
+    };
+}
 export interface CustomerAvailableRuleNewsletterSignup {
     id: number;
     /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
@@ -2255,7 +2298,7 @@ export interface CustomerEnrolled {
      *
      *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
      *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
-    available_rules: (CustomerAvailableRuleBirthday | CustomerAvailableRuleCollectionPurchase | CustomerAvailableRuleNewsletterSignup | CustomerAvailableRulePageview | CustomerAvailableRuleProductPurchase | CustomerAvailableRulePurchase | CustomerAvailableRuleJoinProgram | CustomerAvailableRuleReview | CustomerAvailableRuleCustom | CustomerAvailableRuleFacebookLike | CustomerAvailableRuleTwitterFollow | CustomerAvailableRuleInstagramFollow | CustomerAvailableRuleInstagramMention | CustomerAvailableRuleInstagramPostHashtag | CustomerAvailableRuleTiktokFollow | CustomerAvailableRuleTiktokPostHashtag | CustomerAvailableRuleReferral | CustomerAvailableRuleClickthrough | CustomerAvailableRuleRetailPurchase)[];
+    available_rules: (CustomerAvailableRuleBirthday | CustomerAvailableRuleLoyaltyPassInstall | CustomerAvailableRuleCollectionPurchase | CustomerAvailableRuleNewsletterSignup | CustomerAvailableRulePageview | CustomerAvailableRuleProductPurchase | CustomerAvailableRulePurchase | CustomerAvailableRuleJoinProgram | CustomerAvailableRuleReview | CustomerAvailableRuleCustom | CustomerAvailableRuleFacebookLike | CustomerAvailableRuleTwitterFollow | CustomerAvailableRuleInstagramFollow | CustomerAvailableRuleInstagramMention | CustomerAvailableRuleInstagramPostHashtag | CustomerAvailableRuleTiktokFollow | CustomerAvailableRuleTiktokPostHashtag | CustomerAvailableRuleReferral | CustomerAvailableRuleClickthrough | CustomerAvailableRuleRetailPurchase)[];
     /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
      *
      *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
@@ -2376,7 +2419,7 @@ export interface CustomerHistoryActionEarnedPointsFromRule {
         /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
         id: number;
         /** @enum {string} */
-        kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
     };
     /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
     points_will_approve_at: string | null;
@@ -2529,7 +2572,9 @@ export interface CustomerHistoryActionReceivedReward {
         /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
         id: number;
         /** @enum {string} */
-        kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        /** @description Localized display title for the rule (the merchant-configured title for the shopper-facing locale, falling back to the default title for the rule kind). Useful for surfacing the rule context alongside the reward — e.g. "Refer a friend — $5 voucher". */
+        title: string;
     } | null;
     /**
      * @description The state of the reward received from the rule.
@@ -2618,7 +2663,7 @@ export interface CustomersGetCustomerResponseBody {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
     customer: CustomerEnrolled | CustomerGuest | CustomerBlocked;
     /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -2657,7 +2702,7 @@ export interface CustomersInitializeSessionResponseBody {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
     customer: CustomerEnrolled | CustomerGuest | CustomerBlocked;
     /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -4855,6 +4900,40 @@ export interface RuleJoinProgram {
         result_short_text: string;
     }[];
 }
+export interface RuleLoyaltyPassInstall {
+    id: number;
+    /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+    limit: {
+        /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+        count: number;
+        /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+        interval: ("day" | "week" | "month" | "year") | null;
+    } | null;
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "loyalty_pass_install";
+    /** @description A list of variants for this rule. Some aspects of a rule, such as its outcome and whether it's enabled, can vary based on tier */
+    variants: {
+        /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+        tier_id: number | null;
+        /**
+         * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+         * @example Make a purchase
+         */
+        title: string;
+        /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+        enabled: boolean;
+        /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+        result: RuleResultPoints | RuleResultReward;
+        /**
+         * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+         * @example 5 points per $1
+         */
+        result_short_text: string;
+    }[];
+}
 export interface RuleNewsletterSignup {
     id: number;
     /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
@@ -5347,7 +5426,7 @@ export interface SiteConfiguration {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     program: {
         /**
          * @description The name of the program
@@ -5455,7 +5534,7 @@ export interface SiteConfiguration {
     /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
     referee_incentive?: RefereeIncentiveCartDiscount | RefereeIncentiveFreeShipping;
     /** @description Ordered list of rules that belong to this site. Each rule will have  one or more variants that indicate its configuration and if it is enabled per tier. Rules have a `kind` property, and some kinds of rules will have `properties` that are specific to that rule kind */
-    rules: (RuleBirthday | RuleCollectionPurchase | RuleNewsletterSignup | RulePageview | RuleProductPurchase | RulePurchase | RuleJoinProgram | RuleReview | RuleCustom | RuleFacebookLike | RuleTwitterFollow | RuleInstagramFollow | RuleInstagramMention | RuleInstagramPostHashtag | RuleTiktokFollow | RuleTiktokPostHashtag | RuleReferral | RuleClickthrough | RuleRetailPurchase)[];
+    rules: (RuleBirthday | RuleLoyaltyPassInstall | RuleCollectionPurchase | RuleNewsletterSignup | RulePageview | RuleProductPurchase | RulePurchase | RuleJoinProgram | RuleReview | RuleCustom | RuleFacebookLike | RuleTwitterFollow | RuleInstagramFollow | RuleInstagramMention | RuleInstagramPostHashtag | RuleTiktokFollow | RuleTiktokPostHashtag | RuleReferral | RuleClickthrough | RuleRetailPurchase)[];
     /** @description Ordered list of rewards that belong to this site. Each reward will have  one or more variants that indicate its configuration and if it is enabled per tier. Rewards have a `kind` property, and some kinds of rewards will have `properties` that are specific to that reward kind */
     rewards: (RewardGiftCard | RewardCartDiscountVoucher | RewardCartVariableDiscountVoucher | RewardFreeShippingVoucher | RewardProductDiscountVoucher | RewardCollectionDiscountVoucher | RewardProductCart | RewardActiveSubscriptionDiscountVoucher | RewardActiveSubscriptionProduct | RewardCustom)[];
 }
