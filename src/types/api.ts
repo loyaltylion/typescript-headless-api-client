@@ -63,6 +63,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/customers/{merchant_id}/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["customers.enroll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/customers/{merchant_id}/email_marketing/subscribe": {
         parameters: {
             query?: never;
@@ -5744,6 +5760,21 @@ export interface components {
                 year: number;
             };
         };
+        CustomersEnrollResponseBody: {
+            /** @description A boolean indicating whether this request enrolled the customer. If the customer was already enrolled, this will be `false` and no other state will have changed */
+            enrolled: boolean;
+            /** @description The customer object in its post-enrollment state. If the customer was already enrolled, this represents their existing state */
+            customer: components["schemas"]["CustomerEnrolled"];
+        };
+        /** Customer blocked */
+        EnrollCustomerBlockedError: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_blocked";
+            message?: string;
+        };
         CustomersEmailMarketingSubscribeResponseBody: {
             /** @description A boolean indicating whether the email marketing consent was updated. If the customer was already subscribed, this will be `false` */
             updated: boolean;
@@ -9133,6 +9164,113 @@ export interface operations {
                 content: {
                     "application/json": {
                         error: components["schemas"]["UpdateCustomerNotEnrolledError"] | components["schemas"]["UpdateCustomerBlockedError"] | components["schemas"]["SetBirthdayErrorInvalidDate"];
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
+    "customers.enroll": {
+        parameters: {
+            query?: {
+                /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
+                channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+                /** @description The ID of the customer in your platform or ecommerce store.
+                 *
+                 *     For Shopify stores, you can pass either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID. If you do pass a GID you must encode it as a URL parameter, e.g. `gid%3A%2F%2Fshopify%2FCustomer%2F1001` */
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomersEnrollResponseBody"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
+            /** @description 422 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: components["schemas"]["EnrollCustomerBlockedError"];
                     };
                 };
             };

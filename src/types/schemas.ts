@@ -2656,6 +2656,12 @@ export interface CustomersEmailMarketingSubscribeResponseBody {
     /** @description A list of actions that were triggered as a result of the email marketing subscription. For example, if there was an applicable "subscribe to newsletter" rule when the customer subscribed, this will include the action that was triggered by the rule */
     actions: (CustomerHistoryActionEarnedPointsFromRule | CustomerHistoryActionReceivedReward)[];
 }
+export interface CustomersEnrollResponseBody {
+    /** @description A boolean indicating whether this request enrolled the customer. If the customer was already enrolled, this will be `false` and no other state will have changed */
+    enrolled: boolean;
+    /** @description The customer object in its post-enrollment state. If the customer was already enrolled, this represents their existing state */
+    customer: CustomerEnrolled;
+}
 export interface CustomersGetCustomerResponseBody {
     /** @description The sales channel for which this response was generated */
     channel: SupportedChannel;
@@ -2761,6 +2767,14 @@ export interface EmailMarketingSubscribeErrorUnsupportedPlatform {
      * @enum {string}
      */
     code: "unsupported_platform";
+}
+export interface EnrollCustomerBlockedError {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_blocked";
+    message?: string;
 }
 export interface InitializeSessionErrorEmailAlreadyInUse {
     /**
