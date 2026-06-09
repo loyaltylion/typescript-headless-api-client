@@ -2090,7 +2090,12 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @description How this custom reward is fulfilled. `null` when the reward is fulfilled using merchant-uploaded voucher codes. */
+                /**
+                 * @description How this custom reward is fulfilled. `store_fulfillment` rewards are fulfilled by the merchant (manually or via webhook — see `fulfillment_method`). `voucher` rewards issue a code from a merchant-uploaded pool to the customer at claim time.
+                 * @enum {string}
+                 */
+                fulfillment_type: "store_fulfillment" | "voucher";
+                /** @description For `store_fulfillment` customs, how the merchant fulfils the reward. `null` for `voucher` customs, which have no merchant fulfilment step. */
                 fulfillment_method: ("manual" | "webhook") | null;
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
@@ -2496,7 +2501,7 @@ export interface components {
                     fulfilment_explanation: string | null;
                     /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
                     fulfilled_at: string | null;
-                    /** @description The voucher code issued to the customer. */
+                    /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
                     code?: string;
                 };
                 /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
@@ -3626,7 +3631,12 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @description How this custom reward is fulfilled. `null` when the reward is fulfilled using merchant-uploaded voucher codes. */
+                /**
+                 * @description How this custom reward is fulfilled. `store_fulfillment` rewards are fulfilled by the merchant (manually or via webhook — see `fulfillment_method`). `voucher` rewards issue a code from a merchant-uploaded pool to the customer at claim time.
+                 * @enum {string}
+                 */
+                fulfillment_type: "store_fulfillment" | "voucher";
+                /** @description For `store_fulfillment` customs, how the merchant fulfils the reward. `null` for `voucher` customs, which have no merchant fulfilment step. */
                 fulfillment_method: ("manual" | "webhook") | null;
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
@@ -6430,7 +6440,7 @@ export interface components {
                     fulfilment_explanation: string | null;
                     /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
                     fulfilled_at: string | null;
-                    /** @description The voucher code issued to the customer. */
+                    /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
                     code?: string;
                 };
             };
