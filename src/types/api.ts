@@ -2091,14 +2091,23 @@ export interface components {
             kind: "custom";
             properties: {
                 /**
-                 * @description How this custom reward is fulfilled. `store_fulfillment` rewards are fulfilled by the merchant (manually or via webhook — see `fulfillment_method`). `voucher` rewards issue a code from a merchant-uploaded pool to the customer at claim time.
+                 * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+                 * @constant
+                 */
+                fulfillment_type: "store_fulfillment";
+                /**
+                 * @description How the merchant fulfils this custom reward.
                  * @enum {string}
                  */
-                fulfillment_type: "store_fulfillment" | "voucher";
-                /** @description For `store_fulfillment` customs, how the merchant fulfils the reward. `null` for `voucher` customs, which have no merchant fulfilment step. */
-                fulfillment_method: ("manual" | "webhook") | null;
+                fulfillment_method: "manual" | "webhook";
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
+            } | {
+                /**
+                 * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+                 * @constant
+                 */
+                fulfillment_type: "voucher";
             };
             /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
             variants: {
@@ -3632,14 +3641,23 @@ export interface components {
             kind: "custom";
             properties: {
                 /**
-                 * @description How this custom reward is fulfilled. `store_fulfillment` rewards are fulfilled by the merchant (manually or via webhook — see `fulfillment_method`). `voucher` rewards issue a code from a merchant-uploaded pool to the customer at claim time.
+                 * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+                 * @constant
+                 */
+                fulfillment_type: "store_fulfillment";
+                /**
+                 * @description How the merchant fulfils this custom reward.
                  * @enum {string}
                  */
-                fulfillment_type: "store_fulfillment" | "voucher";
-                /** @description For `store_fulfillment` customs, how the merchant fulfils the reward. `null` for `voucher` customs, which have no merchant fulfilment step. */
-                fulfillment_method: ("manual" | "webhook") | null;
+                fulfillment_method: "manual" | "webhook";
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
+            } | {
+                /**
+                 * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+                 * @constant
+                 */
+                fulfillment_type: "voucher";
             };
             /** @description The reward variant that is applicable to this customer and their tier */
             variant: {
