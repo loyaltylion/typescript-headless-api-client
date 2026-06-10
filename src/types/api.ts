@@ -2073,7 +2073,7 @@ export interface components {
         };
         /**
          * Custom
-         * @description A custom reward that is fulfilled by the merchant manually or using a webhook
+         * @description A custom reward that is fulfilled by the merchant manually or using a webhook, or by issuing a code from a merchant-uploaded pool
          */
         RewardCustom: {
             id: number;
@@ -3623,7 +3623,7 @@ export interface components {
         };
         /**
          * Custom
-         * @description A custom reward that is fulfilled by the merchant manually or using a webhook
+         * @description A custom reward that is fulfilled by the merchant manually or using a webhook, or by issuing a code from a merchant-uploaded pool
          */
         CustomerAvailableRewardCustom: {
             id: number;
@@ -6474,9 +6474,13 @@ export interface components {
             customer_merchant_id: string;
             /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
              *
-             *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it */
+             *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it
+             *
+             *     This option does not apply to rewards with a `fulfillment_type` of `voucher`: a voucher custom reward is always fulfilled at claim time, when the pooled code is issued to the customer */
             fulfill_immediately?: boolean;
-            /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion */
+            /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion
+             *
+             *     This option does not apply to rewards with a `fulfillment_type` of `voucher` and is ignored for them: a voucher custom reward is marked as used automatically when the matching order containing its discount code is sent to LoyaltyLion */
             usage?: components["schemas"]["RewardUsageOrder"];
         };
         RewardsRedeemProductCartResponseBody: {
