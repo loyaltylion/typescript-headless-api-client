@@ -518,15 +518,9 @@ export interface CustomerAvailableRewardCartVariableDiscountVoucher {
      */
     kind: "cart_variable_discount_voucher";
     properties: {
-        /**
-         * Currency
-         * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-         */
+        /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
         minimum_discount: CurrencyAmount;
-        /**
-         * Currency
-         * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-         */
+        /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
         maximum_discount: CurrencyAmount;
         /**
          * @description The required minimum spend in cart before the reward can be redeemed
@@ -805,10 +799,7 @@ export interface CustomerAvailableRewardGiftCard {
      */
     kind: "gift_card";
     properties: {
-        /**
-         * Currency
-         * @description The initial balance of the gift card
-         */
+        /** @description The initial balance of the gift card */
         initial_balance: CurrencyAmount;
     };
     /** @description The reward variant that is applicable to this customer and their tier */
@@ -955,10 +946,7 @@ export interface CustomerAvailableRewardProductDiscountVoucher {
             /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
             variant_id: string | null;
         };
-        /**
-         * Percentage
-         * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-         */
+        /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
         discount: PercentageAmount;
     };
     /** @description The reward variant that is applicable to this customer and their tier */
@@ -2004,15 +1992,9 @@ export interface CustomerEnrolled {
             kind: "gift_card";
             /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
             code_last_characters: string;
-            /**
-             * Currency
-             * @description The initial balance of the gift card
-             */
+            /** @description The initial balance of the gift card */
             initial_balance: CurrencyAmount;
-            /**
-             * Currency
-             * @description The current balance of the gift card
-             */
+            /** @description The current balance of the gift card */
             current_balance: CurrencyAmount;
             /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -2066,10 +2048,7 @@ export interface CustomerEnrolled {
             usage_status: "not_used" | "partially_used" | "used";
             /** @constant */
             kind: "cart_variable_discount_voucher";
-            /**
-             * Currency
-             * @description The discount amount that was redeemed
-             */
+            /** @description The discount amount that was redeemed */
             discount: CurrencyAmount;
             /** @description The discount voucher code */
             code: string;
@@ -2100,10 +2079,7 @@ export interface CustomerEnrolled {
                 /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                 variant_id: string | null;
             };
-            /**
-             * Percentage
-             * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-             */
+            /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
             discount: PercentageAmount;
             /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -2968,10 +2944,7 @@ export interface RefereeIncentiveCartDiscount {
      * @example Get a 10% discount on your order with this code when you spend over $50
      */
     incentive_text: string;
-    /**
-     * @description discriminator enum property added by openapi-typescript
-     * @enum {string}
-     */
+    /** @constant */
     kind: "cart_discount_voucher";
     /**
      * @description The type of discount this voucher will apply to the cart
@@ -3002,10 +2975,7 @@ export interface RefereeIncentiveFreeShipping {
      * @example Get a 10% discount on your order with this code when you spend over $50
      */
     incentive_text: string;
-    /**
-     * @description discriminator enum property added by openapi-typescript
-     * @enum {string}
-     */
+    /** @constant */
     kind: "free_shipping_voucher";
 }
 export interface RefundRewardErrorCustomerBlocked {
@@ -3253,15 +3223,9 @@ export interface RewardCartVariableDiscountVoucher {
      */
     kind: "cart_variable_discount_voucher";
     properties: {
-        /**
-         * Currency
-         * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-         */
+        /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
         minimum_discount: CurrencyAmount;
-        /**
-         * Currency
-         * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-         */
+        /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
         maximum_discount: CurrencyAmount;
         /**
          * @description The required minimum spend in cart before the reward can be redeemed
@@ -3599,10 +3563,7 @@ export interface RewardGiftCard {
      */
     kind: "gift_card";
     properties: {
-        /**
-         * Currency
-         * @description The initial balance of the gift card
-         */
+        /** @description The initial balance of the gift card */
         initial_balance: CurrencyAmount;
     };
     /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -3727,10 +3688,7 @@ export interface RewardProductDiscountVoucher {
             /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
             variant_id: string | null;
         };
-        /**
-         * Percentage
-         * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-         */
+        /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
         discount: PercentageAmount;
     };
     /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -4205,15 +4163,9 @@ export interface RewardsRedeemGiftCardResponseBody {
             kind: "gift_card";
             /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
             code_last_characters: string;
-            /**
-             * Currency
-             * @description The initial balance of the gift card
-             */
+            /** @description The initial balance of the gift card */
             initial_balance: CurrencyAmount;
-            /**
-             * Currency
-             * @description The current balance of the gift card
-             */
+            /** @description The current balance of the gift card */
             current_balance: CurrencyAmount;
             /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -4420,10 +4372,7 @@ export interface RewardsRedeemProductDiscountVoucherResponseBody {
                 /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                 variant_id: string | null;
             };
-            /**
-             * Percentage
-             * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-             */
+            /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
             discount: PercentageAmount;
             /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -5572,10 +5521,7 @@ export interface SpendTier {
      * @enum {string}
      */
     kind: "spend";
-    /**
-     * Currency
-     * @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100"
-     */
+    /** @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100" */
     lower_bound: CurrencyAmount;
     /** @description The upper bound of the tier as a currency amount, or `null` if there is no upper bound. For example, $150.50 USD would be "150.50", ¥500 would be "500" */
     upper_bound: CurrencyAmount | null;
@@ -5688,10 +5634,7 @@ export interface TierProgressSpend {
     /** @description The amount of additional spend required to move into the next tier. Will be `null` if there is no eligible next tier (see `upgrade_tier_id`) */
     spend_needed_for_upgrade: CurrencyAmount | null;
     tier_spend: {
-        /**
-         * Currency
-         * @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window.
-         */
+        /** @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window. */
         now: CurrencyAmount;
         /** @description The predicted amount of spend contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
         at_expiration: CurrencyAmount | null;
