@@ -5659,6 +5659,16 @@ export interface components {
              * @example 3600
              */
             ttl: number;
+            /**
+             * @description The scopes this session token holds, which bound the endpoints it can call. Requests to an endpoint requiring a scope the token does not hold fail with a 403 `insufficient_scope` error code
+             * @example [
+             *       "read",
+             *       "profile",
+             *       "redeem",
+             *       "rules"
+             *     ]
+             */
+            scopes: ("read" | "profile" | "redeem" | "rules")[];
         };
         CustomersInitializeSessionResponseBody: {
             /** @description The sales channel for which this response was generated */
@@ -5716,6 +5726,15 @@ export interface components {
         };
         CustomersCreateSessionTokenResponseBody: {
             session_token: components["schemas"]["SessionTokenStruct"];
+        };
+        CustomersCreateSessionTokenRequestBody: {
+            /**
+             * @description The scopes to grant the session token, bounding what it can be used for. If omitted, the token is granted every scope. Narrow the scopes to limit the blast radius of a leaked token — for example, a token that only displays the points balance should be minted with `["read"]` so it can never redeem rewards or complete rules
+             * @example [
+             *       "read"
+             *     ]
+             */
+            scopes?: ("read" | "profile" | "redeem" | "rules")[];
         };
         CustomersSetBirthdayResponseBody: {
             /** @description A boolean indicating whether the birthday was updated. If the customer already had a birthday set, it will not have been updated and this will be `false` */
@@ -9108,7 +9127,12 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        /** @description Body */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CustomersCreateSessionTokenRequestBody"];
+            };
+        };
         responses: {
             /** @description 200 */
             200: {
