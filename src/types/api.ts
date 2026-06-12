@@ -47,6 +47,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/customers/{merchant_id}/session_tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["customers.createSessionToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/customers/{merchant_id}/birthday": {
         parameters: {
             query?: never;
@@ -57,6 +73,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["customers.setBirthday"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/headless/2025-06/{site_id}/customers/{merchant_id}/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["customers.enroll"];
         delete?: never;
         options?: never;
         head?: never;
@@ -339,127 +371,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        SiteConfiguration: {
-            /** @description The sales channel for which this response was generated */
-            channel: components["schemas"]["SupportedChannel"];
-            /**
-             * @description `ISO 4217` code indicating the currency for any financial values in this response
-             * @example usd
-             */
-            currency: string;
-            /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: unknown;
-            program: {
-                /**
-                 * @description The name of the program
-                 * @example Lion Rewards
-                 */
-                name: string;
-            };
-            /**
-             * @description The tier configuration for the program, or `null` if tiers are not enabled
-             * @example {
-             *       "boundary_mode": "spend",
-             *       "tiers": [
-             *         {
-             *           "id": 1,
-             *           "name": "Silver",
-             *           "benefit_ids": [
-             *             1
-             *           ],
-             *           "hidden": false,
-             *           "kind": "spend",
-             *           "position": 1,
-             *           "lower_bound": {
-             *             "amount": 0,
-             *             "formatted": "$0"
-             *           },
-             *           "upper_bound": {
-             *             "amount": 99.99,
-             *             "formatted": "$99.99"
-             *           }
-             *         },
-             *         {
-             *           "id": 2,
-             *           "name": "Gold",
-             *           "benefit_ids": [
-             *             1,
-             *             2
-             *           ],
-             *           "hidden": false,
-             *           "kind": "spend",
-             *           "position": 2,
-             *           "lower_bound": {
-             *             "amount": 100,
-             *             "formatted": "$100"
-             *           },
-             *           "upper_bound": null
-             *         }
-             *       ],
-             *       "tier_benefits": [
-             *         {
-             *           "id": 1,
-             *           "label": "Early access to new products",
-             *           "secret": false,
-             *           "details": null
-             *         },
-             *         {
-             *           "id": 2,
-             *           "label": "Free makeup classes",
-             *           "secret": false,
-             *           "details": {
-             *             "plaintext": "Email classes@example.com to sign up to a class\n",
-             *             "html": "<p>Email classes@example.com to sign up to a class</p>"
-             *           }
-             *         }
-             *       ],
-             *       "membership": {
-             *         "mode": "rolling",
-             *         "duration_months": 12
-             *       }
-             *     }
-             */
-            tier_configuration: {
-                /** @enum {string} */
-                boundary_mode: "points" | "spend";
-                tiers: (components["schemas"]["PointsTier"] | components["schemas"]["SpendTier"] | components["schemas"]["ConditionalTier"])[];
-                tier_benefits: {
-                    id: number;
-                    /**
-                     * @description A short label explaining what this tier benefit is
-                     * @example Early access to new collections
-                     */
-                    label: string;
-                    /**
-                     * @description Indicates if this is a 'secret' tier benefit. Such benefits should only be shown if the current customer is already in the associated tier
-                     * @example false
-                     */
-                    secret: boolean;
-                    /** @description More details about this tier benefit as HTML and plaintext strings. Will be `null` if there are no additional details for this benefit */
-                    details: {
-                        /**
-                         * @description More information about this benefit as basic plaintext string with line breaks
-                         * @example Please email us (store@example.com) to receive this benefit
-                         *
-                         */
-                        plaintext: string;
-                        /**
-                         * @description More information about this benefit. This can include simple HTML tags such as formatting, lists, and links
-                         * @example <p>Please <a href='mailto:store@example.com'>email us</a> to receive this benefit</p>
-                         */
-                        html: string;
-                    } | null;
-                }[];
-                /** @description Tier membership mode. Will be one of `rolling` (memberships expire after a duration) , `lifetime` (memberships don't expire), `calendar` (memberships expire according to a fixed calendar schedule), or `enrollment_anniversary` (memberships expire according to the customer's enrollment anniversary) */
-                membership: components["schemas"]["TierMembershipRolling"] | components["schemas"]["TierMembershipCalendar"] | components["schemas"]["TierMembershipLifetime"] | components["schemas"]["TierMembershipEnrollmentAnniversary"];
-            } | null;
-            /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
-            referee_incentive?: components["schemas"]["RefereeIncentiveCartDiscount"] | components["schemas"]["RefereeIncentiveFreeShipping"];
-            /** @description Ordered list of rules that belong to this site. Each rule will have  one or more variants that indicate its configuration and if it is enabled per tier. Rules have a `kind` property, and some kinds of rules will have `properties` that are specific to that rule kind */
-            rules: (components["schemas"]["RuleBirthday"] | components["schemas"]["RuleCollectionPurchase"] | components["schemas"]["RuleNewsletterSignup"] | components["schemas"]["RulePageview"] | components["schemas"]["RuleProductPurchase"] | components["schemas"]["RulePurchase"] | components["schemas"]["RuleJoinProgram"] | components["schemas"]["RuleReview"] | components["schemas"]["RuleCustom"] | components["schemas"]["RuleFacebookLike"] | components["schemas"]["RuleTwitterFollow"] | components["schemas"]["RuleInstagramFollow"] | components["schemas"]["RuleInstagramMention"] | components["schemas"]["RuleInstagramPostHashtag"] | components["schemas"]["RuleTiktokFollow"] | components["schemas"]["RuleTiktokPostHashtag"] | components["schemas"]["RuleReferral"] | components["schemas"]["RuleClickthrough"] | components["schemas"]["RuleRetailPurchase"])[];
-            /** @description Ordered list of rewards that belong to this site. Each reward will have  one or more variants that indicate its configuration and if it is enabled per tier. Rewards have a `kind` property, and some kinds of rewards will have `properties` that are specific to that reward kind */
-            rewards: (components["schemas"]["RewardGiftCard"] | components["schemas"]["RewardCartDiscountVoucher"] | components["schemas"]["RewardCartVariableDiscountVoucher"] | components["schemas"]["RewardFreeShippingVoucher"] | components["schemas"]["RewardProductDiscountVoucher"] | components["schemas"]["RewardCollectionDiscountVoucher"] | components["schemas"]["RewardProductCart"] | components["schemas"]["RewardActiveSubscriptionDiscountVoucher"] | components["schemas"]["RewardActiveSubscriptionProduct"] | components["schemas"]["RewardCustom"])[];
-        };
         /**
          * @description The sales channel from which this request is made
          * @enum {string}
@@ -514,10 +425,7 @@ export interface components {
              * @enum {string}
              */
             kind: "spend";
-            /**
-             * Currency
-             * @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100"
-             */
+            /** @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100" */
             lower_bound: components["schemas"]["CurrencyAmount"];
             /** @description The upper bound of the tier as a currency amount, or `null` if there is no upper bound. For example, $150.50 USD would be "150.50", ¥500 would be "500" */
             upper_bound: components["schemas"]["CurrencyAmount"] | null;
@@ -628,6 +536,19 @@ export interface components {
                 windows: number;
             };
         };
+        /** Percentage */
+        PercentageAmount: {
+            /**
+             * @description Percentage as a number from 0 to 100
+             * @example 10
+             */
+            percentage: number;
+            /**
+             * @description Formatted percentage as string, e.g. "5%" or "100%"
+             * @example 10%
+             */
+            formatted: string;
+        };
         RefereeIncentiveCartDiscount: {
             /**
              * @description The minimum spend, if any, for the incentive to apply
@@ -642,10 +563,7 @@ export interface components {
              * @example Get a 10% discount on your order with this code when you spend over $50
              */
             incentive_text: string;
-            /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
-             */
+            /** @constant */
             kind: "cart_discount_voucher";
             /**
              * @description The type of discount this voucher will apply to the cart
@@ -662,19 +580,6 @@ export interface components {
              */
             discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
         };
-        /** Percentage */
-        PercentageAmount: {
-            /**
-             * @description Percentage as a number from 0 to 100
-             * @example 10
-             */
-            percentage: number;
-            /**
-             * @description Formatted percentage as string, e.g. "5%" or "100%"
-             * @example 10%
-             */
-            formatted: string;
-        };
         RefereeIncentiveFreeShipping: {
             /**
              * @description The minimum spend, if any, for the incentive to apply
@@ -689,10 +594,7 @@ export interface components {
              * @example Get a 10% discount on your order with this code when you spend over $50
              */
             incentive_text: string;
-            /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
-             */
+            /** @constant */
             kind: "free_shipping_voucher";
         };
         /** Birthday */
@@ -758,6 +660,41 @@ export interface components {
                 kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
                 title: string;
             };
+        };
+        /** Loyalty pass install */
+        RuleLoyaltyPassInstall: {
+            id: number;
+            /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+            limit: {
+                /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+                count: number;
+                /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+                interval: ("day" | "week" | "month" | "year") | null;
+            } | null;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "loyalty_pass_install";
+            /** @description A list of variants for this rule. Some aspects of a rule, such as its outcome and whether it's enabled, can vary based on tier */
+            variants: {
+                /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+                tier_id: number | null;
+                /**
+                 * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+                 * @example Make a purchase
+                 */
+                title: string;
+                /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+                enabled: boolean;
+                /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+                result: components["schemas"]["RuleResultPoints"] | components["schemas"]["RuleResultReward"];
+                /**
+                 * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+                 * @example 5 points per $1
+                 */
+                result_short_text: string;
+            }[];
         };
         /** Collection purchase */
         RuleCollectionPurchase: {
@@ -1441,10 +1378,7 @@ export interface components {
              */
             kind: "gift_card";
             properties: {
-                /**
-                 * Currency
-                 * @description The initial balance of the gift card
-                 */
+                /** @description The initial balance of the gift card */
                 initial_balance: components["schemas"]["CurrencyAmount"];
             };
             /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -1574,15 +1508,9 @@ export interface components {
              */
             kind: "cart_variable_discount_voucher";
             properties: {
-                /**
-                 * Currency
-                 * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-                 */
+                /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
                 minimum_discount: components["schemas"]["CurrencyAmount"];
-                /**
-                 * Currency
-                 * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-                 */
+                /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
                 maximum_discount: components["schemas"]["CurrencyAmount"];
                 /**
                  * @description The required minimum spend in cart before the reward can be redeemed
@@ -1715,10 +1643,7 @@ export interface components {
                     /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                     variant_id: string | null;
                 };
-                /**
-                 * Percentage
-                 * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-                 */
+                /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
                 discount: components["schemas"]["PercentageAmount"];
             };
             /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -2022,7 +1947,7 @@ export interface components {
         };
         /**
          * Custom
-         * @description A custom reward that is fulfilled by the merchant manually or using a webhook
+         * @description A custom reward that is fulfilled by the merchant manually or using a webhook, or by issuing a code from a merchant-uploaded pool
          */
         RewardCustom: {
             id: number;
@@ -2039,10 +1964,24 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @enum {string} */
+                /**
+                 * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+                 * @constant
+                 */
+                fulfillment_type: "store_fulfillment";
+                /**
+                 * @description How the merchant fulfils this custom reward.
+                 * @enum {string}
+                 */
                 fulfillment_method: "manual" | "webhook";
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
+            } | {
+                /**
+                 * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+                 * @constant
+                 */
+                fulfillment_type: "voucher";
             };
             /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
             variants: {
@@ -2074,471 +2013,126 @@ export interface components {
                 cost_text: string;
             }[];
         };
-        CustomerEnrolled: {
+        SiteConfiguration: {
+            /** @description The sales channel for which this response was generated */
+            channel: components["schemas"]["SupportedChannel"];
             /**
-             * @description discriminator enum property added by openapi-typescript
-             * @enum {string}
+             * @description `ISO 4217` code indicating the currency for any financial values in this response
+             * @example usd
              */
-            state: "enrolled";
-            /** @description The ID of the customer in LoyaltyLion */
-            id: number;
-            /** @description The ID of the customer in your platform or ecommerce store */
-            merchant_id: string;
-            /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
-            email: string | null;
-            /** @description The first name of the customer, if available */
-            first_name: string | null;
-            /** @description The last name of the customer, if available */
-            last_name: string | null;
-            /** @description The number of approved points the customer can redeem for rewards */
-            points_approved: number;
-            /** @description The number of pending points the customer has. Pending points will be approved or declined at a later date */
-            points_pending: number;
-            /** @description The number of points the customer has spent to date */
-            points_spent: number;
-            /** @description `ISO 8601` timestamp representing when the customer enrolled in the program */
-            enrolled_at: string;
-            /** @description Details about this customer's current tier membership, or `null` if tiers are not enabled */
-            tier_membership: {
-                /** @description The ID of the tier this customer is currently in */
-                tier_id: number;
+            currency: string;
+            /** @description `ISO 639-1` code indicating the language used for any text in this response */
+            language: string;
+            program: {
                 /**
-                 * @description `ISO 8601` timestamp when this tier membership started
-                 * @example 2025-01-01T12:00:00Z
+                 * @description The name of the program
+                 * @example Lion Rewards
                  */
-                started_at: string;
-                /**
-                 * @description `ISO 8601` timestamp when this tier membership expires. Will be `null` if the membership never expires
-                 * @example 2026-01-01T12:00:00Z
-                 */
-                expires_at: string | null;
-                /** @description Information about the customer's tier progress, which can be used to inform a customer how close they are to reaching the next tier, or what they they need to do to maintain their current tier when it expires. Note that tier progress changes over time, as we use a sliding evaluation window to calculate progress, so it is only guaranteed to be correct as of the time of the response */
-                progress: components["schemas"]["TierProgressPoints"] | components["schemas"]["TierProgressSpend"];
-            } | null;
+                name: string;
+            };
             /**
-             * @description The customer's birthday, if one has been provided. Depending on how the program is configured, the `year` may or may not be included
+             * @description The tier configuration for the program, or `null` if tiers are not enabled
              * @example {
-             *       "month": 6,
-             *       "day": 25
+             *       "boundary_mode": "spend",
+             *       "tiers": [
+             *         {
+             *           "id": 1,
+             *           "name": "Silver",
+             *           "benefit_ids": [
+             *             1
+             *           ],
+             *           "hidden": false,
+             *           "kind": "spend",
+             *           "position": 1,
+             *           "lower_bound": {
+             *             "amount": 0,
+             *             "formatted": "$0"
+             *           },
+             *           "upper_bound": {
+             *             "amount": 99.99,
+             *             "formatted": "$99.99"
+             *           }
+             *         },
+             *         {
+             *           "id": 2,
+             *           "name": "Gold",
+             *           "benefit_ids": [
+             *             1,
+             *             2
+             *           ],
+             *           "hidden": false,
+             *           "kind": "spend",
+             *           "position": 2,
+             *           "lower_bound": {
+             *             "amount": 100,
+             *             "formatted": "$100"
+             *           },
+             *           "upper_bound": null
+             *         }
+             *       ],
+             *       "tier_benefits": [
+             *         {
+             *           "id": 1,
+             *           "label": "Early access to new products",
+             *           "secret": false,
+             *           "details": null
+             *         },
+             *         {
+             *           "id": 2,
+             *           "label": "Free makeup classes",
+             *           "secret": false,
+             *           "details": {
+             *             "plaintext": "Email classes@example.com to sign up to a class\n",
+             *             "html": "<p>Email classes@example.com to sign up to a class</p>"
+             *           }
+             *         }
+             *       ],
+             *       "membership": {
+             *         "mode": "rolling",
+             *         "duration_months": 12
+             *       }
              *     }
              */
-            birthday: {
-                /** @example 9 */
-                month: number;
-                /** @example 20 */
-                day: number;
-                /** @example 1993 */
-                year?: number;
-            } | null;
-            /**
-             * @description If the customer has provided their birthday, this will be an `ISO 8601` timestamp representing the date of their next (upcoming) birthday
-             * @example 2025-06-25
-             */
-            next_birthday: string | null;
-            /** @description The most recent 20 claimed rewards that belong to this customer. Claimed rewards can include a `redeemable`, which can be used to provide the reward to the customer. For example, voucher-based rewards will include a voucher code that could be displayed to the customer so they can apply it during checkout */
-            claimed_rewards: {
-                /** @description The ID of the claimed reward resource in LoyaltyLion */
-                id: number;
-                /** @description `ISO 8601` timestamp indicating when this reward was claimed */
-                claimed_at: string;
-                /** @description The ID of the reward that was claimed. If a reward with this ID does not exist in the current [Site Configuration](/headless-api/2025-06/configuration/get-configuration), it means the reward has been deleted. The associated redeemable, if any, will usually still be active even after the reward has been deleted */
-                reward_id: number;
-                /**
-                 * @description Short, localized title for this claimed reward. For example, '$5 voucher', or 'Free Water Bottle'. This is usually the same title as the associated reward
-                 * @example $5 voucher
-                 */
-                title: string;
-                /**
-                 * @description The state of this claimed reward. Only `active` rewards will have a usable `redeemable`
-                 * @enum {string}
-                 */
-                state: "approved" | "declined" | "expired" | "pending" | "void";
-                /** @description Details about how the customer received this reward. One of `points_redemption` (the customer used their points to redeem the reward), `rule_completion` (the reward was awarded as the result of completing a rule), or `tier_entry` (the reward was awarded when the customer entered a tier) */
-                source: components["schemas"]["ClaimedRewardSourcePointsRedemption"] | components["schemas"]["ClaimedRewardSourceRuleCompletion"] | components["schemas"]["ClaimedRewardSourceTierEntry"];
-                /** @description The redeemable linked to this claimed reward, if any. If present, the redeemable can usually be used to provide the reward to the customer. For example, it may include a voucher code that can be shown to the customer, or details of a free product that can be added to the customer's cart directly */
-                redeemable?: {
+            tier_configuration: {
+                /** @enum {string} */
+                boundary_mode: "points" | "spend";
+                tiers: (components["schemas"]["PointsTier"] | components["schemas"]["SpendTier"] | components["schemas"]["ConditionalTier"])[];
+                tier_benefits: {
+                    id: number;
                     /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
+                     * @description A short label explaining what this tier benefit is
+                     * @example Early access to new collections
                      */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "gift_card";
-                    /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
-                    code_last_characters: string;
+                    label: string;
                     /**
-                     * Currency
-                     * @description The initial balance of the gift card
+                     * @description Indicates if this is a 'secret' tier benefit. Such benefits should only be shown if the current customer is already in the associated tier
+                     * @example false
                      */
-                    initial_balance: components["schemas"]["CurrencyAmount"];
-                    /**
-                     * Currency
-                     * @description The current balance of the gift card
-                     */
-                    current_balance: components["schemas"]["CurrencyAmount"];
-                    /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "cart_discount_voucher";
-                    /** @description The discount voucher code */
-                    code: string;
-                    /**
-                     * @description The type of discount this voucher will apply to the cart
-                     * @enum {string}
-                     */
-                    discount_type: "fixed" | "percentage";
-                    /** @description The discount that will apply to the cart. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
-                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
-                    /**
-                     * @description The type of order that this voucher will apply to. One of: `all` (applies to all types of order), `one_time` (applies to one-time orders), `subscription` (applies to subscription orders)
-                     * @example one_time
-                     * @enum {string}
-                     */
-                    applies_to_order_type: "all" | "one_time" | "subscription";
-                    /**
-                     * @description The number of orders this discount will apply to, for discounts that can apply to subscription orders. If it's `1`, it means the discount will apply only to the first order with which it is used. If `null`, the discount will be applied to any number of orders for as long as it is active
-                     * @example 1
-                     */
-                    recurring_cycle_limit: number | null;
-                    /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
-                    supports_active_subscriptions?: boolean;
-                    /**
-                     * @description The minimum spend, if any, for the voucher to apply to the cart
-                     * @example {
-                     *       "amount": 10,
-                     *       "formatted": "$10"
-                     *     }
-                     */
-                    minimum_spend: components["schemas"]["CurrencyAmount"] | null;
-                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
-                    used_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "cart_variable_discount_voucher";
-                    /**
-                     * Currency
-                     * @description The discount amount that was redeemed
-                     */
-                    discount: components["schemas"]["CurrencyAmount"];
-                    /** @description The discount voucher code */
-                    code: string;
-                    /**
-                     * @description The type of order that this voucher will apply to. One of: `all` (applies to all types of order), `one_time` (applies to one-time orders), `subscription` (applies to subscription orders)
-                     * @example one_time
-                     * @enum {string}
-                     */
-                    applies_to_order_type: "all" | "one_time" | "subscription";
-                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
-                    used_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "product_discount_voucher";
-                    /** @description The discount voucher code */
-                    code: string;
-                    /** @description The product that this discount applies to */
-                    product: {
-                        id: string;
-                        image_url: string | null;
-                        /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
-                        variant_id: string | null;
-                    };
-                    /**
-                     * Percentage
-                     * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-                     */
-                    discount: components["schemas"]["PercentageAmount"];
-                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
-                    used_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "free_shipping_voucher";
-                    /** @description The discount voucher code */
-                    code: string;
-                    /** @description Free shipping will only be applied if the shipping rate is equal to or less than this amount, or `null` if there is no maximum */
-                    max_shipping: components["schemas"]["CurrencyAmount"] | null;
-                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
-                    used_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "collection_discount_voucher";
-                    /** @description The discount voucher code */
-                    code: string;
-                    /** @description The collection that this discount applies to */
-                    collection: {
-                        id: string;
-                        title: string | null;
-                        url: string | null;
-                    };
-                    /**
-                     * @description The type of discount this voucher will apply to items in the collection
-                     * @enum {string}
-                     */
-                    discount_type: "fixed" | "percentage";
-                    /** @description The discount that will apply to items in the collection. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
-                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
-                    /**
-                     * @description The minimum spend, if any, for the voucher to apply to the cart
-                     * @example {
-                     *       "amount": 10,
-                     *       "formatted": "$10"
-                     *     }
-                     */
-                    minimum_spend: components["schemas"]["CurrencyAmount"] | null;
-                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
-                    expires_at: string | null;
-                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
-                    used_at: string | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "active_subscription_discount_voucher";
-                    /** @description The discount voucher code */
-                    code: string;
-                    /**
-                     * @description The type of discount this voucher will apply to next order
-                     * @enum {string}
-                     */
-                    discount_type: "fixed" | "percentage";
-                    /** @description The discount that will apply to the next order. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
-                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
-                    /** @description The number of recurring orders this discount will apply to. If `null`, the discount will be applied to any number of orders for as long as it is active */
-                    recurring_cycle_limit: number | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "active_subscription_product";
-                    /** @description The product and variant that will be included in the next subscription */
-                    product: {
-                        id: string;
-                        handle: string | null;
-                        title: string | null;
-                        url: string | null;
-                        image_url: string | null;
-                        variant: {
-                            id: string;
-                            title: string | null;
-                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
-                            inventory_count: number | null;
-                        };
-                    };
-                    /** @description The quantity of the product that will be included in the next subscription */
-                    quantity: number;
-                    subscription_details: components["schemas"]["ActiveSubscriptionProductRedeemableSubscriptionDetailsRecharge"];
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "product_cart";
-                    /** @description The product and variant that should be added to the cart */
-                    product: {
-                        id: string;
-                        handle: string | null;
-                        title: string | null;
-                        url: string | null;
-                        image_url: string | null;
-                        variant: {
-                            id: string;
-                            title: string | null;
-                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
-                            inventory_count: number | null;
-                        };
-                    };
-                    /** @description The quantity of the product that should be added to the cart */
-                    quantity: number;
-                    /** @description `ISO 8601` timestamp representing when the product was used in an order, or `null` if not yet used */
-                    used_at: string | null;
-                    /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
-                    cart_line_identifier: string;
-                    /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
-                    active_cart_redemption: {
-                        /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
-                        id: string;
-                        /** @description The ID of the claimed reward that this cart redemption is associated with */
-                        claimed_reward_id: number;
-                        /** @description `ISO 8601` timestamp representing when this cart redemption will expire if it has not been checked out, at which point any associated points will be returned to the customer */
-                        expires_at: string;
-                        /** @description The product and variant that this cart redemption is for */
-                        product: {
-                            id: string;
-                            handle: string | null;
-                            title: string | null;
-                            url: string | null;
-                            image_url: string | null;
-                            variant: {
-                                id: string;
-                                title: string | null;
-                                /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
-                                inventory_count: number | null;
-                            };
-                        };
-                        /** @description The quantity of the line item in this cart redemption */
-                        quantity: number;
-                        /** @description The ID of the cart for which this cart redemption was initially redeemed */
-                        cart_id: string;
-                        cart_line: components["schemas"]["ActiveCartRedemptionCartLineShopify"];
-                        /** @description If this request included a serialized `cart` object whose `id` matches the `cart_id` of this redemption, this object includes information about this redemption's state in the current cart. It will be `null` if the request did not include a serialized cart or its `id` does not match */
-                        current_cart_state: {
-                            /** @description Indicates if the redemption is currently in the cart */
-                            in_cart: boolean;
-                            /** @description Indicates if all this redemption's requirements are currently met by the cart, such as a required minimum cart total or number of line items */
-                            cart_requirements_met: boolean;
-                            cart_requirements_detail: {
-                                minimum_cart_total: components["schemas"]["CartRequirementsDetailMinimumCartTotalNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementNotMet"];
-                                minimum_line_item_quantity: components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementNotMet"];
-                            };
-                        } | null;
+                    secret: boolean;
+                    /** @description More details about this tier benefit as HTML and plaintext strings. Will be `null` if there are no additional details for this benefit */
+                    details: {
+                        /**
+                         * @description More information about this benefit as basic plaintext string with line breaks
+                         * @example Please email us (store@example.com) to receive this benefit
+                         *
+                         */
+                        plaintext: string;
+                        /**
+                         * @description More information about this benefit. This can include simple HTML tags such as formatting, lists, and links
+                         * @example <p>Please <a href='mailto:store@example.com'>email us</a> to receive this benefit</p>
+                         */
+                        html: string;
                     } | null;
-                } | {
-                    /**
-                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
-                     * @enum {string}
-                     */
-                    usage_status: "not_used" | "partially_used" | "used";
-                    /** @constant */
-                    kind: "custom";
-                    /** @description Optional fulfillment explanation as a short, plaintext string. If present, this will explain to the customer how and when the reward will be fulfilled */
-                    fulfilment_explanation: string | null;
-                    /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
-                    fulfilled_at: string | null;
-                };
-                /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
-                auto_refund_at: string | null;
-            }[];
-            /** @description A list of rewards that are enabled for this customer, based on their tier. This is the same as the list of rewards returned from [Get Configuration](/headless-api/2025-06/configuration/get-configuration), with a few differences:
-             *
-             *     - instead of `variants`, each reward will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the reward will not be included in this list, e.g. if it's disabled for the customer's current tier
-             *     - each reward will have a `context` property, which includes information about the reward specific to this customer, such as the number of times they have claimed it, and if any limit is in effect. The `can_redeem` property is a quick way to determine if the customer is able to redeem the reward
-             *
-             *     Note that the inclusion of a reward here does not mean it the customer can redeem it: they must have enough points, and it must not have reached its claim limit. You can determine this yourself, or use the `context.can_redeem` property */
-            available_rewards: (components["schemas"]["CustomerAvailableRewardGiftCard"] | components["schemas"]["CustomerAvailableRewardCartDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardCartVariableDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardFreeShippingVoucher"] | components["schemas"]["CustomerAvailableRewardProductDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardCollectionDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardProductCart"] | components["schemas"]["CustomerAvailableRewardActiveSubscriptionDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardActiveSubscriptionProduct"] | components["schemas"]["CustomerAvailableRewardCustom"])[];
-            /** @description A list of rules that are enabled for this customer, based on their tier. This is the same as the list of rules returned from [Get Configuration](/headless-api/2025-06/configuration/get-configuration), with a few differences:
-             *
-             *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
-             *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
-            available_rules: (components["schemas"]["CustomerAvailableRuleBirthday"] | components["schemas"]["CustomerAvailableRuleCollectionPurchase"] | components["schemas"]["CustomerAvailableRuleNewsletterSignup"] | components["schemas"]["CustomerAvailableRulePageview"] | components["schemas"]["CustomerAvailableRuleProductPurchase"] | components["schemas"]["CustomerAvailableRulePurchase"] | components["schemas"]["CustomerAvailableRuleJoinProgram"] | components["schemas"]["CustomerAvailableRuleReview"] | components["schemas"]["CustomerAvailableRuleCustom"] | components["schemas"]["CustomerAvailableRuleFacebookLike"] | components["schemas"]["CustomerAvailableRuleTwitterFollow"] | components["schemas"]["CustomerAvailableRuleInstagramFollow"] | components["schemas"]["CustomerAvailableRuleInstagramMention"] | components["schemas"]["CustomerAvailableRuleInstagramPostHashtag"] | components["schemas"]["CustomerAvailableRuleTiktokFollow"] | components["schemas"]["CustomerAvailableRuleTiktokPostHashtag"] | components["schemas"]["CustomerAvailableRuleReferral"] | components["schemas"]["CustomerAvailableRuleClickthrough"] | components["schemas"]["CustomerAvailableRuleRetailPurchase"])[];
-            /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
-             *
-             *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
-            history: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionRedeemedPointsForReward"] | components["schemas"]["CustomerHistoryActionReceivedReward"] | components["schemas"]["CustomerHistoryActionPointsAdded"] | components["schemas"]["CustomerHistoryActionPointsRemoved"] | components["schemas"]["CustomerHistoryActionPointsExpired"] | components["schemas"]["CustomerHistoryActionEnteredTier"])[];
-            /** @description A list of active cart redemptions. When a `product_cart` reward is redeemed by the customer, a new active cart redemption is created. This will persist until it expires or the completes the order */
-            active_cart_redemptions: {
-                /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
-                id: string;
-                /** @description The ID of the claimed reward that this cart redemption is associated with */
-                claimed_reward_id: number;
-                /** @description `ISO 8601` timestamp representing when this cart redemption will expire if it has not been checked out, at which point any associated points will be returned to the customer */
-                expires_at: string;
-                /** @description The product and variant that this cart redemption is for */
-                product: {
-                    id: string;
-                    handle: string | null;
-                    title: string | null;
-                    url: string | null;
-                    image_url: string | null;
-                    variant: {
-                        id: string;
-                        title: string | null;
-                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
-                        inventory_count: number | null;
-                    };
-                };
-                /** @description The quantity of the line item in this cart redemption */
-                quantity: number;
-                /** @description The ID of the cart for which this cart redemption was initially redeemed */
-                cart_id: string;
-                cart_line: components["schemas"]["ActiveCartRedemptionCartLineShopify"];
-                /** @description If this request included a serialized `cart` object whose `id` matches the `cart_id` of this redemption, this object includes information about this redemption's state in the current cart. It will be `null` if the request did not include a serialized cart or its `id` does not match */
-                current_cart_state: {
-                    /** @description Indicates if the redemption is currently in the cart */
-                    in_cart: boolean;
-                    /** @description Indicates if all this redemption's requirements are currently met by the cart, such as a required minimum cart total or number of line items */
-                    cart_requirements_met: boolean;
-                    cart_requirements_detail: {
-                        minimum_cart_total: components["schemas"]["CartRequirementsDetailMinimumCartTotalNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementNotMet"];
-                        minimum_line_item_quantity: components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementNotMet"];
-                    };
-                } | null;
-            }[];
-            email_marketing_consent: {
-                /**
-                 * @description The state of the customer's email marketing consent. This is not guaranteed to be up to date, as LoyaltyLion relies on receiving changes for this value from your email marketing provider or ecommerce platform. Therefore, it should not be used as the source of truth for sending emails to this customer.
-                 *
-                 *     If we have no information about the customer's email marketing consent, it will be `unknown`.
-                 * @enum {string}
-                 */
-                state: "subscribed" | "not_subscribed" | "unknown";
-            };
-            sms_marketing_consent: {
-                /**
-                 * @description The state of the customer's SMS marketing consent. This is not guaranteed to be up to date, as LoyaltyLion relies on receiving changes for this value from your SMS marketing provider or ecommerce platform. Therefore, it should not be used as the source of truth for sending SMS to this customer.
-                 *
-                 *     If we have no information about the customer's SMS marketing consent, it will be `unknown`.
-                 * @enum {string}
-                 */
-                state: "subscribed" | "not_subscribed" | "unknown";
-            };
-            /** @description A URL that the customer can visit to upload a receipt for the retail purchase rule. Will be `null` if the retail purchase rule is not enabled for this program */
-            receipt_upload_url: string | null;
-            /** @description Referral URLs for different platforms, unique to this customer, or `null` if referrals are not enabled. Each URL has the same referral functionality, but will result in the referral being tracked for its platform. If unsure, use the `direct` URL for a generic link */
-            referral_urls: {
-                /** @description A generic referral link that is not associated with any particular platform */
-                direct: string;
-                /** @description A referral link intended for sharing on Facebook */
-                facebook: string;
-                /** @description A referral link intended for sharing on Twitter */
-                twitter: string;
-                /** @description A referral link intended for sharing via email */
-                email: string;
-                /** @description A referral link intended for sharing via WhatsApp */
-                whatsapp: string;
-                /** @description A referral link intended for sharing via a mobile device share prompt */
-                device_share: string;
+                }[];
+                /** @description Tier membership mode. Will be one of `rolling` (memberships expire after a duration) , `lifetime` (memberships don't expire), `calendar` (memberships expire according to a fixed calendar schedule), or `enrollment_anniversary` (memberships expire according to the customer's enrollment anniversary) */
+                membership: components["schemas"]["TierMembershipRolling"] | components["schemas"]["TierMembershipCalendar"] | components["schemas"]["TierMembershipLifetime"] | components["schemas"]["TierMembershipEnrollmentAnniversary"];
             } | null;
+            /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
+            referee_incentive?: components["schemas"]["RefereeIncentiveCartDiscount"] | components["schemas"]["RefereeIncentiveFreeShipping"];
+            /** @description Ordered list of rules that belong to this site. Each rule will have  one or more variants that indicate its configuration and if it is enabled per tier. Rules have a `kind` property, and some kinds of rules will have `properties` that are specific to that rule kind */
+            rules: (components["schemas"]["RuleBirthday"] | components["schemas"]["RuleLoyaltyPassInstall"] | components["schemas"]["RuleCollectionPurchase"] | components["schemas"]["RuleNewsletterSignup"] | components["schemas"]["RulePageview"] | components["schemas"]["RuleProductPurchase"] | components["schemas"]["RulePurchase"] | components["schemas"]["RuleJoinProgram"] | components["schemas"]["RuleReview"] | components["schemas"]["RuleCustom"] | components["schemas"]["RuleFacebookLike"] | components["schemas"]["RuleTwitterFollow"] | components["schemas"]["RuleInstagramFollow"] | components["schemas"]["RuleInstagramMention"] | components["schemas"]["RuleInstagramPostHashtag"] | components["schemas"]["RuleTiktokFollow"] | components["schemas"]["RuleTiktokPostHashtag"] | components["schemas"]["RuleReferral"] | components["schemas"]["RuleClickthrough"] | components["schemas"]["RuleRetailPurchase"])[];
+            /** @description Ordered list of rewards that belong to this site. Each reward will have  one or more variants that indicate its configuration and if it is enabled per tier. Rewards have a `kind` property, and some kinds of rewards will have `properties` that are specific to that reward kind */
+            rewards: (components["schemas"]["RewardGiftCard"] | components["schemas"]["RewardCartDiscountVoucher"] | components["schemas"]["RewardCartVariableDiscountVoucher"] | components["schemas"]["RewardFreeShippingVoucher"] | components["schemas"]["RewardProductDiscountVoucher"] | components["schemas"]["RewardCollectionDiscountVoucher"] | components["schemas"]["RewardProductCart"] | components["schemas"]["RewardActiveSubscriptionDiscountVoucher"] | components["schemas"]["RewardActiveSubscriptionProduct"] | components["schemas"]["RewardCustom"])[];
         };
         /** Points */
         TierProgressPoints: {
@@ -2580,10 +2174,7 @@ export interface components {
             /** @description The amount of additional spend required to move into the next tier. Will be `null` if there is no eligible next tier (see `upgrade_tier_id`) */
             spend_needed_for_upgrade: components["schemas"]["CurrencyAmount"] | null;
             tier_spend: {
-                /**
-                 * Currency
-                 * @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window.
-                 */
+                /** @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window. */
                 now: components["schemas"]["CurrencyAmount"];
                 /** @description The predicted amount of spend contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
                 at_expiration: components["schemas"]["CurrencyAmount"] | null;
@@ -2750,10 +2341,7 @@ export interface components {
              */
             kind: "gift_card";
             properties: {
-                /**
-                 * Currency
-                 * @description The initial balance of the gift card
-                 */
+                /** @description The initial balance of the gift card */
                 initial_balance: components["schemas"]["CurrencyAmount"];
             };
             /** @description The reward variant that is applicable to this customer and their tier */
@@ -3031,15 +2619,9 @@ export interface components {
              */
             kind: "cart_variable_discount_voucher";
             properties: {
-                /**
-                 * Currency
-                 * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-                 */
+                /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
                 minimum_discount: components["schemas"]["CurrencyAmount"];
-                /**
-                 * Currency
-                 * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-                 */
+                /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
                 maximum_discount: components["schemas"]["CurrencyAmount"];
                 /**
                  * @description The required minimum spend in cart before the reward can be redeemed
@@ -3194,10 +2776,7 @@ export interface components {
                     /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                     variant_id: string | null;
                 };
-                /**
-                 * Percentage
-                 * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-                 */
+                /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
                 discount: components["schemas"]["PercentageAmount"];
             };
             /** @description The reward variant that is applicable to this customer and their tier */
@@ -3556,7 +3135,7 @@ export interface components {
         };
         /**
          * Custom
-         * @description A custom reward that is fulfilled by the merchant manually or using a webhook
+         * @description A custom reward that is fulfilled by the merchant manually or using a webhook, or by issuing a code from a merchant-uploaded pool
          */
         CustomerAvailableRewardCustom: {
             id: number;
@@ -3573,10 +3152,24 @@ export interface components {
              */
             kind: "custom";
             properties: {
-                /** @enum {string} */
+                /**
+                 * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+                 * @constant
+                 */
+                fulfillment_type: "store_fulfillment";
+                /**
+                 * @description How the merchant fulfils this custom reward.
+                 * @enum {string}
+                 */
                 fulfillment_method: "manual" | "webhook";
                 /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
                 fulfillment_webhook_url: string | null;
+            } | {
+                /**
+                 * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+                 * @constant
+                 */
+                fulfillment_type: "voucher";
             };
             /** @description The reward variant that is applicable to this customer and their tier */
             variant: {
@@ -3717,6 +3310,50 @@ export interface components {
              * @example 3 days
              */
             resets_at_relative_to_now: string;
+        };
+        /** Loyalty pass install */
+        CustomerAvailableRuleLoyaltyPassInstall: {
+            id: number;
+            /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+            limit: {
+                /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+                count: number;
+                /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+                interval: ("day" | "week" | "month" | "year") | null;
+            } | null;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "loyalty_pass_install";
+            /** @description The rule variant that is applicable to this customer and their tier */
+            variant: {
+                /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+                tier_id: number | null;
+                /**
+                 * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+                 * @example Make a purchase
+                 */
+                title: string;
+                /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+                enabled: boolean;
+                /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+                result: components["schemas"]["RuleResultPoints"] | components["schemas"]["RuleResultReward"];
+                /**
+                 * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+                 * @example 5 points per $1
+                 */
+                result_short_text: string;
+            };
+            /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
+            context: {
+                /** @description `ISO 8601` timestamp representing when this rule was last completed by the customer, or `null` if the rule has never been completed by the customer */
+                last_completed_at: string | null;
+                /** @description The number of times this rule has been completed by the customer in total */
+                completion_count: number;
+                /** @description An object indicating the state of this rule's completion limit specific to this customer. When rules are limited, they can only be completed by a customer a set number of times in a given interval (or forever). The `state` property indicates what limit, if any, is currently in effect */
+                completion_limit: components["schemas"]["RuleContextCompletionLimitNoLimit"] | components["schemas"]["RuleContextCompletionLimitLimitNotReached"] | components["schemas"]["RuleContextCompletionLimitLimitReachedForever"] | components["schemas"]["RuleContextCompletionLimitLimitReachedUntilReset"];
+            };
         };
         /** Collection purchase */
         CustomerAvailableRuleCollectionPurchase: {
@@ -4568,7 +4205,7 @@ export interface components {
                 /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
                 id: number;
                 /** @enum {string} */
-                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+                kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
             };
             /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
             points_will_approve_at: string | null;
@@ -4662,7 +4299,9 @@ export interface components {
                 /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
                 id: number;
                 /** @enum {string} */
-                kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+                kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+                /** @description Localized display title for the rule (the merchant-configured title for the shopper-facing locale, falling back to the default title for the rule kind). Useful for surfacing the rule context alongside the reward — e.g. "Refer a friend — $5 voucher". */
+                title: string;
             } | null;
             /**
              * @description The state of the reward received from the rule.
@@ -4788,6 +4427,464 @@ export interface components {
                 /** @description The name of the tier */
                 name: string;
             };
+        };
+        CustomerEnrolled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            state: "enrolled";
+            /** @description The ID of the customer in LoyaltyLion */
+            id: number;
+            /** @description The ID of the customer in your platform or ecommerce store */
+            merchant_id: string;
+            /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
+            email: string | null;
+            /** @description The first name of the customer, if available */
+            first_name: string | null;
+            /** @description The last name of the customer, if available */
+            last_name: string | null;
+            /** @description The number of approved points the customer can redeem for rewards */
+            points_approved: number;
+            /** @description The number of pending points the customer has. Pending points will be approved or declined at a later date */
+            points_pending: number;
+            /** @description The number of points the customer has spent to date */
+            points_spent: number;
+            /** @description `ISO 8601` timestamp representing when the customer enrolled in the program */
+            enrolled_at: string;
+            /** @description Details about this customer's current tier membership, or `null` if tiers are not enabled */
+            tier_membership: {
+                /** @description The ID of the tier this customer is currently in */
+                tier_id: number;
+                /**
+                 * @description `ISO 8601` timestamp when this tier membership started
+                 * @example 2025-01-01T12:00:00Z
+                 */
+                started_at: string;
+                /**
+                 * @description `ISO 8601` timestamp when this tier membership expires. Will be `null` if the membership never expires
+                 * @example 2026-01-01T12:00:00Z
+                 */
+                expires_at: string | null;
+                /** @description Information about the customer's tier progress, which can be used to inform a customer how close they are to reaching the next tier, or what they they need to do to maintain their current tier when it expires. Note that tier progress changes over time, as we use a sliding evaluation window to calculate progress, so it is only guaranteed to be correct as of the time of the response */
+                progress: components["schemas"]["TierProgressPoints"] | components["schemas"]["TierProgressSpend"];
+            } | null;
+            /**
+             * @description The customer's birthday, if one has been provided. Depending on how the program is configured, the `year` may or may not be included
+             * @example {
+             *       "month": 6,
+             *       "day": 25
+             *     }
+             */
+            birthday: {
+                /** @example 9 */
+                month: number;
+                /** @example 20 */
+                day: number;
+                /** @example 1993 */
+                year?: number;
+            } | null;
+            /**
+             * @description If the customer has provided their birthday, this will be an `ISO 8601` timestamp representing the date of their next (upcoming) birthday
+             * @example 2025-06-25
+             */
+            next_birthday: string | null;
+            /** @description The most recent 20 claimed rewards that belong to this customer. Claimed rewards can include a `redeemable`, which can be used to provide the reward to the customer. For example, voucher-based rewards will include a voucher code that could be displayed to the customer so they can apply it during checkout */
+            claimed_rewards: {
+                /** @description The ID of the claimed reward resource in LoyaltyLion */
+                id: number;
+                /** @description `ISO 8601` timestamp indicating when this reward was claimed */
+                claimed_at: string;
+                /** @description The ID of the reward that was claimed. If a reward with this ID does not exist in the current [Site Configuration](/headless-api/2025-06/configuration/get-configuration), it means the reward has been deleted. The associated redeemable, if any, will usually still be active even after the reward has been deleted */
+                reward_id: number;
+                /**
+                 * @description Short, localized title for this claimed reward. For example, '$5 voucher', or 'Free Water Bottle'. This is usually the same title as the associated reward
+                 * @example $5 voucher
+                 */
+                title: string;
+                /**
+                 * @description The state of this claimed reward. Only `active` rewards will have a usable `redeemable`
+                 * @enum {string}
+                 */
+                state: "approved" | "declined" | "expired" | "pending" | "void";
+                /** @description Details about how the customer received this reward. One of `points_redemption` (the customer used their points to redeem the reward), `rule_completion` (the reward was awarded as the result of completing a rule), or `tier_entry` (the reward was awarded when the customer entered a tier) */
+                source: components["schemas"]["ClaimedRewardSourcePointsRedemption"] | components["schemas"]["ClaimedRewardSourceRuleCompletion"] | components["schemas"]["ClaimedRewardSourceTierEntry"];
+                /** @description The redeemable linked to this claimed reward, if any. If present, the redeemable can usually be used to provide the reward to the customer. For example, it may include a voucher code that can be shown to the customer, or details of a free product that can be added to the customer's cart directly */
+                redeemable?: {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "gift_card";
+                    /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
+                    code_last_characters: string;
+                    /** @description The initial balance of the gift card */
+                    initial_balance: components["schemas"]["CurrencyAmount"];
+                    /** @description The current balance of the gift card */
+                    current_balance: components["schemas"]["CurrencyAmount"];
+                    /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "cart_discount_voucher";
+                    /** @description The discount voucher code */
+                    code: string;
+                    /**
+                     * @description The type of discount this voucher will apply to the cart
+                     * @enum {string}
+                     */
+                    discount_type: "fixed" | "percentage";
+                    /** @description The discount that will apply to the cart. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
+                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
+                    /**
+                     * @description The type of order that this voucher will apply to. One of: `all` (applies to all types of order), `one_time` (applies to one-time orders), `subscription` (applies to subscription orders)
+                     * @example one_time
+                     * @enum {string}
+                     */
+                    applies_to_order_type: "all" | "one_time" | "subscription";
+                    /**
+                     * @description The number of orders this discount will apply to, for discounts that can apply to subscription orders. If it's `1`, it means the discount will apply only to the first order with which it is used. If `null`, the discount will be applied to any number of orders for as long as it is active
+                     * @example 1
+                     */
+                    recurring_cycle_limit: number | null;
+                    /** @description Whether or not this discount will also be able to be applied to active subscriptions in Recharge. If true, we will create a Recharge discount in addition to a Shopify discount whenever this reward is claimed. */
+                    supports_active_subscriptions?: boolean;
+                    /**
+                     * @description The minimum spend, if any, for the voucher to apply to the cart
+                     * @example {
+                     *       "amount": 10,
+                     *       "formatted": "$10"
+                     *     }
+                     */
+                    minimum_spend: components["schemas"]["CurrencyAmount"] | null;
+                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
+                    used_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "cart_variable_discount_voucher";
+                    /** @description The discount amount that was redeemed */
+                    discount: components["schemas"]["CurrencyAmount"];
+                    /** @description The discount voucher code */
+                    code: string;
+                    /**
+                     * @description The type of order that this voucher will apply to. One of: `all` (applies to all types of order), `one_time` (applies to one-time orders), `subscription` (applies to subscription orders)
+                     * @example one_time
+                     * @enum {string}
+                     */
+                    applies_to_order_type: "all" | "one_time" | "subscription";
+                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
+                    used_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "product_discount_voucher";
+                    /** @description The discount voucher code */
+                    code: string;
+                    /** @description The product that this discount applies to */
+                    product: {
+                        id: string;
+                        image_url: string | null;
+                        /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
+                        variant_id: string | null;
+                    };
+                    /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
+                    discount: components["schemas"]["PercentageAmount"];
+                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
+                    used_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "free_shipping_voucher";
+                    /** @description The discount voucher code */
+                    code: string;
+                    /** @description Free shipping will only be applied if the shipping rate is equal to or less than this amount, or `null` if there is no maximum */
+                    max_shipping: components["schemas"]["CurrencyAmount"] | null;
+                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
+                    used_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "collection_discount_voucher";
+                    /** @description The discount voucher code */
+                    code: string;
+                    /** @description The collection that this discount applies to */
+                    collection: {
+                        id: string;
+                        title: string | null;
+                        url: string | null;
+                    };
+                    /**
+                     * @description The type of discount this voucher will apply to items in the collection
+                     * @enum {string}
+                     */
+                    discount_type: "fixed" | "percentage";
+                    /** @description The discount that will apply to items in the collection. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
+                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
+                    /**
+                     * @description The minimum spend, if any, for the voucher to apply to the cart
+                     * @example {
+                     *       "amount": 10,
+                     *       "formatted": "$10"
+                     *     }
+                     */
+                    minimum_spend: components["schemas"]["CurrencyAmount"] | null;
+                    /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
+                    expires_at: string | null;
+                    /** @description `ISO 8601` timestamp representing when the voucher was used, or `null` if not yet used */
+                    used_at: string | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "active_subscription_discount_voucher";
+                    /** @description The discount voucher code */
+                    code: string;
+                    /**
+                     * @description The type of discount this voucher will apply to next order
+                     * @enum {string}
+                     */
+                    discount_type: "fixed" | "percentage";
+                    /** @description The discount that will apply to the next order. For `fixed` discounts this will be the currency amount. For `percentage` discounts, it will be a number from `1-100` */
+                    discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
+                    /** @description The number of recurring orders this discount will apply to. If `null`, the discount will be applied to any number of orders for as long as it is active */
+                    recurring_cycle_limit: number | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "active_subscription_product";
+                    /** @description The product and variant that will be included in the next subscription */
+                    product: {
+                        id: string;
+                        handle: string | null;
+                        title: string | null;
+                        url: string | null;
+                        image_url: string | null;
+                        variant: {
+                            id: string;
+                            title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
+                        };
+                    };
+                    /** @description The quantity of the product that will be included in the next subscription */
+                    quantity: number;
+                    subscription_details: components["schemas"]["ActiveSubscriptionProductRedeemableSubscriptionDetailsRecharge"];
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "product_cart";
+                    /** @description The product and variant that should be added to the cart */
+                    product: {
+                        id: string;
+                        handle: string | null;
+                        title: string | null;
+                        url: string | null;
+                        image_url: string | null;
+                        variant: {
+                            id: string;
+                            title: string | null;
+                            /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                            inventory_count: number | null;
+                        };
+                    };
+                    /** @description The quantity of the product that should be added to the cart */
+                    quantity: number;
+                    /** @description `ISO 8601` timestamp representing when the product was used in an order, or `null` if not yet used */
+                    used_at: string | null;
+                    /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
+                    cart_line_identifier: string;
+                    /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
+                    active_cart_redemption: {
+                        /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
+                        id: string;
+                        /** @description The ID of the claimed reward that this cart redemption is associated with */
+                        claimed_reward_id: number;
+                        /** @description `ISO 8601` timestamp representing when this cart redemption will expire if it has not been checked out, at which point any associated points will be returned to the customer */
+                        expires_at: string;
+                        /** @description The product and variant that this cart redemption is for */
+                        product: {
+                            id: string;
+                            handle: string | null;
+                            title: string | null;
+                            url: string | null;
+                            image_url: string | null;
+                            variant: {
+                                id: string;
+                                title: string | null;
+                                /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                                inventory_count: number | null;
+                            };
+                        };
+                        /** @description The quantity of the line item in this cart redemption */
+                        quantity: number;
+                        /** @description The ID of the cart for which this cart redemption was initially redeemed */
+                        cart_id: string;
+                        cart_line: components["schemas"]["ActiveCartRedemptionCartLineShopify"];
+                        /** @description If this request included a serialized `cart` object whose `id` matches the `cart_id` of this redemption, this object includes information about this redemption's state in the current cart. It will be `null` if the request did not include a serialized cart or its `id` does not match */
+                        current_cart_state: {
+                            /** @description Indicates if the redemption is currently in the cart */
+                            in_cart: boolean;
+                            /** @description Indicates if all this redemption's requirements are currently met by the cart, such as a required minimum cart total or number of line items */
+                            cart_requirements_met: boolean;
+                            cart_requirements_detail: {
+                                minimum_cart_total: components["schemas"]["CartRequirementsDetailMinimumCartTotalNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementNotMet"];
+                                minimum_line_item_quantity: components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementNotMet"];
+                            };
+                        } | null;
+                    } | null;
+                } | {
+                    /**
+                     * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
+                     * @enum {string}
+                     */
+                    usage_status: "not_used" | "partially_used" | "used";
+                    /** @constant */
+                    kind: "custom";
+                    /** @description Optional fulfillment explanation as a short, plaintext string. If present, this will explain to the customer how and when the reward will be fulfilled */
+                    fulfilment_explanation: string | null;
+                    /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
+                    fulfilled_at: string | null;
+                    /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
+                    code?: string;
+                };
+                /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
+                auto_refund_at: string | null;
+            }[];
+            /** @description A list of rewards that are enabled for this customer, based on their tier. This is the same as the list of rewards returned from [Get Configuration](/headless-api/2025-06/configuration/get-configuration), with a few differences:
+             *
+             *     - instead of `variants`, each reward will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the reward will not be included in this list, e.g. if it's disabled for the customer's current tier
+             *     - each reward will have a `context` property, which includes information about the reward specific to this customer, such as the number of times they have claimed it, and if any limit is in effect. The `can_redeem` property is a quick way to determine if the customer is able to redeem the reward
+             *
+             *     Note that the inclusion of a reward here does not mean it the customer can redeem it: they must have enough points, and it must not have reached its claim limit. You can determine this yourself, or use the `context.can_redeem` property */
+            available_rewards: (components["schemas"]["CustomerAvailableRewardGiftCard"] | components["schemas"]["CustomerAvailableRewardCartDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardCartVariableDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardFreeShippingVoucher"] | components["schemas"]["CustomerAvailableRewardProductDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardCollectionDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardProductCart"] | components["schemas"]["CustomerAvailableRewardActiveSubscriptionDiscountVoucher"] | components["schemas"]["CustomerAvailableRewardActiveSubscriptionProduct"] | components["schemas"]["CustomerAvailableRewardCustom"])[];
+            /** @description A list of rules that are enabled for this customer, based on their tier. This is the same as the list of rules returned from [Get Configuration](/headless-api/2025-06/configuration/get-configuration), with a few differences:
+             *
+             *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
+             *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
+            available_rules: (components["schemas"]["CustomerAvailableRuleBirthday"] | components["schemas"]["CustomerAvailableRuleLoyaltyPassInstall"] | components["schemas"]["CustomerAvailableRuleCollectionPurchase"] | components["schemas"]["CustomerAvailableRuleNewsletterSignup"] | components["schemas"]["CustomerAvailableRulePageview"] | components["schemas"]["CustomerAvailableRuleProductPurchase"] | components["schemas"]["CustomerAvailableRulePurchase"] | components["schemas"]["CustomerAvailableRuleJoinProgram"] | components["schemas"]["CustomerAvailableRuleReview"] | components["schemas"]["CustomerAvailableRuleCustom"] | components["schemas"]["CustomerAvailableRuleFacebookLike"] | components["schemas"]["CustomerAvailableRuleTwitterFollow"] | components["schemas"]["CustomerAvailableRuleInstagramFollow"] | components["schemas"]["CustomerAvailableRuleInstagramMention"] | components["schemas"]["CustomerAvailableRuleInstagramPostHashtag"] | components["schemas"]["CustomerAvailableRuleTiktokFollow"] | components["schemas"]["CustomerAvailableRuleTiktokPostHashtag"] | components["schemas"]["CustomerAvailableRuleReferral"] | components["schemas"]["CustomerAvailableRuleClickthrough"] | components["schemas"]["CustomerAvailableRuleRetailPurchase"])[];
+            /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
+             *
+             *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
+            history: (components["schemas"]["CustomerHistoryActionEarnedPointsFromRule"] | components["schemas"]["CustomerHistoryActionRedeemedPointsForReward"] | components["schemas"]["CustomerHistoryActionReceivedReward"] | components["schemas"]["CustomerHistoryActionPointsAdded"] | components["schemas"]["CustomerHistoryActionPointsRemoved"] | components["schemas"]["CustomerHistoryActionPointsExpired"] | components["schemas"]["CustomerHistoryActionEnteredTier"])[];
+            /** @description A list of active cart redemptions. When a `product_cart` reward is redeemed by the customer, a new active cart redemption is created. This will persist until it expires or the completes the order */
+            active_cart_redemptions: {
+                /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
+                id: string;
+                /** @description The ID of the claimed reward that this cart redemption is associated with */
+                claimed_reward_id: number;
+                /** @description `ISO 8601` timestamp representing when this cart redemption will expire if it has not been checked out, at which point any associated points will be returned to the customer */
+                expires_at: string;
+                /** @description The product and variant that this cart redemption is for */
+                product: {
+                    id: string;
+                    handle: string | null;
+                    title: string | null;
+                    url: string | null;
+                    image_url: string | null;
+                    variant: {
+                        id: string;
+                        title: string | null;
+                        /** @description The current inventory count of this product variant, or `null` if inventory is not tracked. If the count is zero, you should ensure it is not selectable by customers when redeeming the reward */
+                        inventory_count: number | null;
+                    };
+                };
+                /** @description The quantity of the line item in this cart redemption */
+                quantity: number;
+                /** @description The ID of the cart for which this cart redemption was initially redeemed */
+                cart_id: string;
+                cart_line: components["schemas"]["ActiveCartRedemptionCartLineShopify"];
+                /** @description If this request included a serialized `cart` object whose `id` matches the `cart_id` of this redemption, this object includes information about this redemption's state in the current cart. It will be `null` if the request did not include a serialized cart or its `id` does not match */
+                current_cart_state: {
+                    /** @description Indicates if the redemption is currently in the cart */
+                    in_cart: boolean;
+                    /** @description Indicates if all this redemption's requirements are currently met by the cart, such as a required minimum cart total or number of line items */
+                    cart_requirements_met: boolean;
+                    cart_requirements_detail: {
+                        minimum_cart_total: components["schemas"]["CartRequirementsDetailMinimumCartTotalNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumCartTotalRequirementNotMet"];
+                        minimum_line_item_quantity: components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityNoRequirement"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementMet"] | components["schemas"]["CartRequirementsDetailMinimumLineItemQuantityRequirementNotMet"];
+                    };
+                } | null;
+            }[];
+            email_marketing_consent: {
+                /**
+                 * @description The state of the customer's email marketing consent. This is not guaranteed to be up to date, as LoyaltyLion relies on receiving changes for this value from your email marketing provider or ecommerce platform. Therefore, it should not be used as the source of truth for sending emails to this customer.
+                 *
+                 *     If we have no information about the customer's email marketing consent, it will be `unknown`.
+                 * @enum {string}
+                 */
+                state: "subscribed" | "not_subscribed" | "unknown";
+            };
+            sms_marketing_consent: {
+                /**
+                 * @description The state of the customer's SMS marketing consent. This is not guaranteed to be up to date, as LoyaltyLion relies on receiving changes for this value from your SMS marketing provider or ecommerce platform. Therefore, it should not be used as the source of truth for sending SMS to this customer.
+                 *
+                 *     If we have no information about the customer's SMS marketing consent, it will be `unknown`.
+                 * @enum {string}
+                 */
+                state: "subscribed" | "not_subscribed" | "unknown";
+            };
+            /** @description A URL that the customer can visit to upload a receipt for the retail purchase rule. Will be `null` if the retail purchase rule is not enabled for this program */
+            receipt_upload_url: string | null;
+            /** @description Referral URLs for different platforms, unique to this customer, or `null` if referrals are not enabled. Each URL has the same referral functionality, but will result in the referral being tracked for its platform. If unsure, use the `direct` URL for a generic link */
+            referral_urls: {
+                /** @description A generic referral link that is not associated with any particular platform */
+                direct: string;
+                /** @description A referral link intended for sharing on Facebook */
+                facebook: string;
+                /** @description A referral link intended for sharing on Twitter */
+                twitter: string;
+                /** @description A referral link intended for sharing via email */
+                email: string;
+                /** @description A referral link intended for sharing via WhatsApp */
+                whatsapp: string;
+                /** @description A referral link intended for sharing on Instagram */
+                instagram: string;
+                /** @description A referral link intended for sharing via a mobile device share prompt */
+                device_share: string;
+            } | null;
         };
         CustomerGuest: {
             /** @description The ID of the customer in LoyaltyLion */
@@ -5116,6 +5213,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       },
@@ -5358,7 +5456,7 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: unknown;
+            language: string;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -5544,6 +5642,24 @@ export interface components {
                 value: string | null;
             }[];
         };
+        /** @description A short-lived token scoped to a single site and customer, which can be safely handed to a browser or app to call supported headless API endpoints directly. Anything the token authorizes can be performed by the customer themselves, so endpoints accepting it are limited to customer-self-serve actions */
+        SessionTokenStruct: {
+            /**
+             * @description The customer session token. Treat it as opaque: pass it in an `Authorization: Bearer` header to call supported headless API endpoints directly on behalf of this customer
+             * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIn0.signature
+             */
+            token: string;
+            /**
+             * @description The time this session token expires, as an ISO 8601 timestamp. Requests with an expired token fail with a `token_expired` error code, at which point you should fetch a fresh token from your backend
+             * @example 2026-06-12T16:00:00Z
+             */
+            expires_at: string;
+            /**
+             * @description Seconds until this session token expires
+             * @example 3600
+             */
+            ttl: number;
+        };
         CustomersInitializeSessionResponseBody: {
             /** @description The sales channel for which this response was generated */
             channel: components["schemas"]["SupportedChannel"];
@@ -5553,13 +5669,15 @@ export interface components {
              */
             currency: string;
             /** @description `ISO 639-1` code indicating the language used for any text in this response */
-            language: unknown;
+            language: string;
             /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
             customer: components["schemas"]["CustomerEnrolled"] | components["schemas"]["CustomerGuest"] | components["schemas"]["CustomerBlocked"];
             /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
             configuration: components["schemas"]["SiteConfiguration"];
             /** @description If you included a serialized cart with the request, this may contain a list of requested actions to do with the cart, such as removing any reward items that are no longer valid */
             requested_cart_actions: components["schemas"]["RecommendedCartActionRemoveCartLine"][];
+            /** @description Only present if the request was made with `include_session_token=true` */
+            session_token?: components["schemas"]["SessionTokenStruct"];
         };
         /**
          * Email already in use
@@ -5595,6 +5713,9 @@ export interface components {
              *
              *     When passing a cart, check the `requested_cart_actions` field in the response for any actions you should perform with the cart, such as removing any reward product lines that are no longer valid */
             cart?: components["schemas"]["CartEmpty"] | components["schemas"]["CartShopify"];
+        };
+        CustomersCreateSessionTokenResponseBody: {
+            session_token: components["schemas"]["SessionTokenStruct"];
         };
         CustomersSetBirthdayResponseBody: {
             /** @description A boolean indicating whether the birthday was updated. If the customer already had a birthday set, it will not have been updated and this will be `false` */
@@ -5660,6 +5781,21 @@ export interface components {
                  */
                 year: number;
             };
+        };
+        CustomersEnrollResponseBody: {
+            /** @description A boolean indicating whether this request enrolled the customer. If the customer was already enrolled, this will be `false` and no other state will have changed */
+            enrolled: boolean;
+            /** @description The customer object in its post-enrollment state. If the customer was already enrolled, this represents their existing state */
+            customer: components["schemas"]["CustomerEnrolled"];
+        };
+        /** Customer blocked */
+        EnrollCustomerBlockedError: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_blocked";
+            message?: string;
         };
         CustomersEmailMarketingSubscribeResponseBody: {
             /** @description A boolean indicating whether the email marketing consent was updated. If the customer was already subscribed, this will be `false` */
@@ -6026,10 +6162,7 @@ export interface components {
                         /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                         variant_id: string | null;
                     };
-                    /**
-                     * Percentage
-                     * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-                     */
+                    /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
                     discount: components["schemas"]["PercentageAmount"];
                     /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
                     expires_at: string | null;
@@ -6086,15 +6219,9 @@ export interface components {
                     kind: "gift_card";
                     /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
                     code_last_characters: string;
-                    /**
-                     * Currency
-                     * @description The initial balance of the gift card
-                     */
+                    /** @description The initial balance of the gift card */
                     initial_balance: components["schemas"]["CurrencyAmount"];
-                    /**
-                     * Currency
-                     * @description The current balance of the gift card
-                     */
+                    /** @description The current balance of the gift card */
                     current_balance: components["schemas"]["CurrencyAmount"];
                     /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
                     expires_at: string | null;
@@ -6316,6 +6443,8 @@ export interface components {
                     fulfilment_explanation: string | null;
                     /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
                     fulfilled_at: string | null;
+                    /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
+                    code?: string;
                 };
             };
             /** @description The customer object, updated as of the reward redemption, i.e. their `claimed_rewards` will include the new redemption. This customer will always have `state` set to `enrolled`, as only enrolled customers can redeem rewards */
@@ -6330,9 +6459,13 @@ export interface components {
             customer_merchant_id: string;
             /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
              *
-             *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it */
+             *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it
+             *
+             *     This option does not apply to rewards with a `fulfillment_type` of `voucher`: a voucher custom reward is always fulfilled at claim time, when the pooled code is issued to the customer */
             fulfill_immediately?: boolean;
-            /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion */
+            /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion
+             *
+             *     This option does not apply to rewards with a `fulfillment_type` of `voucher` and is ignored for them: a voucher custom reward is marked as used automatically when the matching order containing its discount code is sent to LoyaltyLion */
             usage?: components["schemas"]["RewardUsageOrder"];
         };
         RewardsRedeemProductCartResponseBody: {
@@ -6940,6 +7073,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -7318,6 +7452,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -7642,6 +7777,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -7966,6 +8102,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -8290,6 +8427,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -8614,6 +8752,7 @@ export interface components {
          *           "facebook": "https://prz.io/_",
          *           "twitter": "https://prz.io/_",
          *           "whatsapp": "https://prz.io/_",
+         *           "instagram": "https://prz.io/_",
          *           "device_share": "https://prz.io/_"
          *         }
          *       }
@@ -8664,7 +8803,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -8764,7 +8905,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -8858,7 +9001,11 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
+                /** @description When `true`, the response will include a `session_token`: a short-lived token scoped to this customer, which can be handed to a browser or app to call supported headless API endpoints directly on behalf of the customer */
+                include_session_token?: boolean;
             };
             header?: never;
             path: {
@@ -8947,13 +9094,104 @@ export interface operations {
             };
         };
     };
+    "customers.createSessionToken": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+                /** @description The ID of the customer in your platform or ecommerce store.
+                 *
+                 *     For Shopify stores, you can pass either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID. If you do pass a GID you must encode it as a URL parameter, e.g. `gid%3A%2F%2Fshopify%2FCustomer%2F1001` */
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomersCreateSessionTokenResponseBody"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
     "customers.setBirthday": {
         parameters: {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9059,13 +9297,122 @@ export interface operations {
             };
         };
     };
+    "customers.enroll": {
+        parameters: {
+            query?: {
+                /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
+                channel?: components["schemas"]["SupportedChannel"];
+                /** @description The language to use for the request. If not provided, the site's default language will be used */
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+                /** @description The ID of the customer in your platform or ecommerce store.
+                 *
+                 *     For Shopify stores, you can pass either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID. If you do pass a GID you must encode it as a URL parameter, e.g. `gid%3A%2F%2Fshopify%2FCustomer%2F1001` */
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomersEnrollResponseBody"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
+            /** @description 422 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: components["schemas"]["EnrollCustomerBlockedError"];
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
     "customers.emailMarketingSubscribe": {
         parameters: {
             query?: {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9172,7 +9519,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9278,7 +9627,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9384,7 +9735,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9490,7 +9843,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9596,7 +9951,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9702,7 +10059,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9808,7 +10167,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -9914,7 +10275,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10020,7 +10383,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10126,7 +10491,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10232,7 +10599,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10338,7 +10707,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10444,7 +10815,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10550,7 +10923,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10656,7 +11031,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {
@@ -10762,7 +11139,9 @@ export interface operations {
                 /** @description The sales channel from which this request is made. Must be provided as this query parameter, or the `X-LoyaltyLion-Channel` header */
                 channel?: components["schemas"]["SupportedChannel"];
                 /** @description The language to use for the request. If not provided, the site's default language will be used */
-                language?: unknown;
+                language?: string;
+                /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
+                country?: string;
             };
             header?: never;
             path: {

@@ -518,15 +518,9 @@ export interface CustomerAvailableRewardCartVariableDiscountVoucher {
      */
     kind: "cart_variable_discount_voucher";
     properties: {
-        /**
-         * Currency
-         * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-         */
+        /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
         minimum_discount: CurrencyAmount;
-        /**
-         * Currency
-         * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-         */
+        /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
         maximum_discount: CurrencyAmount;
         /**
          * @description The required minimum spend in cart before the reward can be redeemed
@@ -685,10 +679,24 @@ export interface CustomerAvailableRewardCustom {
      */
     kind: "custom";
     properties: {
-        /** @enum {string} */
+        /**
+         * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+         * @constant
+         */
+        fulfillment_type: "store_fulfillment";
+        /**
+         * @description How the merchant fulfils this custom reward.
+         * @enum {string}
+         */
         fulfillment_method: "manual" | "webhook";
         /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
         fulfillment_webhook_url: string | null;
+    } | {
+        /**
+         * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+         * @constant
+         */
+        fulfillment_type: "voucher";
     };
     /** @description The reward variant that is applicable to this customer and their tier */
     variant: {
@@ -805,10 +813,7 @@ export interface CustomerAvailableRewardGiftCard {
      */
     kind: "gift_card";
     properties: {
-        /**
-         * Currency
-         * @description The initial balance of the gift card
-         */
+        /** @description The initial balance of the gift card */
         initial_balance: CurrencyAmount;
     };
     /** @description The reward variant that is applicable to this customer and their tier */
@@ -955,10 +960,7 @@ export interface CustomerAvailableRewardProductDiscountVoucher {
             /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
             variant_id: string | null;
         };
-        /**
-         * Percentage
-         * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-         */
+        /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
         discount: PercentageAmount;
     };
     /** @description The reward variant that is applicable to this customer and their tier */
@@ -1380,6 +1382,49 @@ export interface CustomerAvailableRuleJoinProgram {
      * @enum {string}
      */
     kind: "join_program";
+    /** @description The rule variant that is applicable to this customer and their tier */
+    variant: {
+        /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+        tier_id: number | null;
+        /**
+         * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+         * @example Make a purchase
+         */
+        title: string;
+        /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+        enabled: boolean;
+        /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+        result: RuleResultPoints | RuleResultReward;
+        /**
+         * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+         * @example 5 points per $1
+         */
+        result_short_text: string;
+    };
+    /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
+    context: {
+        /** @description `ISO 8601` timestamp representing when this rule was last completed by the customer, or `null` if the rule has never been completed by the customer */
+        last_completed_at: string | null;
+        /** @description The number of times this rule has been completed by the customer in total */
+        completion_count: number;
+        /** @description An object indicating the state of this rule's completion limit specific to this customer. When rules are limited, they can only be completed by a customer a set number of times in a given interval (or forever). The `state` property indicates what limit, if any, is currently in effect */
+        completion_limit: RuleContextCompletionLimitNoLimit | RuleContextCompletionLimitLimitNotReached | RuleContextCompletionLimitLimitReachedForever | RuleContextCompletionLimitLimitReachedUntilReset;
+    };
+}
+export interface CustomerAvailableRuleLoyaltyPassInstall {
+    id: number;
+    /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+    limit: {
+        /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+        count: number;
+        /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+        interval: ("day" | "week" | "month" | "year") | null;
+    } | null;
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "loyalty_pass_install";
     /** @description The rule variant that is applicable to this customer and their tier */
     variant: {
         /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
@@ -1961,15 +2006,9 @@ export interface CustomerEnrolled {
             kind: "gift_card";
             /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
             code_last_characters: string;
-            /**
-             * Currency
-             * @description The initial balance of the gift card
-             */
+            /** @description The initial balance of the gift card */
             initial_balance: CurrencyAmount;
-            /**
-             * Currency
-             * @description The current balance of the gift card
-             */
+            /** @description The current balance of the gift card */
             current_balance: CurrencyAmount;
             /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -2023,10 +2062,7 @@ export interface CustomerEnrolled {
             usage_status: "not_used" | "partially_used" | "used";
             /** @constant */
             kind: "cart_variable_discount_voucher";
-            /**
-             * Currency
-             * @description The discount amount that was redeemed
-             */
+            /** @description The discount amount that was redeemed */
             discount: CurrencyAmount;
             /** @description The discount voucher code */
             code: string;
@@ -2057,10 +2093,7 @@ export interface CustomerEnrolled {
                 /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                 variant_id: string | null;
             };
-            /**
-             * Percentage
-             * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-             */
+            /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
             discount: PercentageAmount;
             /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -2240,6 +2273,8 @@ export interface CustomerEnrolled {
             fulfilment_explanation: string | null;
             /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
             fulfilled_at: string | null;
+            /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
+            code?: string;
         };
         /** @description `ISO 8601` timestamp indicating when this reward and its associated redeemable will be automatically voided and refunded if it has not yet been used, or `null` if not applicable */
         auto_refund_at: string | null;
@@ -2255,7 +2290,7 @@ export interface CustomerEnrolled {
      *
      *     - instead of `variants`, each rule will have a `variant` property, which represents the applicable variant for this customer based on their tier. If there is no applicable enabled variant, the rule will not be included in this list, e.g. if it's disabled for the customer's current tier
      *     - each rule will have a `context` property, which includes information about this customer's interaction with the rule, such as the number of times they have completed it, and if any limit is in effect */
-    available_rules: (CustomerAvailableRuleBirthday | CustomerAvailableRuleCollectionPurchase | CustomerAvailableRuleNewsletterSignup | CustomerAvailableRulePageview | CustomerAvailableRuleProductPurchase | CustomerAvailableRulePurchase | CustomerAvailableRuleJoinProgram | CustomerAvailableRuleReview | CustomerAvailableRuleCustom | CustomerAvailableRuleFacebookLike | CustomerAvailableRuleTwitterFollow | CustomerAvailableRuleInstagramFollow | CustomerAvailableRuleInstagramMention | CustomerAvailableRuleInstagramPostHashtag | CustomerAvailableRuleTiktokFollow | CustomerAvailableRuleTiktokPostHashtag | CustomerAvailableRuleReferral | CustomerAvailableRuleClickthrough | CustomerAvailableRuleRetailPurchase)[];
+    available_rules: (CustomerAvailableRuleBirthday | CustomerAvailableRuleLoyaltyPassInstall | CustomerAvailableRuleCollectionPurchase | CustomerAvailableRuleNewsletterSignup | CustomerAvailableRulePageview | CustomerAvailableRuleProductPurchase | CustomerAvailableRulePurchase | CustomerAvailableRuleJoinProgram | CustomerAvailableRuleReview | CustomerAvailableRuleCustom | CustomerAvailableRuleFacebookLike | CustomerAvailableRuleTwitterFollow | CustomerAvailableRuleInstagramFollow | CustomerAvailableRuleInstagramMention | CustomerAvailableRuleInstagramPostHashtag | CustomerAvailableRuleTiktokFollow | CustomerAvailableRuleTiktokPostHashtag | CustomerAvailableRuleReferral | CustomerAvailableRuleClickthrough | CustomerAvailableRuleRetailPurchase)[];
     /** @description A list of the most recent actions that have occurred for this customer, such as earning points, redeeming rewards, and joining tiers. This list is sorted by date with the most recent actions at the beginning.
      *
      *     History actions are not the same as _transactions_. A single action may cover multiple transactions. For example, if points are added and then later voided, it will be represented by a single action whose state will initially be `approved`, and then later change to `void`. This keeps the customer's history concise whilst still showing the key information. */
@@ -2331,6 +2366,8 @@ export interface CustomerEnrolled {
         email: string;
         /** @description A referral link intended for sharing via WhatsApp */
         whatsapp: string;
+        /** @description A referral link intended for sharing on Instagram */
+        instagram: string;
         /** @description A referral link intended for sharing via a mobile device share prompt */
         device_share: string;
     } | null;
@@ -2376,7 +2413,7 @@ export interface CustomerHistoryActionEarnedPointsFromRule {
         /** @description The ID of the rule whose completion earned the points. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
         id: number;
         /** @enum {string} */
-        kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
     };
     /** @description If the state of this action is `pending`, this will be an `ISO 8601` timestamp representing the date at which the points will become approved, unless they are declined in the meantime */
     points_will_approve_at: string | null;
@@ -2529,7 +2566,9 @@ export interface CustomerHistoryActionReceivedReward {
         /** @description The ID of the rule whose completion resulted in the reward. If this does not match a `rule` in the current Site Configuration, it means the associated rule has been deleted */
         id: number;
         /** @enum {string} */
-        kind: "birthday" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        kind: "birthday" | "loyalty_pass_install" | "collection_purchase" | "newsletter_signup" | "pageview" | "product_purchase" | "purchase" | "join_program" | "review" | "custom" | "facebook_like" | "twitter_follow" | "instagram_follow" | "instagram_mention" | "instagram_post_hashtag" | "tiktok_follow" | "tiktok_post_hashtag" | "referral" | "clickthrough" | "retail_purchase";
+        /** @description Localized display title for the rule (the merchant-configured title for the shopper-facing locale, falling back to the default title for the rule kind). Useful for surfacing the rule context alongside the reward — e.g. "Refer a friend — $5 voucher". */
+        title: string;
     } | null;
     /**
      * @description The state of the reward received from the rule.
@@ -2591,6 +2630,9 @@ export interface CustomerHistoryActionRedeemedPointsForReward {
      */
     state: "pending" | "declined" | "approved" | "void" | "expired";
 }
+export interface CustomersCreateSessionTokenResponseBody {
+    session_token: SessionTokenStruct;
+}
 export interface CustomersEmailMarketingSubscribeResponseBody {
     /** @description A boolean indicating whether the email marketing consent was updated. If the customer was already subscribed, this will be `false` */
     updated: boolean;
@@ -2609,6 +2651,12 @@ export interface CustomersEmailMarketingSubscribeResponseBody {
     /** @description A list of actions that were triggered as a result of the email marketing subscription. For example, if there was an applicable "subscribe to newsletter" rule when the customer subscribed, this will include the action that was triggered by the rule */
     actions: (CustomerHistoryActionEarnedPointsFromRule | CustomerHistoryActionReceivedReward)[];
 }
+export interface CustomersEnrollResponseBody {
+    /** @description A boolean indicating whether this request enrolled the customer. If the customer was already enrolled, this will be `false` and no other state will have changed */
+    enrolled: boolean;
+    /** @description The customer object in its post-enrollment state. If the customer was already enrolled, this represents their existing state */
+    customer: CustomerEnrolled;
+}
 export interface CustomersGetCustomerResponseBody {
     /** @description The sales channel for which this response was generated */
     channel: SupportedChannel;
@@ -2618,7 +2666,7 @@ export interface CustomersGetCustomerResponseBody {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
     customer: CustomerEnrolled | CustomerGuest | CustomerBlocked;
     /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
@@ -2657,13 +2705,15 @@ export interface CustomersInitializeSessionResponseBody {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     /** @description The customer matched by `merchant_id`. The customer's `state` property indicates if the customer is a member of the program (`enrolled`), not a member (`guest`), or has been blocked from the program (`blocked`) */
     customer: CustomerEnrolled | CustomerGuest | CustomerBlocked;
     /** @description The complete program configuration. This is the same configuration that is returned by the [Get Configuration](/headless-api/2025-06/configuration/get-configuration) endpoint */
     configuration: SiteConfiguration;
     /** @description If you included a serialized cart with the request, this may contain a list of requested actions to do with the cart, such as removing any reward items that are no longer valid */
     requested_cart_actions: RecommendedCartActionRemoveCartLine[];
+    /** @description Only present if the request was made with `include_session_token=true` */
+    session_token?: SessionTokenStruct;
 }
 export interface CustomersSetBirthdayRequestBody {
     /** @description The birthday to set for the customer */
@@ -2714,6 +2764,14 @@ export interface EmailMarketingSubscribeErrorUnsupportedPlatform {
      * @enum {string}
      */
     code: "unsupported_platform";
+}
+export interface EnrollCustomerBlockedError {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_blocked";
+    message?: string;
 }
 export interface InitializeSessionErrorEmailAlreadyInUse {
     /**
@@ -2907,10 +2965,7 @@ export interface RefereeIncentiveCartDiscount {
      * @example Get a 10% discount on your order with this code when you spend over $50
      */
     incentive_text: string;
-    /**
-     * @description discriminator enum property added by openapi-typescript
-     * @enum {string}
-     */
+    /** @constant */
     kind: "cart_discount_voucher";
     /**
      * @description The type of discount this voucher will apply to the cart
@@ -2941,10 +2996,7 @@ export interface RefereeIncentiveFreeShipping {
      * @example Get a 10% discount on your order with this code when you spend over $50
      */
     incentive_text: string;
-    /**
-     * @description discriminator enum property added by openapi-typescript
-     * @enum {string}
-     */
+    /** @constant */
     kind: "free_shipping_voucher";
 }
 export interface RefundRewardErrorCustomerBlocked {
@@ -3192,15 +3244,9 @@ export interface RewardCartVariableDiscountVoucher {
      */
     kind: "cart_variable_discount_voucher";
     properties: {
-        /**
-         * Currency
-         * @description The minimum discount that can be selected, e.g. 1 for a minimum of $1
-         */
+        /** @description The minimum discount that can be selected, e.g. 1 for a minimum of $1 */
         minimum_discount: CurrencyAmount;
-        /**
-         * Currency
-         * @description The maximum discount that can be selected, e.g. 5 for a maximum of $5
-         */
+        /** @description The maximum discount that can be selected, e.g. 5 for a maximum of $5 */
         maximum_discount: CurrencyAmount;
         /**
          * @description The required minimum spend in cart before the reward can be redeemed
@@ -3440,10 +3486,24 @@ export interface RewardCustom {
      */
     kind: "custom";
     properties: {
-        /** @enum {string} */
+        /**
+         * @description Fulfilled by the merchant — manually or via webhook (see `fulfillment_method`).
+         * @constant
+         */
+        fulfillment_type: "store_fulfillment";
+        /**
+         * @description How the merchant fulfils this custom reward.
+         * @enum {string}
+         */
         fulfillment_method: "manual" | "webhook";
         /** @description The URL to which we'll send a webhook for reward fulfillment, if one is configured */
         fulfillment_webhook_url: string | null;
+    } | {
+        /**
+         * @description Fulfilled by issuing a code from a merchant-uploaded pool to the customer at claim time.
+         * @constant
+         */
+        fulfillment_type: "voucher";
     };
     /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
     variants: {
@@ -3538,10 +3598,7 @@ export interface RewardGiftCard {
      */
     kind: "gift_card";
     properties: {
-        /**
-         * Currency
-         * @description The initial balance of the gift card
-         */
+        /** @description The initial balance of the gift card */
         initial_balance: CurrencyAmount;
     };
     /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -3666,10 +3723,7 @@ export interface RewardProductDiscountVoucher {
             /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
             variant_id: string | null;
         };
-        /**
-         * Percentage
-         * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-         */
+        /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
         discount: PercentageAmount;
     };
     /** @description A list of variants for this reward. Some aspects of a reward, such as its cost and whether it's enabled, can vary based on tier */
@@ -3994,9 +4048,13 @@ export interface RewardsRedeemCustomRequestBody {
     customer_merchant_id: string;
     /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
      *
-     *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it */
+     *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it
+     *
+     *     This option does not apply to rewards with a `fulfillment_type` of `voucher`: a voucher custom reward is always fulfilled at claim time, when the pooled code is issued to the customer */
     fulfill_immediately?: boolean;
-    /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion */
+    /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion
+     *
+     *     This option does not apply to rewards with a `fulfillment_type` of `voucher` and is ignored for them: a voucher custom reward is marked as used automatically when the matching order containing its discount code is sent to LoyaltyLion */
     usage?: RewardUsageOrder;
 }
 export interface RewardsRedeemCustomResponseBody {
@@ -4036,6 +4094,8 @@ export interface RewardsRedeemCustomResponseBody {
             fulfilment_explanation: string | null;
             /** @description `ISO 8601` timestamp representing when this custom redeemable was fulfilled, or `null` if it is not yet fulfilled */
             fulfilled_at: string | null;
+            /** @description The voucher code issued to the customer. Present only for custom rewards that issue codes from a merchant-uploaded pool; absent for other custom rewards (e.g. those fulfilled manually or by webhook). */
+            code?: string;
         };
     };
     /** @description The customer object, updated as of the reward redemption, i.e. their `claimed_rewards` will include the new redemption. This customer will always have `state` set to `enrolled`, as only enrolled customers can redeem rewards */
@@ -4144,15 +4204,9 @@ export interface RewardsRedeemGiftCardResponseBody {
             kind: "gift_card";
             /** @description The last few characters of the gift card code. Note that the full gift card code is only shown once when the gift card reward is redeemed */
             code_last_characters: string;
-            /**
-             * Currency
-             * @description The initial balance of the gift card
-             */
+            /** @description The initial balance of the gift card */
             initial_balance: CurrencyAmount;
-            /**
-             * Currency
-             * @description The current balance of the gift card
-             */
+            /** @description The current balance of the gift card */
             current_balance: CurrencyAmount;
             /** @description `ISO 8601` timestamp representing when the gift card will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -4359,10 +4413,7 @@ export interface RewardsRedeemProductDiscountVoucherResponseBody {
                 /** @description The variant ID to apply the discount to. If `null`, the discount can be applied to all this product's variants */
                 variant_id: string | null;
             };
-            /**
-             * Percentage
-             * @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100`
-             */
+            /** @description The discount that will apply to the product. Product discounts are always percentage based, so this will be a number from `1-100` */
             discount: PercentageAmount;
             /** @description ISO 8601 timestamp representing when the voucher will expire, or `null` if it does not expire */
             expires_at: string | null;
@@ -4855,6 +4906,40 @@ export interface RuleJoinProgram {
         result_short_text: string;
     }[];
 }
+export interface RuleLoyaltyPassInstall {
+    id: number;
+    /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
+    limit: {
+        /** @description The number of times this rule can be completed for a customer in the specified calendar `interval`, e.g. once a week */
+        count: number;
+        /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
+        interval: ("day" | "week" | "month" | "year") | null;
+    } | null;
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "loyalty_pass_install";
+    /** @description A list of variants for this rule. Some aspects of a rule, such as its outcome and whether it's enabled, can vary based on tier */
+    variants: {
+        /** @description The tier ID to which this rule variant applies. This will always be `null` if the program does not have tiers enabled */
+        tier_id: number | null;
+        /**
+         * @description Short, localized title for this rule. For example, 'Make a purchase' or 'Refer a friend'
+         * @example Make a purchase
+         */
+        title: string;
+        /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
+        enabled: boolean;
+        /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
+        result: RuleResultPoints | RuleResultReward;
+        /**
+         * @description Short, localized text indicating the result of completing this rule variant. For example: '100 points', '5 points per $1', or '$5 voucher'
+         * @example 5 points per $1
+         */
+        result_short_text: string;
+    }[];
+}
 export interface RuleNewsletterSignup {
     id: number;
     /** @description A limit for this rule, which is applied per customer. Rules with a limit set may only be completed a set number of times in a given interval. The limit may be `null` if the rule has no limit and can therefore be completed any number of times by the same customer */
@@ -5321,6 +5406,23 @@ export interface RuleTwitterFollow {
         result_short_text: string;
     }[];
 }
+export interface SessionTokenStruct {
+    /**
+     * @description The customer session token. Treat it as opaque: pass it in an `Authorization: Bearer` header to call supported headless API endpoints directly on behalf of this customer
+     * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIn0.signature
+     */
+    token: string;
+    /**
+     * @description The time this session token expires, as an ISO 8601 timestamp. Requests with an expired token fail with a `token_expired` error code, at which point you should fetch a fresh token from your backend
+     * @example 2026-06-12T16:00:00Z
+     */
+    expires_at: string;
+    /**
+     * @description Seconds until this session token expires
+     * @example 3600
+     */
+    ttl: number;
+}
 export interface SetBirthdayErrorInvalidDate {
     /**
      * @description discriminator enum property added by openapi-typescript
@@ -5347,7 +5449,7 @@ export interface SiteConfiguration {
      */
     currency: string;
     /** @description `ISO 639-1` code indicating the language used for any text in this response */
-    language: unknown;
+    language: string;
     program: {
         /**
          * @description The name of the program
@@ -5455,7 +5557,7 @@ export interface SiteConfiguration {
     /** @description The referee incentive for the program, included only if one is enabled. This is a description of the incentive and does not include an actual voucher code, which is available through the referee incentive endpoint instead */
     referee_incentive?: RefereeIncentiveCartDiscount | RefereeIncentiveFreeShipping;
     /** @description Ordered list of rules that belong to this site. Each rule will have  one or more variants that indicate its configuration and if it is enabled per tier. Rules have a `kind` property, and some kinds of rules will have `properties` that are specific to that rule kind */
-    rules: (RuleBirthday | RuleCollectionPurchase | RuleNewsletterSignup | RulePageview | RuleProductPurchase | RulePurchase | RuleJoinProgram | RuleReview | RuleCustom | RuleFacebookLike | RuleTwitterFollow | RuleInstagramFollow | RuleInstagramMention | RuleInstagramPostHashtag | RuleTiktokFollow | RuleTiktokPostHashtag | RuleReferral | RuleClickthrough | RuleRetailPurchase)[];
+    rules: (RuleBirthday | RuleLoyaltyPassInstall | RuleCollectionPurchase | RuleNewsletterSignup | RulePageview | RuleProductPurchase | RulePurchase | RuleJoinProgram | RuleReview | RuleCustom | RuleFacebookLike | RuleTwitterFollow | RuleInstagramFollow | RuleInstagramMention | RuleInstagramPostHashtag | RuleTiktokFollow | RuleTiktokPostHashtag | RuleReferral | RuleClickthrough | RuleRetailPurchase)[];
     /** @description Ordered list of rewards that belong to this site. Each reward will have  one or more variants that indicate its configuration and if it is enabled per tier. Rewards have a `kind` property, and some kinds of rewards will have `properties` that are specific to that reward kind */
     rewards: (RewardGiftCard | RewardCartDiscountVoucher | RewardCartVariableDiscountVoucher | RewardFreeShippingVoucher | RewardProductDiscountVoucher | RewardCollectionDiscountVoucher | RewardProductCart | RewardActiveSubscriptionDiscountVoucher | RewardActiveSubscriptionProduct | RewardCustom)[];
 }
@@ -5477,10 +5579,7 @@ export interface SpendTier {
      * @enum {string}
      */
     kind: "spend";
-    /**
-     * Currency
-     * @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100"
-     */
+    /** @description The lower bound of the tier as a currency amount. For example, $10.50 would be "10.50", ¥100 would be "100" */
     lower_bound: CurrencyAmount;
     /** @description The upper bound of the tier as a currency amount, or `null` if there is no upper bound. For example, $150.50 USD would be "150.50", ¥500 would be "500" */
     upper_bound: CurrencyAmount | null;
@@ -5593,10 +5692,7 @@ export interface TierProgressSpend {
     /** @description The amount of additional spend required to move into the next tier. Will be `null` if there is no eligible next tier (see `upgrade_tier_id`) */
     spend_needed_for_upgrade: CurrencyAmount | null;
     tier_spend: {
-        /**
-         * Currency
-         * @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window.
-         */
+        /** @description The amount of spend contributing to tier progress as of right now. This is equivalent to the amount of eligible spend from now, back to the start of the evaluation window. */
         now: CurrencyAmount;
         /** @description The predicted amount of spend contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
         at_expiration: CurrencyAmount | null;
