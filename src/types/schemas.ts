@@ -1953,7 +1953,7 @@ export interface CustomerEnrolled {
          */
         expires_at: string | null;
         /** @description Information about the customer's tier progress, which can be used to inform a customer how close they are to reaching the next tier, or what they they need to do to maintain their current tier when it expires. Note that tier progress changes over time, as we use a sliding evaluation window to calculate progress, so it is only guaranteed to be correct as of the time of the response */
-        progress: TierProgressPoints | TierProgressSpend;
+        progress: TierProgressPoints | TierProgressSpend | TierProgressOrders;
     } | null;
     /**
      * @description The customer's birthday, if one has been provided. Depending on how the program is configured, the `year` may or may not be included
@@ -2774,6 +2774,35 @@ export interface InitializeSessionErrorEmailAlreadyInUse {
      * @enum {string}
      */
     code: "email_already_in_use";
+}
+export interface OrdersTier {
+    id: number;
+    /**
+     * @description The name of the tier
+     * @example Gold
+     */
+    name: string;
+    /** @description The position of the tier, where `1` is the first and default tier */
+    position: number;
+    /** @description If true, this is a hidden tier and is only shown to shoppers who are in it */
+    hidden: boolean;
+    /** @description Ordered list of tier benefit IDs that are associated with this tier */
+    benefit_ids: number[];
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "orders";
+    /**
+     * @description The lower bound of the tier in number of orders
+     * @example 0
+     */
+    lower_bound: number;
+    /**
+     * @description The upper bound of the tier in number of orders, or `null` if there is no upper bound
+     * @example 4
+     */
+    upper_bound: number | null;
 }
 export interface PercentageAmount {
     /**
@@ -5500,8 +5529,8 @@ export interface SiteConfiguration {
      */
     tier_configuration: {
         /** @enum {string} */
-        boundary_mode: "points" | "spend";
-        tiers: (PointsTier | SpendTier | ConditionalTier)[];
+        boundary_mode: "points" | "spend" | "orders";
+        tiers: (PointsTier | SpendTier | OrdersTier | ConditionalTier)[];
         tier_benefits: {
             id: number;
             /**
@@ -5631,6 +5660,29 @@ export interface TierMembershipRolling {
      * @example 12
      */
     duration_months: number;
+}
+export interface TierProgressOrders {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    kind: "orders";
+    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points or spend will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
+    valid_until: string | null;
+    /** @description The number of additional orders required to renew the current tier when the current membership expires. This will be `null` if the membership does not expire (e.g. a lifetime tier), or if the current membership is already for the bottom (default) tier */
+    orders_needed_for_renewal: number | null;
+    /** @description The ID of the next tier that this customer could upgrade to from their current tier. Will be `null` if the customer's current tier is already the highest tier in the program, a conditional tier, or a hidden tier */
+    upgrade_tier_id: number | null;
+    /** @description The number of additional orders required to move into the next tier. Will be `null` if there is no eligible next tier (see `upgrade_tier_id`) */
+    orders_needed_for_upgrade: number | null;
+    tier_orders: {
+        /** @description The number of orders contributing to tier progress as of right now. This is equivalent to the number of eligible orders from now, back to the start of the evaluation window. */
+        now: number;
+        /** @description The predicted number of orders contributing to tier progress as of the current tier's expiration date. This is similar to the `now` value, but instead of the window ending at `now`, it ends at the current tier expiration date. This can be used to determine if a customer would be able to renew their current tier when it expires This will be `null` if the membership never expires (e.g. lifetime tiers) */
+        at_expiration: number | null;
+    };
+    /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
+    forecasted_tier_id: number | null;
 }
 export interface TierProgressPoints {
     /**
