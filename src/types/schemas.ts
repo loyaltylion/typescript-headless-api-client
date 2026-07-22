@@ -5667,7 +5667,7 @@ export interface TierProgressOrders {
      * @enum {string}
      */
     kind: "orders";
-    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points or spend will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
+    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points, spend, or qualifying orders will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
     valid_until: string | null;
     /** @description The number of additional orders required to renew the current tier when the current membership expires. This will be `null` if the membership does not expire (e.g. a lifetime tier), or if the current membership is already for the bottom (default) tier */
     orders_needed_for_renewal: number | null;
@@ -5690,7 +5690,7 @@ export interface TierProgressPoints {
      * @enum {string}
      */
     kind: "points";
-    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points or spend will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
+    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points, spend, or qualifying orders will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
     valid_until: string | null;
     /** @description The number of additional points required to renew the current tier when the current membership expires. This will be `null` if the membership does not expire (e.g. a lifetime tier), or if the current membership is already for the bottom (default) tier */
     points_needed_for_renewal: number | null;
@@ -5713,7 +5713,7 @@ export interface TierProgressSpend {
      * @enum {string}
      */
     kind: "spend";
-    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points or spend will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
+    /** @description `ISO 8601` timestamp representing the date at which the calculated progress is no longer accurate. Tier evaluation uses a sliding evaluation window, so as time passes, contributing points, spend, or qualifying orders will no longer be counted if they are outside of the evaluation window. This will be `null` for lifetime tiers */
     valid_until: string | null;
     /** @description The amount of additional spend required to renew the current tier when the current membership expires. Will be `null` if the membership does not expire (e.g. a lifetime tier), or if the current membership is already for the bottom (default) tier */
     spend_needed_for_renewal: CurrencyAmount | null;
