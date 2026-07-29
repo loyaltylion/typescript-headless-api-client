@@ -636,7 +636,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -705,7 +705,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -745,7 +745,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -785,7 +785,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -825,7 +825,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -865,7 +865,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -905,7 +905,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -945,7 +945,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -985,7 +985,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1029,7 +1029,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1072,7 +1072,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1115,7 +1115,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1158,7 +1158,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1201,7 +1201,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1245,7 +1245,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1288,7 +1288,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1331,7 +1331,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1375,7 +1375,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1418,7 +1418,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1458,7 +1458,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -1505,7 +1505,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1588,7 +1588,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1669,7 +1669,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1726,7 +1726,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1790,7 +1790,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1866,7 +1866,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -1945,7 +1945,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2009,7 +2009,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2079,7 +2079,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2152,7 +2152,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2542,7 +2542,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2762,7 +2762,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2854,7 +2854,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2922,7 +2922,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -2997,7 +2997,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3084,7 +3084,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3174,7 +3174,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3249,7 +3249,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3330,7 +3330,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3414,7 +3414,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Spend your points on $5 off your next order
                  */
                 description: string | null;
@@ -3475,7 +3475,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3579,7 +3579,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3628,7 +3628,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3677,7 +3677,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3726,7 +3726,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3775,7 +3775,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3824,7 +3824,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3873,7 +3873,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3922,7 +3922,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -3975,7 +3975,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4027,7 +4027,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4079,7 +4079,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4131,7 +4131,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4183,7 +4183,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4236,7 +4236,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4288,7 +4288,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4340,7 +4340,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4393,7 +4393,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4445,7 +4445,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
@@ -4494,7 +4494,7 @@ export interface components {
                  */
                 title: string;
                 /**
-                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Where no description is set in the requested language, one from another language is returned in preference to nothing, matching how the title resolves. `null` means no description is set in any language
                  * @example Earn points every time you shop with us
                  */
                 description: string | null;
