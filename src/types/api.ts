@@ -635,6 +635,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -699,6 +704,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -734,6 +744,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -769,6 +784,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -804,6 +824,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -839,6 +864,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -874,6 +904,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -909,6 +944,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -944,6 +984,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -983,6 +1028,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1021,6 +1071,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1059,6 +1114,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1097,6 +1157,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1135,6 +1200,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1174,6 +1244,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1212,6 +1287,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1250,6 +1330,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1289,6 +1374,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1327,6 +1417,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1362,6 +1457,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -1404,6 +1504,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1482,6 +1587,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1558,6 +1668,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1610,6 +1725,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1669,6 +1789,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1740,6 +1865,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1814,6 +1944,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1873,6 +2008,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -1938,6 +2078,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2006,6 +2151,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2391,6 +2541,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2606,6 +2761,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2693,6 +2853,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2756,6 +2921,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2826,6 +2996,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2908,6 +3083,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -2993,6 +3173,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -3063,6 +3248,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -3139,6 +3329,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -3218,6 +3413,11 @@ export interface components {
                  * @example $5 voucher
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this reward, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Spend your points on $5 off your next order
+                 */
+                description: string | null;
                 /** @description Indicates if this reward variant is enabled. For example, some rewards are only available for certain tiers */
                 enabled: boolean;
                 /** @description The cost of this reward in points. Will be one of `fixed` (costs a fixed number of points) or `variable` (cost is multiplied by unit, e.g. 100 points per $1 discount) */
@@ -3274,6 +3474,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3373,6 +3578,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3417,6 +3627,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3461,6 +3676,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3505,6 +3725,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3549,6 +3774,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3593,6 +3823,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3637,6 +3872,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3681,6 +3921,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3729,6 +3974,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3776,6 +4026,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3823,6 +4078,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3870,6 +4130,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3917,6 +4182,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -3965,6 +4235,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -4012,6 +4287,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -4059,6 +4339,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -4107,6 +4392,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -4154,6 +4444,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -4198,6 +4493,11 @@ export interface components {
                  * @example Make a purchase
                  */
                 title: string;
+                /**
+                 * @description Longer, localized description for this rule, giving the shopper more detail than the title. Optional for merchants to set. If they have not written one in the requested language, a description in another language is returned in preference to nothing, matching how the title resolves, so `null` means they have written none at all
+                 * @example Earn points every time you shop with us
+                 */
+                description: string | null;
                 /** @description Indicates if this rule variant is enabled. For example, some rules are only available for certain tiers */
                 enabled: boolean;
                 /** @description The result of completing this rule. Will be one of `points` (points are awarded to the customer), or `reward` (a reward is immediately granted, such as a cart discount voucher) */
@@ -5049,6 +5349,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -5079,6 +5380,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -5102,6 +5404,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -5141,6 +5444,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -5180,6 +5484,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -5344,6 +5649,7 @@ export interface components {
          *                 "tier_id": 1,
          *                 "enabled": true,
          *                 "title": "Make a purchase",
+         *                 "description": "Earn points every time you shop with us",
          *                 "result": {
          *                   "kind": "points",
          *                   "per_currency_unit": 1,
@@ -5355,6 +5661,7 @@ export interface components {
          *                 "tier_id": 2,
          *                 "enabled": true,
          *                 "title": "Make a purchase",
+         *                 "description": "Earn points every time you shop with us",
          *                 "result": {
          *                   "kind": "points",
          *                   "per_currency_unit": 1,
@@ -5373,6 +5680,7 @@ export interface components {
          *                 "tier_id": 1,
          *                 "enabled": true,
          *                 "title": "Visit our online store",
+         *                 "description": null,
          *                 "result": {
          *                   "kind": "points",
          *                   "per_currency_unit": null,
@@ -5384,6 +5692,7 @@ export interface components {
          *                 "tier_id": 2,
          *                 "enabled": true,
          *                 "title": "Visit our online store",
+         *                 "description": null,
          *                 "result": {
          *                   "kind": "points",
          *                   "per_currency_unit": null,
@@ -5421,6 +5730,7 @@ export interface components {
          *                 "tier_id": 1,
          *                 "enabled": true,
          *                 "title": "$5 discount",
+         *                 "description": "Spend your points on $5 off your next order",
          *                 "cost": {
          *                   "kind": "fixed",
          *                   "points": 500
@@ -5431,6 +5741,7 @@ export interface components {
          *                 "tier_id": 2,
          *                 "enabled": true,
          *                 "title": "$5 discount",
+         *                 "description": "Spend your points on $5 off your next order",
          *                 "cost": {
          *                   "kind": "fixed",
          *                   "points": 400
@@ -5461,6 +5772,7 @@ export interface components {
          *                 "tier_id": 1,
          *                 "enabled": false,
          *                 "title": "Redeem points at checkout",
+         *                 "description": null,
          *                 "cost": {
          *                   "kind": "variable",
          *                   "unit": "discount_amount",
@@ -5472,6 +5784,7 @@ export interface components {
          *                 "tier_id": 2,
          *                 "enabled": true,
          *                 "title": "Redeem points at checkout",
+         *                 "description": null,
          *                 "cost": {
          *                   "kind": "variable",
          *                   "unit": "discount_amount",
@@ -6886,6 +7199,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -6916,6 +7230,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -6939,6 +7254,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -6978,6 +7294,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -7017,6 +7334,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -7265,6 +7583,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7295,6 +7614,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7318,6 +7638,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -7357,6 +7678,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -7396,6 +7718,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -7590,6 +7913,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7620,6 +7944,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7643,6 +7968,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -7682,6 +8008,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -7721,6 +8048,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -7915,6 +8243,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7945,6 +8274,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -7968,6 +8298,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -8007,6 +8338,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -8046,6 +8378,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -8240,6 +8573,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -8270,6 +8604,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -8293,6 +8628,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -8332,6 +8668,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -8371,6 +8708,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
@@ -8565,6 +8903,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Visit our online store",
+         *               "description": null,
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -8595,6 +8934,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Join our loyalty program",
+         *               "description": "Sign up and start earning points on every order",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": null,
@@ -8618,6 +8958,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "Make a purchase",
+         *               "description": "Earn points every time you shop with us",
          *               "result": {
          *                 "kind": "points",
          *                 "per_currency_unit": 1,
@@ -8657,6 +8998,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "$5 discount",
+         *               "description": "Spend your points on $5 off your next order",
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 500
@@ -8696,6 +9038,7 @@ export interface components {
          *               "tier_id": 1,
          *               "enabled": true,
          *               "title": "10% discount",
+         *               "description": null,
          *               "cost": {
          *                 "kind": "fixed",
          *                 "points": 1000
