@@ -2757,10 +2757,9 @@ export interface CustomerHistoryActionRedeemedPointsForReward {
      */
     points_text: string;
     reward: {
-        /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted */
+        /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted, or that it is a `private_product` placeholder which is never listed */
         id: number;
-        /** @enum {string} */
-        kind: "gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom";
+        kind: ("gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom") | "private_product";
     };
     /** @description The ID of the associated claimed reward for the customer */
     claimed_reward_id: number;
