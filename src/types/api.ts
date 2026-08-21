@@ -95,6 +95,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/referrals/referee_incentive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["referrals.claimRefereeIncentive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/rewards/cart_discount_voucher/redeem": {
         parameters: {
             query?: never;
@@ -6165,6 +6181,132 @@ export interface components {
              */
             code: "unsupported_platform";
         };
+        /** @description The incentive was claimed. Repeating the request with the same `referral_id` and `referee_email` returns the same code. `kind` discriminates this from any further success outcome added later — switch on it rather than assuming a code is present */
+        ClaimRefereeIncentiveIncentive: {
+            /** @constant */
+            kind: "incentive";
+            incentive: {
+                /**
+                 * @description The discount code the shopper redeems at checkout
+                 * @example LL-XYA3816
+                 */
+                code: string;
+            };
+        };
+        /**
+         * Referee email required
+         * @description The referrer is not enrolled in the program, so a voucher can only be issued once it can be bound to the shopper claiming it. Collect their email address and repeat the request with `referee_email` set — unlike the other codes here, this one is not terminal
+         */
+        ClaimRefereeIncentiveErrorRefereeEmailRequired: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "referee_email_required";
+        };
+        /**
+         * Invalid referee
+         * @description The shopper identified by `referee_email` cannot claim this referral — they are the referrer, or they are already a member of the program. Referral incentives are for new shoppers
+         */
+        ClaimRefereeIncentiveErrorInvalidReferee: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "invalid_referee";
+        };
+        /**
+         * Referrals not enabled
+         * @description This site has no active referral rule, so it cannot issue referral incentives
+         */
+        ClaimRefereeIncentiveErrorReferralsNotEnabled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "referrals_not_enabled";
+        };
+        /**
+         * Invalid referral ID
+         * @description The `referral_id` could not be read, or does not belong to a customer in this program
+         */
+        ClaimRefereeIncentiveErrorInvalidReferralId: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "invalid_referral_id";
+            message: string;
+        };
+        /**
+         * Referral cap reached
+         * @description The referrer has hit the referral rule's reward cap, and the rule is configured to stop issuing incentives once that happens
+         */
+        ClaimRefereeIncentiveErrorReferralCapReached: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "referral_cap_reached";
+        };
+        /**
+         * Fraud detected
+         * @description The program only accepts referrals between distinct IP addresses, and the `ip_address` you supplied matches the referrer's
+         */
+        ClaimRefereeIncentiveErrorFraudDetected: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "fraud_detected";
+        };
+        /**
+         * No vouchers available
+         * @description Your program issues referral incentives from a pool of codes you upload, and the pool is empty. Upload more codes to resume issuing incentives
+         */
+        ClaimRefereeIncentiveErrorNoVouchersAvailable: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "no_vouchers_available";
+        };
+        /**
+         * Voucher allocation failed
+         * @description We could not issue a voucher for this referral. The message describes why
+         */
+        ClaimRefereeIncentiveErrorVoucherAllocationFailed: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "voucher_allocation_failed";
+            message: string;
+        };
+        ReferralsClaimRefereeIncentiveRequestBody: {
+            /**
+             * @description The referral the shopper arrived with. This is the value of the `ll_ref_id` query parameter on the URL the referral link redirects to
+             * @example jRq0X
+             */
+            referral_id: string;
+            /**
+             * Format: email
+             * @description The email address of the shopper claiming the incentive. Pass it whenever you know it: it binds the voucher to that shopper, and it is what lets us reject a shopper who is referring themselves or who is already a member of the program
+             *
+             *     It is only *required* when the referrer is not enrolled in the program. A request that needs it and omits it is rejected with `referee_email_required`, so you can retry with the address once you have collected it
+             * @example referee@example.com
+             */
+            referee_email?: string;
+            /**
+             * @description The IP address of the shopper claiming the incentive — the one that reached your server, not your server's own. It is what detects referral fraud when the program restricts referrals to distinct IP addresses, and it is the bucket we would rate-limit an individual shopper on
+             *
+             *     Send a single address. A forwarded-for list is rejected: take the client entry from it yourself
+             * @example 203.0.113.42
+             */
+            ip_address: string;
+            /** @description The user agent of the shopper claiming the incentive, recorded alongside the referral for fraud analysis. Send `null` where the caller genuinely has none, such as a native mobile app */
+            user_agent: string | null;
+        };
         RewardsRedeemCartDiscountVoucherResponseBody: {
             /**
              * @description The unique voucher code that will apply the discount
@@ -9760,6 +9902,92 @@ export interface operations {
                 content: {
                     "application/json": {
                         error: components["schemas"]["UpdateCustomerNotEnrolledError"] | components["schemas"]["UpdateCustomerBlockedError"] | components["schemas"]["EmailMarketingSubscribeErrorSubscriptionFailed"] | components["schemas"]["EmailMarketingSubscribeErrorUnsupportedPlatform"];
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
+    "referrals.claimRefereeIncentive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Body */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ReferralsClaimRefereeIncentiveRequestBody"];
+            };
+        };
+        responses: {
+            /** @description The incentive was claimed. Repeating the request with the same `referral_id` and `referee_email` returns the same code. `kind` discriminates this from any further success outcome added later — switch on it rather than assuming a code is present */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClaimRefereeIncentiveIncentive"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 422 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: components["schemas"]["ClaimRefereeIncentiveErrorRefereeEmailRequired"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferee"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralsNotEnabled"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferralId"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralCapReached"] | components["schemas"]["ClaimRefereeIncentiveErrorFraudDetected"] | components["schemas"]["ClaimRefereeIncentiveErrorNoVouchersAvailable"] | components["schemas"]["ClaimRefereeIncentiveErrorVoucherAllocationFailed"];
                     };
                 };
             };

@@ -201,6 +201,75 @@ export interface ClaimedRewardSourceTierEntry {
     kind: "tier_entry";
     tier_id: number;
 }
+export interface ClaimRefereeIncentiveErrorFraudDetected {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "fraud_detected";
+}
+export interface ClaimRefereeIncentiveErrorInvalidReferee {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "invalid_referee";
+}
+export interface ClaimRefereeIncentiveErrorInvalidReferralId {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "invalid_referral_id";
+    message: string;
+}
+export interface ClaimRefereeIncentiveErrorNoVouchersAvailable {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "no_vouchers_available";
+}
+export interface ClaimRefereeIncentiveErrorRefereeEmailRequired {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "referee_email_required";
+}
+export interface ClaimRefereeIncentiveErrorReferralCapReached {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "referral_cap_reached";
+}
+export interface ClaimRefereeIncentiveErrorReferralsNotEnabled {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "referrals_not_enabled";
+}
+export interface ClaimRefereeIncentiveErrorVoucherAllocationFailed {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "voucher_allocation_failed";
+    message: string;
+}
+export interface ClaimRefereeIncentiveIncentive {
+    /** @constant */
+    kind: "incentive";
+    incentive: {
+        /**
+         * @description The discount code the shopper redeems at checkout
+         * @example LL-XYA3816
+         */
+        code: string;
+    };
+}
 export interface CompleteRuleErrorCustomerBlocked {
     /**
      * @description discriminator enum property added by openapi-typescript
@@ -3171,6 +3240,30 @@ export interface RefereeIncentiveFreeShipping {
     incentive_text: string;
     /** @constant */
     kind: "free_shipping_voucher";
+}
+export interface ReferralsClaimRefereeIncentiveRequestBody {
+    /**
+     * @description The referral the shopper arrived with. This is the value of the `ll_ref_id` query parameter on the URL the referral link redirects to
+     * @example jRq0X
+     */
+    referral_id: string;
+    /**
+     * Format: email
+     * @description The email address of the shopper claiming the incentive. Pass it whenever you know it: it binds the voucher to that shopper, and it is what lets us reject a shopper who is referring themselves or who is already a member of the program
+     *
+     *     It is only *required* when the referrer is not enrolled in the program. A request that needs it and omits it is rejected with `referee_email_required`, so you can retry with the address once you have collected it
+     * @example referee@example.com
+     */
+    referee_email?: string;
+    /**
+     * @description The IP address of the shopper claiming the incentive — the one that reached your server, not your server's own. It is what detects referral fraud when the program restricts referrals to distinct IP addresses, and it is the bucket we would rate-limit an individual shopper on
+     *
+     *     Send a single address. A forwarded-for list is rejected: take the client entry from it yourself
+     * @example 203.0.113.42
+     */
+    ip_address: string;
+    /** @description The user agent of the shopper claiming the incentive, recorded alongside the referral for fraud analysis. Send `null` where the caller genuinely has none, such as a native mobile app */
+    user_agent: string | null;
 }
 export interface RefundRewardErrorCustomerBlocked {
     /**
