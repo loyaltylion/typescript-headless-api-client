@@ -609,6 +609,19 @@ export interface components {
              *     }
              */
             discount: components["schemas"]["CurrencyAmount"] | components["schemas"]["PercentageAmount"];
+            /**
+             * @description The largest discount this voucher can apply. Only present when the incentive is a capped `percentage` discount. `incentive_text` already states the cap
+             * @example {
+             *       "amount": 30,
+             *       "formatted": "$30"
+             *     }
+             */
+            maximum_discount?: components["schemas"]["CurrencyAmount"];
+            /**
+             * @description Merchant-authored text naming the products this voucher applies to, when the incentive is restricted to a collection. Unlike `incentive_text` this is not part of the offer sentence — display it alongside, or the offer reads as unrestricted
+             * @example Valid on full-price skincare only
+             */
+            collection_restriction_text?: string;
         };
         RefereeIncentiveFreeShipping: {
             /**
