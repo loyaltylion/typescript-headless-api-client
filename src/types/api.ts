@@ -111,6 +111,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/referrals/shares": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["referrals.trackShare"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/rewards/cart_discount_voucher/redeem": {
         parameters: {
             query?: never;
@@ -6320,6 +6336,38 @@ export interface components {
             /** @description The user agent of the shopper claiming the incentive, recorded alongside the referral for fraud analysis. Send `null` where the caller genuinely has none, such as a native mobile app */
             user_agent: string | null;
         };
+        /**
+         * @description Which of the customer's `referral_urls` was shared. Pass the key you took the link from, not the link itself — we re-derive the referral code from the customer and the channel, so you never have to parse one out of a URL
+         * @example whatsapp
+         * @enum {string}
+         */
+        ReferralShareChannel: "direct" | "facebook" | "twitter" | "email" | "whatsapp" | "instagram" | "device_share";
+        /** Customer not enrolled */
+        TrackReferralShareErrorCustomerNotEnrolled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_not_enrolled";
+        };
+        /** Customer blocked */
+        TrackReferralShareErrorCustomerBlocked: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_blocked";
+        };
+        ReferralsTrackShareRequestBody: {
+            /**
+             * @description The ID, in your platform or ecommerce store, of the customer who shared their referral link. For Shopify stores this can be either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID
+             *
+             *     This must be a customer whose state is `enrolled` — only enrolled customers have referral links to share
+             * @example 100001
+             */
+            customer_merchant_id: string;
+            channel: components["schemas"]["ReferralShareChannel"];
+        };
         RewardsRedeemCartDiscountVoucherResponseBody: {
             /**
              * @description The unique voucher code that will apply the discount
@@ -10001,6 +10049,105 @@ export interface operations {
                 content: {
                     "application/json": {
                         error: components["schemas"]["ClaimRefereeIncentiveErrorRefereeEmailRequired"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferee"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralsNotEnabled"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferralId"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralCapReached"] | components["schemas"]["ClaimRefereeIncentiveErrorFraudDetected"] | components["schemas"]["ClaimRefereeIncentiveErrorNoVouchersAvailable"] | components["schemas"]["ClaimRefereeIncentiveErrorVoucherAllocationFailed"];
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
+    "referrals.trackShare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Body */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ReferralsTrackShareRequestBody"];
+            };
+        };
+        responses: {
+            /** @description 204 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
+                    };
+                };
+            };
+            /** @description 422 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: components["schemas"]["TrackReferralShareErrorCustomerNotEnrolled"] | components["schemas"]["TrackReferralShareErrorCustomerBlocked"];
                     };
                 };
             };

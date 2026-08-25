@@ -3278,6 +3278,17 @@ export interface ReferralsClaimRefereeIncentiveRequestBody {
     /** @description The user agent of the shopper claiming the incentive, recorded alongside the referral for fraud analysis. Send `null` where the caller genuinely has none, such as a native mobile app */
     user_agent: string | null;
 }
+export type ReferralShareChannel = "direct" | "facebook" | "twitter" | "email" | "whatsapp" | "instagram" | "device_share";
+export interface ReferralsTrackShareRequestBody {
+    /**
+     * @description The ID, in your platform or ecommerce store, of the customer who shared their referral link. For Shopify stores this can be either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID
+     *
+     *     This must be a customer whose state is `enrolled` — only enrolled customers have referral links to share
+     * @example 100001
+     */
+    customer_merchant_id: string;
+    channel: ReferralShareChannel;
+}
 export interface RefundRewardErrorCustomerBlocked {
     /**
      * @description discriminator enum property added by openapi-typescript
@@ -6134,6 +6145,20 @@ export interface TierProgressSpend {
     };
     /** @description The ID of the tier the customer is forecasted to be in at their membership expiration, based on their predicted progress at that time. This can be used to warn customers if they are at risk of being downgraded. Will be `null` if the membership never expires (e.g. lifetime tiers, default tier memberships, or conditional tier memberships) */
     forecasted_tier_id: number | null;
+}
+export interface TrackReferralShareErrorCustomerBlocked {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_blocked";
+}
+export interface TrackReferralShareErrorCustomerNotEnrolled {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_not_enrolled";
 }
 export interface UpdateCustomerBlockedError {
     /**
