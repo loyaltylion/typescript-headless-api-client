@@ -2848,18 +2848,6 @@ export interface CustomerHistoryActionRedeemedPointsForReward {
      */
     state: "pending" | "declined" | "approved" | "void" | "expired";
 }
-export interface CustomersCreateSessionTokenRequestBody {
-    /**
-     * @description The [scopes](/headless-api/session-tokens#scopes) to grant the session token, bounding what it can be used for (one or more of: read, profile, redeem, rules). Required, with no default and no "all" value: list precisely what the client needs, so a leaked token can do no more than that — for example, a token that only displays the points balance should be minted with `["read"]` so it can never redeem rewards or complete rules
-     * @example [
-     *       "read"
-     *     ]
-     */
-    scopes: ("read" | "profile" | "redeem" | "rules")[];
-}
-export interface CustomersCreateSessionTokenResponseBody {
-    session_token: SessionTokenStruct;
-}
 export interface CustomersEmailMarketingSubscribeResponseBody {
     /** @description A boolean indicating whether the email marketing consent was updated. If the customer was already subscribed, this will be `false` */
     updated: boolean;
@@ -2939,8 +2927,6 @@ export interface CustomersInitializeSessionResponseBody {
     configuration: SiteConfiguration;
     /** @description If you included a serialized cart with the request, this may contain a list of requested actions to do with the cart, such as removing any reward items that are no longer valid */
     requested_cart_actions: RecommendedCartActionRemoveCartLine[];
-    /** @description Only present if the request was made with `with_session_token` */
-    session_token?: SessionTokenStruct;
 }
 export interface CustomersSetBirthdayRequestBody {
     /** @description The birthday to set for the customer */
@@ -5870,33 +5856,6 @@ export interface RuleTwitterFollow {
          */
         result_short_text: string;
     }[];
-}
-export interface SessionTokenStruct {
-    /**
-     * @description The customer session token. Treat it as opaque: pass it in an `Authorization: Bearer` header to call supported headless API endpoints directly on behalf of this customer
-     * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIn0.signature
-     */
-    token: string;
-    /**
-     * @description The time this session token expires, as an ISO 8601 timestamp. Requests with an expired token fail with a `token_expired` error code, at which point you should fetch a fresh token from your backend
-     * @example 2026-06-12T16:00:00Z
-     */
-    expires_at: string;
-    /**
-     * @description Seconds until this session token expires
-     * @example 3600
-     */
-    ttl: number;
-    /**
-     * @description The [scopes](/headless-api/session-tokens#scopes) this session token holds, which bound the endpoints it can call. Requests to an endpoint requiring a scope the token does not hold fail with a 403 `insufficient_scope` error code
-     * @example [
-     *       "read",
-     *       "profile",
-     *       "redeem",
-     *       "rules"
-     *     ]
-     */
-    scopes: ("read" | "profile" | "redeem" | "rules")[];
 }
 export interface SetBirthdayErrorInvalidDate {
     /**
