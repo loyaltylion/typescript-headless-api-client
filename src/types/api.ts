@@ -47,6 +47,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/customers/{merchant_id}/session_tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["customers.createSessionToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/customers/{merchant_id}/birthday": {
         parameters: {
             query?: never;
@@ -6037,6 +6053,34 @@ export interface components {
                 value: string | null;
             }[];
         };
+        /** @description A short-lived token scoped to a single site and customer, which can be safely handed to a browser or app to call supported headless API endpoints directly. Anything the token authorizes can be performed by the customer themselves, so endpoints accepting it are limited to customer-self-serve actions */
+        SessionTokenStruct: {
+            /**
+             * @description The customer session token. Treat it as opaque: pass it in an `Authorization: Bearer` header to call supported headless API endpoints directly on behalf of this customer
+             * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIn0.signature
+             */
+            token: string;
+            /**
+             * @description The time this session token expires, as an ISO 8601 timestamp. Requests with an expired token fail with a `token_expired` error code, at which point you should fetch a fresh token from your backend
+             * @example 2026-06-12T16:00:00Z
+             */
+            expires_at: string;
+            /**
+             * @description Seconds until this session token expires
+             * @example 3600
+             */
+            ttl: number;
+            /**
+             * @description The [scopes](/headless-api/session-tokens#scopes) this session token holds, which bound the endpoints it can call. Requests to an endpoint requiring a scope the token does not hold fail with a 403 `insufficient_scope` error code
+             * @example [
+             *       "read",
+             *       "profile",
+             *       "redeem",
+             *       "rules"
+             *     ]
+             */
+            scopes: ("read" | "profile" | "redeem" | "rules")[];
+        };
         CustomersInitializeSessionResponseBody: {
             /** @description The sales channel for which this response was generated */
             channel: components["schemas"]["SupportedChannel"];
@@ -6053,6 +6097,8 @@ export interface components {
             configuration: components["schemas"]["SiteConfiguration"];
             /** @description If you included a serialized cart with the request, this may contain a list of requested actions to do with the cart, such as removing any reward items that are no longer valid */
             requested_cart_actions: components["schemas"]["RecommendedCartActionRemoveCartLine"][];
+            /** @description Only present if the request was made with `with_session_token` */
+            session_token?: components["schemas"]["SessionTokenStruct"];
         };
         /**
          * Email already in use
@@ -6088,6 +6134,18 @@ export interface components {
              *
              *     When passing a cart, check the `requested_cart_actions` field in the response for any actions you should perform with the cart, such as removing any reward product lines that are no longer valid */
             cart?: components["schemas"]["CartEmpty"] | components["schemas"]["CartShopify"];
+        };
+        CustomersCreateSessionTokenResponseBody: {
+            session_token: components["schemas"]["SessionTokenStruct"];
+        };
+        CustomersCreateSessionTokenRequestBody: {
+            /**
+             * @description The [scopes](/headless-api/session-tokens#scopes) to grant the session token, bounding what it can be used for (one or more of: read, profile, redeem, rules). Required, with no default and no "all" value: list precisely what the client needs, so a leaked token can do no more than that — for example, a token that only displays the points balance should be minted with `["read"]` so it can never redeem rewards or complete rules
+             * @example [
+             *       "read"
+             *     ]
+             */
+            scopes: ("read" | "profile" | "redeem" | "rules")[];
         };
         CustomersSetBirthdayResponseBody: {
             /** @description A boolean indicating whether the birthday was updated. If the customer already had a birthday set, it will not have been updated and this will be `false` */
@@ -6907,6 +6965,17 @@ export interface components {
              */
             code: "no_active_subscriptions";
         };
+        /**
+         * Invalid shipping address
+         * @description The `shipping_address` does not belong to this customer
+         */
+        RedeemRewardErrorInvalidShippingAddress: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "invalid_shipping_address";
+        };
         /** Invalid variant ID */
         RedeemRewardErrorInvalidVariantId: {
             /**
@@ -6989,11 +7058,15 @@ export interface components {
             customer_merchant_id: string;
             /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
              *
+             *     Requires `api_token` authentication: fulfilling a reward is a merchant-side action, so requests made with a customer session token are rejected when this option is passed
+             *
              *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it
              *
              *     This option does not apply to rewards with a `fulfillment_type` of `voucher`: a voucher custom reward is always fulfilled at claim time, when the pooled code is issued to the customer */
             fulfill_immediately?: boolean;
             /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion
+             *
+             *     Requires `api_token` authentication: marking a reward as used is a merchant-side action, so requests made with a customer session token are rejected when this option is passed
              *
              *     This option does not apply to rewards with a `fulfillment_type` of `voucher` and is ignored for them: a voucher custom reward is marked as used automatically when the matching order containing its discount code is sent to LoyaltyLion */
             usage?: components["schemas"]["RewardUsageOrder"];
@@ -9564,6 +9637,8 @@ export interface operations {
                 language?: string;
                 /** @description ISO 3166-1 alpha-2 country code for the customer. Used to filter rewards by country availability. If not provided, the site default is used */
                 country?: string;
+                /** @description When present, the response will include a `session_token` granted exactly the [scopes](/headless-api/session-tokens#scopes) listed here (comma-separated, one or more of: read, profile, redeem, rules): a short-lived token scoped to this customer, which can be handed to a browser or app to call supported headless API endpoints directly on behalf of the customer. There is no default — list precisely what the client needs */
+                with_session_token?: string;
             };
             header?: never;
             path: {
@@ -9633,6 +9708,100 @@ export interface operations {
                 content: {
                     "application/json": {
                         error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"];
+                    };
+                };
+            };
+            /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
+    "customers.createSessionToken": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+                /** @description The ID of the customer in your platform or ecommerce store.
+                 *
+                 *     For Shopify stores, you can pass either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID. If you do pass a GID you must encode it as a URL parameter, e.g. `gid%3A%2F%2Fshopify%2FCustomer%2F1001` */
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Body */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CustomersCreateSessionTokenRequestBody"];
+            };
+        };
+        responses: {
+            /** @description 200 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomersCreateSessionTokenResponseBody"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 404 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "not_found";
+                            message: string;
+                        };
                     };
                 };
             };
@@ -10903,7 +11072,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["RedeemRewardErrorInsufficientPoints"] | components["schemas"]["RedeemRewardErrorCustomerNotEnrolled"] | components["schemas"]["RedeemRewardErrorCustomerBlocked"] | components["schemas"]["RedeemRewardErrorRewardNotEnabledForCustomer"] | components["schemas"]["RedeemRewardErrorRewardOutOfStock"] | components["schemas"]["RedeemRewardErrorRewardInvalidKind"] | components["schemas"]["RedeemRewardErrorRewardLimitReached"] | components["schemas"]["RedeemRewardErrorNoSubscriptionIntegrationConfigured"] | components["schemas"]["RedeemRewardErrorNoActiveSubscriptions"] | components["schemas"]["RedeemRewardErrorInvalidVariantId"];
+                        error: components["schemas"]["RedeemRewardErrorInsufficientPoints"] | components["schemas"]["RedeemRewardErrorCustomerNotEnrolled"] | components["schemas"]["RedeemRewardErrorCustomerBlocked"] | components["schemas"]["RedeemRewardErrorRewardNotEnabledForCustomer"] | components["schemas"]["RedeemRewardErrorRewardOutOfStock"] | components["schemas"]["RedeemRewardErrorRewardInvalidKind"] | components["schemas"]["RedeemRewardErrorRewardLimitReached"] | components["schemas"]["RedeemRewardErrorNoSubscriptionIntegrationConfigured"] | components["schemas"]["RedeemRewardErrorNoActiveSubscriptions"] | components["schemas"]["RedeemRewardErrorInvalidShippingAddress"] | components["schemas"]["RedeemRewardErrorInvalidVariantId"];
                     };
                 };
             };
