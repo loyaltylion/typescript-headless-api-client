@@ -2848,6 +2848,18 @@ export interface CustomerHistoryActionRedeemedPointsForReward {
      */
     state: "pending" | "declined" | "approved" | "void" | "expired";
 }
+export interface CustomersCreateSessionTokenRequestBody {
+    /**
+     * @description The [scopes](/headless-api/session-tokens#scopes) to grant the session token, bounding what it can be used for (one or more of: read, profile, redeem, rules). Required, with no default and no "all" value: list precisely what the client needs, so a leaked token can do no more than that — for example, a token that only displays the points balance should be minted with `["read"]` so it can never redeem rewards or complete rules
+     * @example [
+     *       "read"
+     *     ]
+     */
+    scopes: ("read" | "profile" | "redeem" | "rules")[];
+}
+export interface CustomersCreateSessionTokenResponseBody {
+    session_token: SessionTokenStruct;
+}
 export interface CustomersEmailMarketingSubscribeResponseBody {
     /** @description A boolean indicating whether the email marketing consent was updated. If the customer was already subscribed, this will be `false` */
     updated: boolean;
@@ -2927,6 +2939,8 @@ export interface CustomersInitializeSessionResponseBody {
     configuration: SiteConfiguration;
     /** @description If you included a serialized cart with the request, this may contain a list of requested actions to do with the cart, such as removing any reward items that are no longer valid */
     requested_cart_actions: RecommendedCartActionRemoveCartLine[];
+    /** @description Only present if the request was made with `with_session_token` */
+    session_token?: SessionTokenStruct;
 }
 export interface CustomersSetBirthdayRequestBody {
     /** @description The birthday to set for the customer */
@@ -3130,6 +3144,13 @@ export interface RedeemRewardErrorInsufficientPoints {
      */
     code: "insufficient_points";
     message?: string;
+}
+export interface RedeemRewardErrorInvalidShippingAddress {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "invalid_shipping_address";
 }
 export interface RedeemRewardErrorInvalidVariantId {
     /**
@@ -4388,11 +4409,15 @@ export interface RewardsRedeemCustomRequestBody {
     customer_merchant_id: string;
     /** @description For rewards using manual fulfillment, passing `true` here will mark the custom reward as fulfilled immediately. This option is ignored if the custom reward is configured to use a webhook for fulfillment
      *
+     *     Requires `api_token` authentication: fulfilling a reward is a merchant-side action, so requests made with a customer session token are rejected when this option is passed
+     *
      *     This is useful if you know you'll be fulfilling the reward straight away, or have already fulfilled it
      *
      *     This option does not apply to rewards with a `fulfillment_type` of `voucher`: a voucher custom reward is always fulfilled at claim time, when the pooled code is issued to the customer */
     fulfill_immediately?: boolean;
     /** @description You can pass a usage object to indicate the reward has been used with an order. Note that the usage won't be applied in LoyaltyLion until the matching order (with the same `merchant_id`) has been sent to LoyaltyLion
+     *
+     *     Requires `api_token` authentication: marking a reward as used is a merchant-side action, so requests made with a customer session token are rejected when this option is passed
      *
      *     This option does not apply to rewards with a `fulfillment_type` of `voucher` and is ignored for them: a voucher custom reward is marked as used automatically when the matching order containing its discount code is sent to LoyaltyLion */
     usage?: RewardUsageOrder;
@@ -5845,6 +5870,33 @@ export interface RuleTwitterFollow {
          */
         result_short_text: string;
     }[];
+}
+export interface SessionTokenStruct {
+    /**
+     * @description The customer session token. Treat it as opaque: pass it in an `Authorization: Bearer` header to call supported headless API endpoints directly on behalf of this customer
+     * @example eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIn0.signature
+     */
+    token: string;
+    /**
+     * @description The time this session token expires, as an ISO 8601 timestamp. Requests with an expired token fail with a `token_expired` error code, at which point you should fetch a fresh token from your backend
+     * @example 2026-06-12T16:00:00Z
+     */
+    expires_at: string;
+    /**
+     * @description Seconds until this session token expires
+     * @example 3600
+     */
+    ttl: number;
+    /**
+     * @description The [scopes](/headless-api/session-tokens#scopes) this session token holds, which bound the endpoints it can call. Requests to an endpoint requiring a scope the token does not hold fail with a 403 `insufficient_scope` error code
+     * @example [
+     *       "read",
+     *       "profile",
+     *       "redeem",
+     *       "rules"
+     *     ]
+     */
+    scopes: ("read" | "profile" | "redeem" | "rules")[];
 }
 export interface SetBirthdayErrorInvalidDate {
     /**
