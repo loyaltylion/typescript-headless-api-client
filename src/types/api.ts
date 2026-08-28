@@ -6065,8 +6065,19 @@ export interface components {
              */
             code: "email_already_in_use";
         };
+        /**
+         * Email mismatch
+         * @description The request was authenticated with a customer session token and the request body's `customer.email` differs from the token's signed `email` claim. Send the same email the token was signed with
+         */
+        InitializeSessionErrorEmailMismatch: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "email_mismatch";
+        };
         CustomersInitializeSessionRequestBody: {
-            /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties */
+            /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties. With a customer session token the email must match the token's signed `email` claim — the signed claim is what any created customer is created with */
             customer: {
                 /**
                  * Format: email
@@ -9647,7 +9658,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"];
+                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"] | components["schemas"]["InitializeSessionErrorEmailMismatch"];
                     };
                 };
             };
