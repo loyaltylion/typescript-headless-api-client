@@ -2888,7 +2888,7 @@ export interface CustomersGetCustomerResponseBody {
     configuration: SiteConfiguration;
 }
 export interface CustomersInitializeSessionRequestBody {
-    /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties */
+    /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties. With a customer session token the email must match the token's signed `email` claim — the signed claim is what any created customer is created with */
     customer: {
         /**
          * Format: email
@@ -2992,6 +2992,13 @@ export interface InitializeSessionErrorEmailAlreadyInUse {
      * @enum {string}
      */
     code: "email_already_in_use";
+}
+export interface InitializeSessionErrorEmailMismatch {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "email_mismatch";
 }
 export interface OrdersTier {
     id: number;
