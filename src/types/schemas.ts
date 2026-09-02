@@ -358,6 +358,8 @@ export interface CustomerAvailableRewardActiveSubscriptionDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -429,6 +431,8 @@ export interface CustomerAvailableRewardActiveSubscriptionProduct {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -506,6 +510,8 @@ export interface CustomerAvailableRewardCartDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -596,6 +602,8 @@ export interface CustomerAvailableRewardCartVariableDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -684,6 +692,8 @@ export interface CustomerAvailableRewardCollectionDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -767,6 +777,8 @@ export interface CustomerAvailableRewardCustom {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -847,6 +859,8 @@ export interface CustomerAvailableRewardFreeShippingVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -911,6 +925,8 @@ export interface CustomerAvailableRewardGiftCard {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -975,6 +991,8 @@ export interface CustomerAvailableRewardProductCart {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1061,6 +1079,8 @@ export interface CustomerAvailableRewardProductDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1132,6 +1152,8 @@ export interface CustomerAvailableRuleBirthday {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1180,6 +1202,8 @@ export interface CustomerAvailableRuleClickthrough {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1231,6 +1255,8 @@ export interface CustomerAvailableRuleCollectionPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1279,6 +1305,8 @@ export interface CustomerAvailableRuleCustom {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1331,6 +1359,8 @@ export interface CustomerAvailableRuleFacebookLike {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1382,6 +1412,8 @@ export interface CustomerAvailableRuleInstagramFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1433,6 +1465,8 @@ export interface CustomerAvailableRuleInstagramMention {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1484,6 +1518,8 @@ export interface CustomerAvailableRuleInstagramPostHashtag {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1536,6 +1572,8 @@ export interface CustomerAvailableRuleJoinProgram {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1584,6 +1622,8 @@ export interface CustomerAvailableRuleLoyaltyPassInstall {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1632,6 +1672,8 @@ export interface CustomerAvailableRuleNewsletterSignup {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1680,6 +1722,8 @@ export interface CustomerAvailableRulePageview {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1728,6 +1772,8 @@ export interface CustomerAvailableRuleProductPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1776,6 +1822,8 @@ export interface CustomerAvailableRulePurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1824,6 +1872,8 @@ export interface CustomerAvailableRuleReferral {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1876,6 +1926,8 @@ export interface CustomerAvailableRuleRetailPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1924,6 +1976,8 @@ export interface CustomerAvailableRuleReview {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -1972,6 +2026,8 @@ export interface CustomerAvailableRuleTiktokFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -2023,6 +2079,8 @@ export interface CustomerAvailableRuleTiktokPostHashtag {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -2074,6 +2132,8 @@ export interface CustomerAvailableRuleTwitterFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3352,6 +3412,8 @@ export interface RewardActiveSubscriptionDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3412,6 +3474,8 @@ export interface RewardActiveSubscriptionProduct {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3478,6 +3542,8 @@ export interface RewardCartDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3557,6 +3623,8 @@ export interface RewardCartVariableDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3634,6 +3702,8 @@ export interface RewardCollectionDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3809,6 +3879,8 @@ export interface RewardCustom {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3878,6 +3950,8 @@ export interface RewardFreeShippingVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3931,6 +4005,8 @@ export interface RewardGiftCard {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -3984,6 +4060,8 @@ export interface RewardProductCart {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -4059,6 +4137,8 @@ export interface RewardProductDiscountVoucher {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the reward can only ever be claimed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this reward, when the merchant has set one: either an image they uploaded or chose for the reward itself, or the reward's product or collection catalog image. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -4899,6 +4979,8 @@ export interface RuleBirthday {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -4938,6 +5020,8 @@ export interface RuleClickthrough {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -4980,6 +5064,8 @@ export interface RuleCollectionPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5067,6 +5153,8 @@ export interface RuleCustom {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5110,6 +5198,8 @@ export interface RuleFacebookLike {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5152,6 +5242,8 @@ export interface RuleInstagramFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5194,6 +5286,8 @@ export interface RuleInstagramMention {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5236,6 +5330,8 @@ export interface RuleInstagramPostHashtag {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5279,6 +5375,8 @@ export interface RuleJoinProgram {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5318,6 +5416,8 @@ export interface RuleLoyaltyPassInstall {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5357,6 +5457,8 @@ export interface RuleNewsletterSignup {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5396,6 +5498,8 @@ export interface RulePageview {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5435,6 +5539,8 @@ export interface RuleProductPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5474,6 +5580,8 @@ export interface RulePurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5513,6 +5621,8 @@ export interface RuleReferral {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5585,6 +5695,8 @@ export interface RuleRetailPurchase {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5624,6 +5736,8 @@ export interface RuleReview {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5747,6 +5861,8 @@ export interface RuleTiktokFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5789,6 +5905,8 @@ export interface RuleTiktokPostHashtag {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
@@ -5831,6 +5949,8 @@ export interface RuleTwitterFollow {
         /** @description The calendar interval for this limit. If `null`, it means the limit will never reset and the rule can only ever be completed for a customer a set number of times */
         interval: ("day" | "week" | "month" | "year") | null;
     } | null;
+    /** @description A display image for this rule, when the merchant has set one: either an image they uploaded or an external image URL. `null` when no image is set */
+    image_url?: string | null;
     /**
      * @description discriminator enum property added by openapi-typescript
      * @enum {string}
