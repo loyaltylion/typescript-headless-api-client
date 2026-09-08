@@ -208,6 +208,13 @@ export interface ClaimRefereeIncentiveErrorFraudDetected {
      */
     code: "fraud_detected";
 }
+export interface ClaimRefereeIncentiveErrorGuestReferralsDisabled {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "guest_referrals_disabled";
+}
 export interface ClaimRefereeIncentiveErrorInvalidReferee {
     /**
      * @description discriminator enum property added by openapi-typescript
