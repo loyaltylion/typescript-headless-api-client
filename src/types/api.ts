@@ -6387,6 +6387,17 @@ export interface components {
             code: "referrals_not_enabled";
         };
         /**
+         * Guest referrals disabled
+         * @description The `referral_id` belongs to a shopper who is not enrolled in the program, and this site does not have guest referrals enabled. Only an enrolled customer's referral ID can issue an incentive here — turn guest referrals on to also accept referrals from shoppers who have not joined the program
+         */
+        ClaimRefereeIncentiveErrorGuestReferralsDisabled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "guest_referrals_disabled";
+        };
+        /**
          * Invalid referral ID
          * @description The `referral_id` could not be read, or does not belong to a customer in this program
          */
@@ -10194,7 +10205,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["ClaimRefereeIncentiveErrorRefereeEmailRequired"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferee"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralsNotEnabled"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferralId"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralCapReached"] | components["schemas"]["ClaimRefereeIncentiveErrorFraudDetected"] | components["schemas"]["ClaimRefereeIncentiveErrorNoVouchersAvailable"] | components["schemas"]["ClaimRefereeIncentiveErrorVoucherAllocationFailed"];
+                        error: components["schemas"]["ClaimRefereeIncentiveErrorRefereeEmailRequired"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferee"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralsNotEnabled"] | components["schemas"]["ClaimRefereeIncentiveErrorGuestReferralsDisabled"] | components["schemas"]["ClaimRefereeIncentiveErrorInvalidReferralId"] | components["schemas"]["ClaimRefereeIncentiveErrorReferralCapReached"] | components["schemas"]["ClaimRefereeIncentiveErrorFraudDetected"] | components["schemas"]["ClaimRefereeIncentiveErrorNoVouchersAvailable"] | components["schemas"]["ClaimRefereeIncentiveErrorVoucherAllocationFailed"];
                     };
                 };
             };
