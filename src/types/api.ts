@@ -9552,6 +9552,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9568,6 +9569,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9658,6 +9660,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9674,6 +9677,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9759,6 +9763,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9775,6 +9780,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9858,6 +9864,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9874,6 +9881,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9965,6 +9973,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -9981,6 +9990,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10074,6 +10084,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10090,6 +10101,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10175,6 +10187,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10191,6 +10204,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10259,6 +10273,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10275,6 +10290,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10367,6 +10383,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10383,6 +10400,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10475,6 +10493,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10491,6 +10510,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10583,6 +10603,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10599,6 +10620,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10691,6 +10713,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10707,6 +10730,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10799,6 +10823,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10815,6 +10840,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10907,6 +10933,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -10923,6 +10950,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11015,6 +11043,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11031,6 +11060,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11123,6 +11153,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11139,6 +11170,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11231,6 +11263,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11247,6 +11280,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11339,6 +11373,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11355,6 +11390,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11447,6 +11483,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11463,6 +11500,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11555,6 +11593,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11571,6 +11610,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11663,6 +11703,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11679,6 +11720,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11771,6 +11813,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11787,6 +11830,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11879,6 +11923,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11895,6 +11940,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -11987,6 +12033,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
@@ -12003,6 +12050,7 @@ export interface operations {
                     "application/json": {
                         error: {
                             message: string;
+                            code?: string;
                             details?: {
                                 [key: string]: string;
                             };
