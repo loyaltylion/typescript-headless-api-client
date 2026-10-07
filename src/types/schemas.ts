@@ -2281,7 +2281,7 @@ export interface CustomerEnrolled {
         state: "approved" | "declined" | "expired" | "pending" | "void";
         /** @description Details about how the customer received this reward. One of `points_redemption` (the customer used their points to redeem the reward), `rule_completion` (the reward was awarded as the result of completing a rule), or `tier_entry` (the reward was awarded when the customer entered a tier) */
         source: ClaimedRewardSourcePointsRedemption | ClaimedRewardSourceRuleCompletion | ClaimedRewardSourceTierEntry;
-        /** @description The redeemable linked to this claimed reward, if any. If present, the redeemable can usually be used to provide the reward to the customer. For example, it may include a voucher code that can be shown to the customer, or details of a free product that can be added to the customer's cart directly */
+        /** @description The redeemable linked to this claimed reward, if any. If present, the redeemable can usually be used to provide the reward to the customer. For example, it may include a voucher code that can be shown to the customer, or details of a free product that can be added to the customer's cart directly. A free product granted to the customer, rather than redeemed with points, has no redeemable until they add it to their cart on a storefront running the LoyaltyLion SDK, which the Headless API cannot do */
         redeemable?: {
             /**
              * @description The usage status of this redeemable. Redeemables that are `used` cannot be used again, e.g. a voucher code that has already been used with an order
