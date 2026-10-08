@@ -3053,6 +3053,13 @@ export interface EnrollCustomerBlockedError {
     code: "customer_blocked";
     message?: string;
 }
+export interface InitializeSessionErrorCustomerDeleted {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_deleted";
+}
 export interface InitializeSessionErrorEmailAlreadyInUse {
     /**
      * @description discriminator enum property added by openapi-typescript
