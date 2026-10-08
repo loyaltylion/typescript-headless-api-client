@@ -6196,6 +6196,17 @@ export interface components {
              */
             code: "email_mismatch";
         };
+        /**
+         * Customer deleted
+         * @description The customer with the given `merchant_id` or email has been deleted from LoyaltyLion, so a session cannot be initialized for them
+         */
+        InitializeSessionErrorCustomerDeleted: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_deleted";
+        };
         CustomersInitializeSessionRequestBody: {
             /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties. With a customer session token the email must match the token's signed `email` claim — the signed claim is what any created customer is created with */
             customer: {
@@ -9795,7 +9806,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"] | components["schemas"]["InitializeSessionErrorEmailMismatch"];
+                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"] | components["schemas"]["InitializeSessionErrorEmailMismatch"] | components["schemas"]["InitializeSessionErrorCustomerDeleted"];
                     };
                 };
             };
