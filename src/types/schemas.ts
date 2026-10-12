@@ -2508,6 +2508,11 @@ export interface CustomerEnrolled {
             used_at: string | null;
             /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
             cart_line_identifier: string;
+            /** @description Present when the customer was granted this product, by a challenge or a drop, and has since added it to their cart. `null` for a product the customer redeemed with points or claimed directly */
+            grant: {
+                /** @description `ISO 8601` timestamp of the deadline the grant had for adding the product to the cart, or `null` if the grant had no deadline */
+                expires_at: string | null;
+            } | null;
             /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
             active_cart_redemption: {
                 /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
@@ -4768,6 +4773,11 @@ export interface RewardsRedeemProductCartResponseBody {
             used_at: string | null;
             /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
             cart_line_identifier: string;
+            /** @description Present when the customer was granted this product, by a challenge or a drop, and has since added it to their cart. `null` for a product the customer redeemed with points or claimed directly */
+            grant: {
+                /** @description `ISO 8601` timestamp of the deadline the grant had for adding the product to the cart, or `null` if the grant had no deadline */
+                expires_at: string | null;
+            } | null;
             /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
             active_cart_redemption: {
                 /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
@@ -4931,6 +4941,11 @@ export interface RewardsRefundProductCartResponseBody {
             used_at: string | null;
             /** @description The unique cart line identifier, which connects this redemption to the line item in the eventual completed order. For Shopify, this identifier is used as the value of the `__lion_sfp_id` attribute on the cart line when the product is added to the cart */
             cart_line_identifier: string;
+            /** @description Present when the customer was granted this product, by a challenge or a drop, and has since added it to their cart. `null` for a product the customer redeemed with points or claimed directly */
+            grant: {
+                /** @description `ISO 8601` timestamp of the deadline the grant had for adding the product to the cart, or `null` if the grant had no deadline */
+                expires_at: string | null;
+            } | null;
             /** @description The active cart redemption associated with this product reward, if any. A product reward will have an active cart redemption if it has been redeemed and has not yet been checked out with an order, or expired */
             active_cart_redemption: {
                 /** @description The unique ID of this cart redemption. This ID needs to be attached to the cart line when the product is added to the cart. For Shopify, this is used as the value of the `__lion_sfp_id` attribute on the cart line */
