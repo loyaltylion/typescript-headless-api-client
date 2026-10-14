@@ -127,6 +127,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/headless/2025-06/{site_id}/referrals/guest_registrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["referrals.registerGuestReferrer"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/headless/2025-06/{site_id}/rewards/cart_discount_voucher/redeem": {
         parameters: {
             query?: never;
@@ -6520,11 +6536,86 @@ export interface components {
             /**
              * @description The ID, in your platform or ecommerce store, of the customer who shared their referral link. For Shopify stores this can be either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID
              *
-             *     This must be a customer whose state is `enrolled` — only enrolled customers have referral links to share
+             *     This must be a customer whose state is `enrolled`. Shares made with the links a guest referrer is given cannot be recorded
              * @example 100001
              */
             customer_merchant_id: string;
             channel: components["schemas"]["ReferralShareChannel"];
+        };
+        /** @description The shopper holds referral links. The response is the same whether the address was new or already belonged to a customer, and says nothing about which — a shopper who is already a member keeps the membership they have, and is not enrolled or re-enrolled by this */
+        ReferralsRegisterGuestReferrerResponseBody: {
+            /** @description The links this shopper shares, one per channel — the same set an enrolled customer's `referral_urls` carries */
+            referral_urls: {
+                /** @description A generic referral link that is not associated with any particular platform */
+                direct: string;
+                /** @description A referral link intended for sharing on Facebook */
+                facebook: string;
+                /** @description A referral link intended for sharing on Twitter */
+                twitter: string;
+                /** @description A referral link intended for sharing via email */
+                email: string;
+                /** @description A referral link intended for sharing via WhatsApp */
+                whatsapp: string;
+                /** @description A referral link intended for sharing on Instagram */
+                instagram: string;
+                /** @description A referral link intended for sharing via a mobile device share prompt */
+                device_share: string;
+            };
+        };
+        /**
+         * Guest referrals not enabled
+         * @description This site does not hand referral links to shoppers who have not joined the program, or it has no active referral rule for a referral to pay out against
+         */
+        RegisterGuestReferrerErrorGuestReferralsNotEnabled: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "guest_referrals_not_enabled";
+        };
+        /**
+         * Customer blocked
+         * @description This address belongs to a customer who is blocked from the program. A blocked customer's referrals earn nothing, so no links are issued
+         */
+        RegisterGuestReferrerErrorCustomerBlocked: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "customer_blocked";
+        };
+        /**
+         * Merchant customer push failed
+         * @description Your store is set to receive these shoppers as customers, and we could not create this one there, so no links were issued. The LoyaltyLion customer exists either way, so a retry picks that one up rather than duplicating them
+         */
+        RegisterGuestReferrerErrorMerchantCustomerPushFailed: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "merchant_customer_push_failed";
+        };
+        ReferralsRegisterGuestReferrerRequestBody: {
+            /**
+             * Format: email
+             * @description The email address of the shopper taking a referral link. It is what their referrals are attributed to, and what a later enrollment is matched against
+             *
+             *     Repeating the request with an address that already holds links returns the same ones rather than a second set
+             * @example referrer@example.com
+             */
+            email: string;
+            /**
+             * @description The shopper's first name, recorded on the customer created for them. Applied only on creation: an address that already belongs to a customer keeps the name it has
+             * @example Ada
+             */
+            first_name: string;
+            /**
+             * @description The IP address of the shopper taking the link — the one that reached your server, not your server's own. It is the bucket an individual shopper is rate limited on, so sending your own address throttles every shopper you have to a single shared allowance
+             *
+             *     Send a single address. A forwarded-for list is rejected: take the client entry from it yourself
+             * @example 203.0.113.42
+             */
+            ip_address: string;
         };
         RewardsRedeemCartDiscountVoucherResponseBody: {
             /**
@@ -10351,6 +10442,94 @@ export interface operations {
                 };
             };
             /** @description 429 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            /** @enum {string} */
+                            code: "rate_limited";
+                        };
+                    };
+                };
+            };
+        };
+    };
+    "referrals.registerGuestReferrer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Your LoyaltyLion Site ID */
+                site_id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Body */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ReferralsRegisterGuestReferrerRequestBody"];
+            };
+        };
+        responses: {
+            /** @description The shopper holds referral links. The response is the same whether the address was new or already belonged to a customer, and says nothing about which — a shopper who is already a member keeps the membership they have, and is not enrolled or re-enrolled by this */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReferralsRegisterGuestReferrerResponseBody"];
+                };
+            };
+            400: components["responses"]["ClientErrorBadRequest"];
+            /** @description 401 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            code?: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 403 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: {
+                            message: string;
+                            code?: string;
+                            details?: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+            };
+            /** @description 422 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        error: components["schemas"]["RegisterGuestReferrerErrorGuestReferralsNotEnabled"] | components["schemas"]["RegisterGuestReferrerErrorCustomerBlocked"] | components["schemas"]["RegisterGuestReferrerErrorMerchantCustomerPushFailed"];
+                    };
+                };
+            };
+            /** @description Too many registrations. On top of your program's API rate limit, this route limits registrations per shopper IP address and caps how many one site can take at once, so a request can be rejected here while the rest of your integration is well inside its limit */
             429: {
                 headers: {
                     [name: string]: unknown;
