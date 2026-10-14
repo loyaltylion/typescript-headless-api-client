@@ -3372,11 +3372,52 @@ export interface ReferralsClaimRefereeIncentiveRequestBody {
     user_agent: string | null;
 }
 export type ReferralShareChannel = "direct" | "facebook" | "twitter" | "email" | "whatsapp" | "instagram" | "device_share";
+export interface ReferralsRegisterGuestReferrerRequestBody {
+    /**
+     * Format: email
+     * @description The email address of the shopper taking a referral link. It is what their referrals are attributed to, and what a later enrollment is matched against
+     *
+     *     Repeating the request with an address that already holds links returns the same ones rather than a second set
+     * @example referrer@example.com
+     */
+    email: string;
+    /**
+     * @description The shopper's first name, recorded on the customer created for them. Applied only on creation: an address that already belongs to a customer keeps the name it has
+     * @example Ada
+     */
+    first_name: string;
+    /**
+     * @description The IP address of the shopper taking the link — the one that reached your server, not your server's own. It is the bucket an individual shopper is rate limited on, so sending your own address throttles every shopper you have to a single shared allowance
+     *
+     *     Send a single address. A forwarded-for list is rejected: take the client entry from it yourself
+     * @example 203.0.113.42
+     */
+    ip_address: string;
+}
+export interface ReferralsRegisterGuestReferrerResponseBody {
+    /** @description The links this shopper shares, one per channel — the same set an enrolled customer's `referral_urls` carries */
+    referral_urls: {
+        /** @description A generic referral link that is not associated with any particular platform */
+        direct: string;
+        /** @description A referral link intended for sharing on Facebook */
+        facebook: string;
+        /** @description A referral link intended for sharing on Twitter */
+        twitter: string;
+        /** @description A referral link intended for sharing via email */
+        email: string;
+        /** @description A referral link intended for sharing via WhatsApp */
+        whatsapp: string;
+        /** @description A referral link intended for sharing on Instagram */
+        instagram: string;
+        /** @description A referral link intended for sharing via a mobile device share prompt */
+        device_share: string;
+    };
+}
 export interface ReferralsTrackShareRequestBody {
     /**
      * @description The ID, in your platform or ecommerce store, of the customer who shared their referral link. For Shopify stores this can be either a [GID](https://shopify.dev/docs/api/usage/gids) or a regular numeric ID
      *
-     *     This must be a customer whose state is `enrolled` — only enrolled customers have referral links to share
+     *     This must be a customer whose state is `enrolled`. Shares made with the links a guest referrer is given cannot be recorded
      * @example 100001
      */
     customer_merchant_id: string;
@@ -3421,6 +3462,27 @@ export interface RefundRewardErrorRewardInvalidKind {
      */
     code: "reward_kind_mismatch";
     message?: string;
+}
+export interface RegisterGuestReferrerErrorCustomerBlocked {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "customer_blocked";
+}
+export interface RegisterGuestReferrerErrorGuestReferralsNotEnabled {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "guest_referrals_not_enabled";
+}
+export interface RegisterGuestReferrerErrorMerchantCustomerPushFailed {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "merchant_customer_push_failed";
 }
 export interface RewardActiveSubscriptionDiscountVoucher {
     id: number;
