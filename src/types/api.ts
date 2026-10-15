@@ -1077,7 +1077,150 @@ export interface components {
                  * @example 5 points per $1
                  */
                 result_short_text: string;
+                /** @description Conditions the review must meet for this rule variant to be completed. Empty when any review counts */
+                requirements: components["schemas"]["RuleReviewRequirement"][];
+                /** @description Extra points available for a review that meets each modifier condition, added to the result of this rule variant. A review earns the bonus of every modifier it meets. Only modifiers that award points are listed, and the list is always empty when the result is a `reward` */
+                modifiers: components["schemas"]["RuleReviewModifier"][];
             }[];
+        };
+        /** @description A condition the review must meet for this rule to be completed. A review that fails any requirement earns nothing from this rule */
+        RuleReviewRequirement: {
+            /** @constant */
+            kind: "includes_photo";
+            /**
+             * @description The minimum number of photos the review must include
+             * @example 1
+             */
+            min_count: number;
+            /**
+             * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Review must be at least 50 characters
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "includes_video";
+            /**
+             * @description The minimum number of videos the review must include
+             * @example 1
+             */
+            min_count: number;
+            /**
+             * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Review must be at least 50 characters
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "text_length";
+            /**
+             * @description The minimum number of characters the review text must contain
+             * @example 100
+             */
+            min_length: number;
+            /**
+             * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Review must be at least 50 characters
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "matching_product";
+            /**
+             * @description The reviewed product must be one of these products. Each ID is the product's ID in the store's ecommerce platform
+             * @example [
+             *       "8146810290418"
+             *     ]
+             */
+            product_ids: string[];
+            /**
+             * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Review must be at least 50 characters
+             */
+            text: string;
+        };
+        /** @description Extra points awarded when the review meets a condition, such as including a photo */
+        RuleReviewModifier: {
+            /** @constant */
+            kind: "includes_photo";
+            /**
+             * @description The minimum number of photos the review must include
+             * @example 1
+             */
+            min_count: number;
+            bonus: components["schemas"]["RuleReviewModifierBonus"];
+            /**
+             * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Include a photo for 10 bonus points
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "includes_video";
+            /**
+             * @description The minimum number of videos the review must include
+             * @example 1
+             */
+            min_count: number;
+            bonus: components["schemas"]["RuleReviewModifierBonus"];
+            /**
+             * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Include a photo for 10 bonus points
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "text_length";
+            /**
+             * @description The minimum number of characters the review text must contain
+             * @example 100
+             */
+            min_length: number;
+            bonus: components["schemas"]["RuleReviewModifierBonus"];
+            /**
+             * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Include a photo for 10 bonus points
+             */
+            text: string;
+        } | {
+            /** @constant */
+            kind: "matching_product";
+            /**
+             * @description The reviewed product must be one of these products. Each ID is the product's ID in the store's ecommerce platform
+             * @example [
+             *       "8146810290418"
+             *     ]
+             */
+            product_ids: string[];
+            bonus: components["schemas"]["RuleReviewModifierBonus"];
+            /**
+             * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+             * @example Include a photo for 10 bonus points
+             */
+            text: string;
+        };
+        /** @description The extra points awarded, on top of the rule variant result, when the review meets the modifier condition. Either a `fixed` number of points, or a number of points `per_count` of photos, videos or characters, where a matching product counts as one */
+        RuleReviewModifierBonus: {
+            /** @constant */
+            kind: "fixed";
+            /**
+             * @description The number of extra points awarded
+             * @example 10
+             */
+            points: number;
+        } | {
+            /** @constant */
+            kind: "per_count";
+            /**
+             * @description The number of extra points awarded for each photo, video or character in the review, depending on the modifier `kind`. A `matching_product` modifier counts a matching product as one
+             * @example 5
+             */
+            points: number;
+            /**
+             * @description The most extra points this modifier can award for one review. `null` means there is no cap
+             * @example 20
+             */
+            max_points: number | null;
         };
         /** Custom */
         RuleCustom: {
@@ -4094,6 +4237,10 @@ export interface components {
                  * @example 5 points per $1
                  */
                 result_short_text: string;
+                /** @description Conditions the review must meet for this rule variant to be completed. Empty when any review counts */
+                requirements: components["schemas"]["RuleReviewRequirement"][];
+                /** @description Extra points available for a review that meets each modifier condition, added to the result of this rule variant. A review earns the bonus of every modifier it meets. Only modifiers that award points are listed, and the list is always empty when the result is a `reward` */
+                modifiers: components["schemas"]["RuleReviewModifier"][];
             };
             /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
             context: {
@@ -5604,6 +5751,58 @@ export interface components {
          *                 "state": "no_limit"
          *               }
          *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
          *           }
          *         ],
          *         "available_rewards": [
@@ -5890,6 +6089,93 @@ export interface components {
          *               "count": 1,
          *               "interval": "week"
          *             }
+         *           },
+         *           {
+         *             "id": 3,
+         *             "kind": "review",
+         *             "variants": [
+         *               {
+         *                 "tier_id": 1,
+         *                 "enabled": true,
+         *                 "title": "Leave a review",
+         *                 "description": "Tell us what you think of your purchase",
+         *                 "result": {
+         *                   "kind": "points",
+         *                   "per_currency_unit": null,
+         *                   "points": 50
+         *                 },
+         *                 "result_short_text": "50 points",
+         *                 "requirements": [
+         *                   {
+         *                     "kind": "text_length",
+         *                     "min_length": 50,
+         *                     "text": "Review must be at least 50 characters"
+         *                   }
+         *                 ],
+         *                 "modifiers": [
+         *                   {
+         *                     "kind": "includes_photo",
+         *                     "min_count": 1,
+         *                     "bonus": {
+         *                       "kind": "per_count",
+         *                       "points": 10,
+         *                       "max_points": 30
+         *                     },
+         *                     "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                   },
+         *                   {
+         *                     "kind": "text_length",
+         *                     "min_length": 200,
+         *                     "bonus": {
+         *                       "kind": "fixed",
+         *                       "points": 10
+         *                     },
+         *                     "text": "Write at least 200 characters for 10 bonus points"
+         *                   }
+         *                 ]
+         *               },
+         *               {
+         *                 "tier_id": 2,
+         *                 "enabled": true,
+         *                 "title": "Leave a review",
+         *                 "description": "Tell us what you think of your purchase",
+         *                 "result": {
+         *                   "kind": "points",
+         *                   "per_currency_unit": null,
+         *                   "points": 100
+         *                 },
+         *                 "result_short_text": "100 points",
+         *                 "requirements": [
+         *                   {
+         *                     "kind": "text_length",
+         *                     "min_length": 50,
+         *                     "text": "Review must be at least 50 characters"
+         *                   }
+         *                 ],
+         *                 "modifiers": [
+         *                   {
+         *                     "kind": "includes_photo",
+         *                     "min_count": 1,
+         *                     "bonus": {
+         *                       "kind": "per_count",
+         *                       "points": 20,
+         *                       "max_points": 60
+         *                     },
+         *                     "text": "Include photos for 20 bonus points per photo (up to 60)"
+         *                   },
+         *                   {
+         *                     "kind": "text_length",
+         *                     "min_length": 200,
+         *                     "bonus": {
+         *                       "kind": "fixed",
+         *                       "points": 20
+         *                     },
+         *                     "text": "Write at least 200 characters for 20 bonus points"
+         *                   }
+         *                 ]
+         *               }
+         *             ],
+         *             "limit": null
          *           }
          *         ],
          *         "rewards": [
@@ -7745,6 +8031,58 @@ export interface components {
          *                 "state": "no_limit"
          *               }
          *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
          *           }
          *         ],
          *         "available_rewards": [
@@ -8129,6 +8467,58 @@ export interface components {
          *                 "state": "no_limit"
          *               }
          *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
          *           }
          *         ],
          *         "available_rewards": [
@@ -8455,6 +8845,58 @@ export interface components {
          *             "context": {
          *               "last_completed_at": "2025-06-10T05:08:37.582Z",
          *               "completion_count": 3,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
          *               "completion_limit": {
          *                 "state": "no_limit"
          *               }
@@ -8789,6 +9231,58 @@ export interface components {
          *                 "state": "no_limit"
          *               }
          *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
          *           }
          *         ],
          *         "available_rewards": [
@@ -9119,6 +9613,58 @@ export interface components {
          *                 "state": "no_limit"
          *               }
          *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
          *           }
          *         ],
          *         "available_rewards": [
@@ -9445,6 +9991,58 @@ export interface components {
          *             "context": {
          *               "last_completed_at": "2025-06-10T05:08:37.582Z",
          *               "completion_count": 3,
+         *               "completion_limit": {
+         *                 "state": "no_limit"
+         *               }
+         *             }
+         *           },
+         *           {
+         *             "id": 4,
+         *             "kind": "review",
+         *             "limit": null,
+         *             "variant": {
+         *               "tier_id": 1,
+         *               "enabled": true,
+         *               "title": "Leave a review",
+         *               "description": "Tell us what you think of your purchase",
+         *               "result": {
+         *                 "kind": "points",
+         *                 "per_currency_unit": null,
+         *                 "points": 50
+         *               },
+         *               "result_short_text": "50 points",
+         *               "requirements": [
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 50,
+         *                   "text": "Review must be at least 50 characters"
+         *                 }
+         *               ],
+         *               "modifiers": [
+         *                 {
+         *                   "kind": "includes_photo",
+         *                   "min_count": 1,
+         *                   "bonus": {
+         *                     "kind": "per_count",
+         *                     "points": 10,
+         *                     "max_points": 30
+         *                   },
+         *                   "text": "Include photos for 10 bonus points per photo (up to 30)"
+         *                 },
+         *                 {
+         *                   "kind": "text_length",
+         *                   "min_length": 200,
+         *                   "bonus": {
+         *                     "kind": "fixed",
+         *                     "points": 10
+         *                   },
+         *                   "text": "Write at least 200 characters for 10 bonus points"
+         *                 }
+         *               ]
+         *             },
+         *             "context": {
+         *               "last_completed_at": null,
+         *               "completion_count": 0,
          *               "completion_limit": {
          *                 "state": "no_limit"
          *               }
