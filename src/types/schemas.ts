@@ -2013,6 +2013,10 @@ export interface CustomerAvailableRuleReview {
          * @example 5 points per $1
          */
         result_short_text: string;
+        /** @description Conditions the review must meet for this rule variant to be completed. Empty when any review counts */
+        requirements: RuleReviewRequirement[];
+        /** @description Extra points available for a review that meets each modifier condition, added to the result of this rule variant. A review earns the bonus of every modifier it meets. Only modifiers that award points are listed, and the list is always empty when the result is a `reward` */
+        modifiers: RuleReviewModifier[];
     };
     /** @description Information about this customer's interaction with this rule, such as the number of times they have completed it, or any limit that is in effect */
     context: {
@@ -5857,8 +5861,148 @@ export interface RuleReview {
          * @example 5 points per $1
          */
         result_short_text: string;
+        /** @description Conditions the review must meet for this rule variant to be completed. Empty when any review counts */
+        requirements: RuleReviewRequirement[];
+        /** @description Extra points available for a review that meets each modifier condition, added to the result of this rule variant. A review earns the bonus of every modifier it meets. Only modifiers that award points are listed, and the list is always empty when the result is a `reward` */
+        modifiers: RuleReviewModifier[];
     }[];
 }
+export type RuleReviewModifier = {
+    /** @constant */
+    kind: "includes_photo";
+    /**
+     * @description The minimum number of photos the review must include
+     * @example 1
+     */
+    min_count: number;
+    bonus: RuleReviewModifierBonus;
+    /**
+     * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Include a photo for 10 bonus points
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "includes_video";
+    /**
+     * @description The minimum number of videos the review must include
+     * @example 1
+     */
+    min_count: number;
+    bonus: RuleReviewModifierBonus;
+    /**
+     * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Include a photo for 10 bonus points
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "text_length";
+    /**
+     * @description The minimum number of characters the review text must contain
+     * @example 100
+     */
+    min_length: number;
+    bonus: RuleReviewModifierBonus;
+    /**
+     * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Include a photo for 10 bonus points
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "matching_product";
+    /**
+     * @description The reviewed product must be one of these products. Each ID is the product's ID in the store's ecommerce platform
+     * @example [
+     *       "8146810290418"
+     *     ]
+     */
+    product_ids: string[];
+    bonus: RuleReviewModifierBonus;
+    /**
+     * @description Short, localized text describing this modifier to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Include a photo for 10 bonus points
+     */
+    text: string;
+};
+export type RuleReviewModifierBonus = {
+    /** @constant */
+    kind: "fixed";
+    /**
+     * @description The number of extra points awarded
+     * @example 10
+     */
+    points: number;
+} | {
+    /** @constant */
+    kind: "per_count";
+    /**
+     * @description The number of extra points awarded for each photo, video or character in the review, depending on the modifier `kind`. A `matching_product` modifier counts a matching product as one
+     * @example 5
+     */
+    points: number;
+    /**
+     * @description The most extra points this modifier can award for one review. `null` means there is no cap
+     * @example 20
+     */
+    max_points: number | null;
+};
+export type RuleReviewRequirement = {
+    /** @constant */
+    kind: "includes_photo";
+    /**
+     * @description The minimum number of photos the review must include
+     * @example 1
+     */
+    min_count: number;
+    /**
+     * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Review must be at least 50 characters
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "includes_video";
+    /**
+     * @description The minimum number of videos the review must include
+     * @example 1
+     */
+    min_count: number;
+    /**
+     * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Review must be at least 50 characters
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "text_length";
+    /**
+     * @description The minimum number of characters the review text must contain
+     * @example 100
+     */
+    min_length: number;
+    /**
+     * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Review must be at least 50 characters
+     */
+    text: string;
+} | {
+    /** @constant */
+    kind: "matching_product";
+    /**
+     * @description The reviewed product must be one of these products. Each ID is the product's ID in the store's ecommerce platform
+     * @example [
+     *       "8146810290418"
+     *     ]
+     */
+    product_ids: string[];
+    /**
+     * @description Short, localized text describing this requirement to the shopper, in the requested language and including any wording the store has customized. Where the text has no translation in the requested language, the English text is returned
+     * @example Review must be at least 50 characters
+     */
+    text: string;
+};
 export interface RulesCompleteClickthroughRequestBody {
     /** @description The LoyaltyLion ID of the rule to complete */
     rule_id: number;
