@@ -2757,6 +2757,8 @@ export interface CustomerEnrolled {
     };
     /** @description A URL that the customer can visit to upload a receipt for the retail purchase rule. Will be `null` if the retail purchase rule is not enabled for this program */
     receipt_upload_url: string | null;
+    /** @description A personal link that installs this customer's loyalty pass in Apple Wallet or Google Wallet, with no email entry or login. It identifies this customer only, so only show it to them. Will be `null` if the customer has no email address or the program's loyalty pass isn't live */
+    loyalty_pass_url: string | null;
     /** @description Referral URLs for different platforms, unique to this customer, or `null` if referrals are not enabled. Each URL has the same referral functionality, but will result in the referral being tracked for its platform. If unsure, use the `direct` URL for a generic link */
     referral_urls: {
         /** @description A generic referral link that is not associated with any particular platform */
