@@ -2302,6 +2302,11 @@ export interface CustomerBlocked {
     merchant_id: string;
     /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
     email: string | null;
+    /**
+     * @description The customer's phone number in E.164 format, or `null` if we don't have one
+     * @example +447700900123
+     */
+    phone: string | null;
     /** @description The first name of the customer, if available */
     first_name: string | null;
     /** @description The last name of the customer, if available */
@@ -2324,6 +2329,11 @@ export interface CustomerEnrolled {
     merchant_id: string;
     /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
     email: string | null;
+    /**
+     * @description The customer's phone number in E.164 format, or `null` if we don't have one
+     * @example +447700900123
+     */
+    phone: string | null;
     /** @description The first name of the customer, if available */
     first_name: string | null;
     /** @description The last name of the customer, if available */
@@ -2784,6 +2794,11 @@ export interface CustomerGuest {
     merchant_id: string;
     /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
     email: string | null;
+    /**
+     * @description The customer's phone number in E.164 format, or `null` if we don't have one
+     * @example +447700900123
+     */
+    phone: string | null;
     /** @description The first name of the customer, if available */
     first_name: string | null;
     /** @description The last name of the customer, if available */
@@ -3081,6 +3096,11 @@ export interface CustomersInitializeSessionRequestBody {
          * @example alice@example.com
          */
         email: string;
+        /**
+         * @description The customer's phone number in E.164 format, starting with `+` and a country code. LoyaltyLion stores it only when this customer has no phone number and no other customer in the program has this one. This endpoint does not use it to identify the customer. Send it only with an API token, not a customer session token
+         * @example +447700900123
+         */
+        phone?: string;
     };
     /** @description Additional information about this session, which can facilitate triggering rules, or improve program analytics */
     session?: {
@@ -3192,6 +3212,20 @@ export interface InitializeSessionErrorEmailMismatch {
      * @enum {string}
      */
     code: "email_mismatch";
+}
+export interface InitializeSessionErrorInvalidPhone {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "invalid_phone";
+}
+export interface InitializeSessionErrorPhoneRequiresApiToken {
+    /**
+     * @description discriminator enum property added by openapi-typescript
+     * @enum {string}
+     */
+    code: "phone_requires_api_token";
 }
 export interface OrdersTier {
     id: number;

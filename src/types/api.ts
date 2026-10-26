@@ -5325,6 +5325,11 @@ export interface components {
             merchant_id: string;
             /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
             email: string | null;
+            /**
+             * @description The customer's phone number in E.164 format, or `null` if we don't have one
+             * @example +447700900123
+             */
+            phone: string | null;
             /** @description The first name of the customer, if available */
             first_name: string | null;
             /** @description The last name of the customer, if available */
@@ -5785,6 +5790,11 @@ export interface components {
             merchant_id: string;
             /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
             email: string | null;
+            /**
+             * @description The customer's phone number in E.164 format, or `null` if we don't have one
+             * @example +447700900123
+             */
+            phone: string | null;
             /** @description The first name of the customer, if available */
             first_name: string | null;
             /** @description The last name of the customer, if available */
@@ -5802,6 +5812,11 @@ export interface components {
             merchant_id: string;
             /** @description The email address of the customer. May be `null`, e.g. for POS customers who have never provided an email address */
             email: string | null;
+            /**
+             * @description The customer's phone number in E.164 format, or `null` if we don't have one
+             * @example +447700900123
+             */
+            phone: string | null;
             /** @description The first name of the customer, if available */
             first_name: string | null;
             /** @description The last name of the customer, if available */
@@ -5821,6 +5836,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -6737,6 +6753,28 @@ export interface components {
              */
             code: "customer_deleted";
         };
+        /**
+         * Invalid phone
+         * @description The request body's `customer.phone` is not in E.164 format. Send `+` followed by 2 to 15 digits, the first of which is not 0, such as `+447700900123`
+         */
+        InitializeSessionErrorInvalidPhone: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "invalid_phone";
+        };
+        /**
+         * Phone requires an API token
+         * @description The request was authenticated with a customer session token and the request body includes `customer.phone`. Send the phone from your server with an API token instead
+         */
+        InitializeSessionErrorPhoneRequiresApiToken: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            code: "phone_requires_api_token";
+        };
         CustomersInitializeSessionRequestBody: {
             /** @description The customer involved in this session. If the customer does not yet exist in LoyaltyLion, they will be created with these properties. With a customer session token the email must match the token's signed `email` claim — the signed claim is what any created customer is created with */
             customer: {
@@ -6745,6 +6783,11 @@ export interface components {
                  * @example alice@example.com
                  */
                 email: string;
+                /**
+                 * @description The customer's phone number in E.164 format, starting with `+` and a country code. LoyaltyLion stores it only when this customer has no phone number and no other customer in the program has this one. This endpoint does not use it to identify the customer. Send it only with an API token, not a customer session token
+                 * @example +447700900123
+                 */
+                phone?: string;
             };
             /** @description Additional information about this session, which can facilitate triggering rules, or improve program analytics */
             session?: {
@@ -8102,6 +8145,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -8539,6 +8583,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -8922,6 +8967,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -9305,6 +9351,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -9688,6 +9735,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -10071,6 +10119,7 @@ export interface components {
          *         "id": 1,
          *         "merchant_id": "1001",
          *         "email": "alice@example.com",
+         *         "phone": "+447700900123",
          *         "first_name": "Alice",
          *         "last_name": "Kyako",
          *         "points_approved": 500,
@@ -10739,7 +10788,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"] | components["schemas"]["InitializeSessionErrorEmailMismatch"] | components["schemas"]["InitializeSessionErrorCustomerDeleted"];
+                        error: components["schemas"]["InitializeSessionErrorEmailAlreadyInUse"] | components["schemas"]["InitializeSessionErrorEmailMismatch"] | components["schemas"]["InitializeSessionErrorCustomerDeleted"] | components["schemas"]["InitializeSessionErrorInvalidPhone"] | components["schemas"]["InitializeSessionErrorPhoneRequiresApiToken"];
                     };
                 };
             };
