@@ -3027,9 +3027,9 @@ export interface CustomerHistoryActionRedeemedPointsForReward {
      */
     points_text: string;
     reward: {
-        /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted, or that it is a `private_product` or `tiktok_coupon` placeholder, which is never listed */
+        /** @description The ID of the reward redeemed for the points. If this does not match a `reward` in the current Site Configuration, it means the associated reward has been deleted, that it is a `private_product` or `tiktok_coupon` placeholder, which is never listed, or that it is a `collection_product`, which the Site Configuration does not list */
         id: number;
-        kind: ("gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom") | "private_product" | "tiktok_coupon";
+        kind: ("gift_card" | "cart_discount_voucher" | "cart_variable_discount_voucher" | "free_shipping_voucher" | "product_discount_voucher" | "collection_discount_voucher" | "product_cart" | "active_subscription_discount_voucher" | "active_subscription_product" | "custom") | "collection_product" | "private_product" | "tiktok_coupon";
     };
     /** @description The ID of the associated claimed reward for the customer */
     claimed_reward_id: number;
