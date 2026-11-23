@@ -1,0 +1,11 @@
+# Only the paths below have owners; everything else needs the usual review.
+#
+# .github/chainguard/ holds octo-sts trust policies: each decides which CI jobs
+# get a GitHub App token for this repository, and with what permissions. Merging
+# one is granting CI access, so these entries request infrastructure-critical's
+# review of the policies and of this file. They don't require it: main's
+# ruleset needs no approvals and no code owner review, so a policy change can
+# merge without that team. Requiring code owner review there would make it
+# binding.
+/.github/CODEOWNERS     @loyaltylion/infrastructure-critical
+/.github/chainguard/    @loyaltylion/infrastructure-critical

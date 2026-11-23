@@ -1,0 +1,26 @@
+# octo-sts trust policy. octo-sts (github-token.lioncorp.co, deployed from
+# aws-infrastructure's terraform/modules/utils/octo-sts) swaps a Buildkite job's
+# OIDC token for an hour-long token from the loyaltylion-ci GitHub App, carrying
+# only the permissions below, on this repository only. It reads policies from
+# .github/chainguard/ on the default branch, so a change here works only once
+# it has merged.
+#
+# Lets hogwarts' api-contracts pipeline publish the generated client: its
+# "Sync external codegen" step (api-contracts/.buildkite/scripts/
+# sync-external-codegen.rb in hogwarts) force-pushes the codegen/sync branch,
+# opens or updates the sync PR, merges it, and closes an obsolete one with its
+# branch.
+#
+# Only the step keyed sync-external-codegen, on hogwarts master, so only
+# merged code gets it and no other step can. Pushing the branch and merging
+# need contents write, which would also allow pushing to any branch main's
+# ruleset doesn't protect.
+issuer: https://agent.buildkite.com
+subject_pattern: 'organization:loyaltylion:pipeline:api-contracts:ref:refs/heads/master:commit:[0-9a-f]{40}:step:sync-external-codegen'
+claim_pattern:
+  organization_slug: loyaltylion
+  pipeline_slug: api-contracts
+
+permissions:
+  contents: write
+  pull_requests: write
